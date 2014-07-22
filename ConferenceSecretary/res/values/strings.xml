@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">会小秘</string>
+    
+   
+    
+    <string name="home_menu_exit">退出</string>
+    
+    <string name="home_exit_warning">再按一次退出程序</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="title_activity_home">移动办公-会务小秘</string>
+    <string name="title_activity_my_metting">我的会议</string>
+    <string name="title_activity_register">注册</string>
+    <string name="title_activity_login">登陆</string>
+    <string name="title_activity_metting_list">会议列表</string>
+    <string name="title_activity_metting_details">会议明细</string>
+    <string name="title_activity_enroll">报名</string>
+    <string name="title_activity_comment">会议评论</string>
+    <string name="title_activity_message">消息列表</string>
+    
+    <string name="metting_apply">已报名</string>
+    <string name="metting_already_signin">已签到</string>
+    <string name="metting_all">所有</string>
+    <string name="metting_meet_status">状态</string>
+    <string name="metting_signin">签到</string>
+    
+    <string name="metting_details">查看会议详情>></string>
+    
+    <string name="metting_comment_submit">发送</string>
+
+</resources>

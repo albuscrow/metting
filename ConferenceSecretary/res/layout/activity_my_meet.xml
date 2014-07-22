@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <LinearLayout
+        android:id="@+id/my_meet_screen"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingLeft="20dp"       
+        android:paddingRight="20dp"       
+        android:orientation="horizontal">
+       
+        <Button 
+            android:id="@+id/my_meet_apply_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_meet_button_bg"
+            android:text="@string/metting_apply"/>
+         <Button 
+            android:id="@+id/my_meet_signin_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_meet_button_bg"
+            android:text="@string/metting_already_signin"/>
+         <Button 
+            android:id="@+id/my_meet_all_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_meet_button_bg"
+            android:text="@string/metting_all"/>
+        
+    </LinearLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/my_metting_list"
+        android:layout_below="@id/my_meet_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/list_background"
+        android:dividerHeight="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:scrollbars="none"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@android:color/black"
+        ptr:ptrHeaderTextColor="@android:color/black" />
+
+</RelativeLayout>

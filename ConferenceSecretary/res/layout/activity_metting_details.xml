@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/detail_colloct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="21dp"
+        android:text="收藏" />
+
+    <Button
+        android:id="@+id/detail_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/detail_colloct"
+        android:layout_alignBottom="@+id/detail_colloct"
+        android:layout_toRightOf="@+id/detail_colloct"
+        android:text="邀请" />
+
+    <Button
+        android:id="@+id/detail_enroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/detail_invite"
+        android:layout_alignBottom="@+id/detail_invite"
+        android:layout_toRightOf="@+id/detail_invite"
+        android:text="报名" />
+
+    <Button
+        android:id="@+id/detail_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/detail_enroll"
+        android:layout_alignBottom="@+id/detail_enroll"
+        android:layout_toRightOf="@+id/detail_enroll"
+        android:text="评论" />
+
+    <ListView
+        android:id="@+id/detail_related_metting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detail_comment" >
+    </ListView>
+
+</RelativeLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF" >
+
+   <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/enroll_name_editext"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/common_edit_white"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:singleLine="true" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/enroll_name_editext"
+            android:layout_alignTop="@id/enroll_name_editext"
+            android:layout_toLeftOf="@id/enroll_name_editext"
+            android:gravity="center"
+            android:text="姓名：" />
+
+        <EditText
+            android:id="@+id/enroll_company_edittext"
+            android:inputType="text"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/enroll_name_editext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/common_edit_white"
+            android:ems="10"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/enroll_company_edittext"
+            android:layout_alignTop="@id/enroll_company_edittext"
+            android:layout_toLeftOf="@id/enroll_company_edittext"
+            android:gravity="center"
+            android:text="公司：" />
+        
+        <EditText
+            android:id="@+id/enroll_post_edittext"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/enroll_company_edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/common_edit_white"
+            android:ems="10"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/enroll_post_edittext"
+            android:layout_alignTop="@id/enroll_post_edittext"
+            android:layout_toLeftOf="@id/enroll_post_edittext"
+            android:gravity="center"
+            android:text="职务：" />
+
+        <EditText
+            android:id="@+id/enroll_phone_edittext"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/enroll_post_edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/common_edit_white"
+            android:ems="10"
+            android:imeActionId="@+id/sign_up_ime"
+            android:imeActionLabel="报名"
+            android:imeOptions="actionUnspecified"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/achor_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/enroll_phone_edittext"
+            android:layout_alignTop="@id/enroll_phone_edittext"
+            android:layout_toLeftOf="@id/enroll_phone_edittext"
+            android:gravity="center"
+            android:text="手机号码：" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/achor_textview"
+            android:layout_marginTop="15dp"
+            android:text="请确认您的报名信息" />
+
+        <Button
+            android:id="@+id/enroll_button"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/enroll_phone_edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/common_button_red_bg"
+            android:text="确认报名"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+</ScrollView>
