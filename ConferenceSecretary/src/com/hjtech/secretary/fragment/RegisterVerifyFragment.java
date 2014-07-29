@@ -6,9 +6,9 @@ import com.hjtech.secretary.activity.LoginActivity;
 import com.hjtech.secretary.activity.RegisterActivity;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.MTCommon;
 
-import android.R.integer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,7 +38,7 @@ public class RegisterVerifyFragment extends Fragment{
 			
 			@Override
 			public void onClick(View v) {
-				String phone = MTCommon.getContent(phoneView);
+				final String phone = MTCommon.getContent(phoneView);
 				if (phone == null) {
 					MTCommon.ShowToast("请输入手机号");
 					return;
@@ -56,7 +56,11 @@ public class RegisterVerifyFragment extends Fragment{
 					
 					@Override
 					public void onPostExecute(Object result) {
-						int resultCode = (Integer) result;
+						if (result == null) {
+							MTCommon.ShowToast("网络错误！");
+							return;
+						}
+						int resultCode = ((MTSimpleResult) result).getResult();
 						switch (resultCode) {
 						case -1:
 							MTCommon.ShowToast("验证不通过，非法用户");
@@ -73,6 +77,7 @@ public class RegisterVerifyFragment extends Fragment{
 						case 3:
 							MTCommon.ShowToast("该号码已经被注册，请直接用该号码登陆");
 							Intent intent = new Intent(getActivity(), LoginActivity.class);
+							intent.putExtra("account", phone);
 							getActivity().startActivity(intent);
 							break;
 
@@ -152,28 +157,22 @@ public class RegisterVerifyFragment extends Fragment{
 		return view;
 	}
 	private void changeButton() {
+		verifyButton.setEnabled(false);
 		new Thread(){
 			
 			private int time;
 
 			public void run() {
 				FragmentActivity activity = getActivity();
-				activity.runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						verifyButton.setBackgroundResource(R.drawable.button_red);;
-					}
-				});
 				
-				time = 60;
+				time = 5;
 				while (true) {
 					activity = getActivity();
 					if (activity != null) {
 						activity.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								verifyButton.setText("" + time +"秒后重新发送...");
+								verifyButton.setText("请等候" + time +"秒...");
 							}
 						});
 						if (--time == 0) {
@@ -193,7 +192,8 @@ public class RegisterVerifyFragment extends Fragment{
 
 						@Override
 						public void run() {
-							verifyButton.setBackgroundResource(R.drawable.button_gray);
+							verifyButton.setEnabled(true);
+							verifyButton.setText("获取验证码");
 						}
 					});
 

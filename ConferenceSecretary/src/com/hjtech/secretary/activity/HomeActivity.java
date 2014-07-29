@@ -3,9 +3,15 @@ package com.hjtech.secretary.activity;
 import uk.co.jasonfry.android.tools.ui.PageControl;
 import uk.co.jasonfry.android.tools.ui.SwipeView;
 import uk.co.jasonfry.android.tools.ui.SwipeView.OnPageChangedListener;
+import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.adapter.PersonalCenterAdatper;
+import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTSimpleResult;
+import com.hjtech.secretary.utils.MTCommon;
 
 import android.os.Bundle;
 import android.content.Intent;
@@ -178,8 +184,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 			intent = new Intent(this, MettingListActivity.class);
 			break;
 		case 2:
-			intent = new Intent(this, TicketActivity.class);
-			break;
+			intent = new Intent(this, CaptureActivity.class);
+			startActivityForResult(intent, MyMettingActivity.SIGNIN);
+			return;
 		case 3:
 			intent = new Intent(this, PersonalActivity.class);
 			break;
@@ -196,4 +203,46 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 		this.startActivity(intent);
 
 	}	
+	
+	
+	
+	protected void onActivityResult(int request, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+
+			String result = data.getStringExtra("result");
+			System.out.println(result);
+			//TODO temp
+			result = "1";
+			long id = Long.parseLong(result);
+			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+				@Override
+				public void onPreExecute() {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onPostExecute(Object result) {
+					if (result == null) {
+						MTCommon.ShowToast("签到失败");
+						return;
+					}
+					MTSimpleResult sr = (MTSimpleResult) result;
+					switch (sr.getResult()) {
+					case 1:
+						MTCommon.ShowToast("签到成功");
+						break;
+					case 4:
+						MTCommon.ShowToast("末报名,不能签到");
+						break;
+					default:
+						MTCommon.ShowToast("签到失败");
+						break;
+					}
+
+				}
+			}).singIn(id, MTUserManager.getUser().getMuAccount());
+		}
+	}
 }

@@ -28,7 +28,6 @@ public class MTMetting implements java.io.Serializable {
 	public static final int FREE = 0;
 	public static final int UNFREE = 1;
 	private int mmFreeType;
-	
 	private int mmFeeAmount;
 	
 	private String memberRtt;
@@ -36,6 +35,24 @@ public class MTMetting implements java.io.Serializable {
 	private String mmStartdate;
 	private String mmEndtime;
 	
+	private int mmType;
+	private String mmAddtime;
+	
+	private String mmSponsor;
+	private String mmOrganizer;
+	private String mmPhone;
+	
+	private int mmScale;
+
+	private String mmQr;
+	private String mmEnpage;
+	private String Enqr;
+	
+	private String mmMayVisits;
+	private int mmViewCount;
+	private int mmSignCount;
+	private int mmEnrollCount;
+	private int mmStatus;
 	public Long getMmId() {
 		return mmId;
 	}
@@ -115,6 +132,12 @@ public class MTMetting implements java.io.Serializable {
 		}
 		return "是否有参会限制：" + memberRtt;
 	}
+	public String getMemberRttForDetail() {
+		if (memberRtt == null) {
+			return "无限制";
+		}
+		return memberRtt;
+	}
 	public void setMemberRtt(String memberRtt) {
 		this.memberRtt = memberRtt;
 	}
@@ -133,5 +156,92 @@ public class MTMetting implements java.io.Serializable {
 	public void setMmEndtime(String mmEndtime) {
 		this.mmEndtime = mmEndtime;
 	}
+	public int getMmType() {
+		return mmType;
+	}
+	
+	public void setMmType(int mmType) {
+		this.mmType = mmType;
+	}
+	public String getMmAddtime() {
+		return mmAddtime;
+	}
+	public void setMmAddtime(String mmAddtime) {
+		this.mmAddtime = mmAddtime;
+	}
+	public String getMmSponsor() {
+		return mmSponsor;
+	}
+	public void setMmSponsor(String mmSponsor) {
+		this.mmSponsor = mmSponsor;
+	}
+	public String getMmOrganizer() {
+		return mmOrganizer;
+	}
+	public void setMmOrganizer(String mmOrganizer) {
+		this.mmOrganizer = mmOrganizer;
+	}
+	public String getMmPhone() {
+		return mmPhone;
+	}
+	public void setMmPhone(String mmPhone) {
+		this.mmPhone = mmPhone;
+	}
+	public int getMmScale() {
+		return mmScale;
+	}
+	public void setMmScale(int mmScale) {
+		this.mmScale = mmScale;
+	}
+	public String getMmQr() {
+		return mmQr;
+	}
+	public void setMmQr(String mmQr) {
+		this.mmQr = mmQr;
+	}
+	public String getMmEnpage() {
+		return mmEnpage;
+	}
+	public void setMmEnpage(String mmEnpage) {
+		this.mmEnpage = mmEnpage;
+	}
+	public String getEnqr() {
+		return Enqr;
+	}
+	public void setEnqr(String enqr) {
+		Enqr = enqr;
+	}
+	public String getMmMayVisits() {
+		return mmMayVisits;
+	}
+	public void setMmMayVisits(String mmMayVisits) {
+		this.mmMayVisits = mmMayVisits;
+	}
+	public int getMmViewCount() {
+		return mmViewCount;
+	}
+	public void setMmViewCount(int mmViewCount) {
+		this.mmViewCount = mmViewCount;
+	}
+	public int getMmSignCount() {
+		return mmSignCount;
+	}
+	public void setMmSignCount(int mmSignCount) {
+		this.mmSignCount = mmSignCount;
+	}
+	public int getMmEnrollCount() {
+		return mmEnrollCount;
+	}
+	public void setMmEnrollCount(int mmEnrollCount) {
+		this.mmEnrollCount = mmEnrollCount;
+	}
+	public int getMmStatus() {
+		return mmStatus;
+	}
+	public void setMmStatus(int mmStatus) {
+		this.mmStatus = mmStatus;
+	}
+	
+	
 
 }

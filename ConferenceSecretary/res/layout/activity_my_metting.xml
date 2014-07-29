@@ -14,12 +14,12 @@
         android:paddingRight="20dp"       
         android:orientation="horizontal">
        
-        <Button 
+        <Button
             android:id="@+id/my_meet_apply_button"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/my_meet_button_bg"
+            android:background="@drawable/my_metting_button_bg"
             android:text="@string/metting_apply"/>
          <Button 
             android:id="@+id/my_meet_signin_button"
@@ -28,14 +28,14 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/my_meet_button_bg"
+            android:background="@drawable/my_metting_button_bg"
             android:text="@string/metting_already_signin"/>
          <Button 
             android:id="@+id/my_meet_all_button"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/my_meet_button_bg"
+            android:background="@drawable/my_metting_button_bg"
             android:text="@string/metting_all"/>
         
     </LinearLayout>
@@ -53,5 +53,13 @@
         ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderSubTextColor="@android:color/black"
         ptr:ptrHeaderTextColor="@android:color/black" />
+
+    <ViewStub
+        android:id="@+id/common_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout="@layout/wait"
+        android:visibility="gone" />
 
 </RelativeLayout>

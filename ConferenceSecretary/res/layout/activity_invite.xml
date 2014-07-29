@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/share_invite_content"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <ImageView
+        android:id="@+id/share_td_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/share_invite_content"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null" />
+
+    <com.hjtech.secretary.view.NoDefaultSpinner
+        android:id="@+id/share_platform"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/share_td_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/white"
+        android:prompt="@string/choose_share_platform"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/share_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/share_platform"
+        android:background="@drawable/button_small_bg"
+        android:layout_centerHorizontal="true"
+        android:text="@string/share_confirm" />
+
+</RelativeLayout>

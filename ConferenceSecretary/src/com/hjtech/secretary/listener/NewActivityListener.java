@@ -1,5 +1,7 @@
 package com.hjtech.secretary.listener;
 
+import java.io.Serializable;
+
 import com.hjtech.secretary.activity.RegisterActivity;
 
 import android.content.Context;
@@ -13,11 +15,11 @@ public class NewActivityListener implements OnClickListener {
 	private Intent intent;
 	private Context context;
 
-	public NewActivityListener(Context context, Class<?> clz, String...objects){
+	public NewActivityListener(Context context, Class<?> clz, Serializable...objects){
 		this.context = context;
 		this.intent = new Intent(context, clz);
 		for (int i = 0; i < objects.length; i+=2) {
-			intent.putExtra(objects[i], objects[i + 1]);
+			intent.putExtra((String)objects[i], objects[i + 1]);
 		}
 	}
 	

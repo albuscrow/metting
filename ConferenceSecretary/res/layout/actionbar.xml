@@ -7,9 +7,9 @@
     <ImageView
         android:id="@+id/titlebar_icon"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:contentDescription="@null"
         android:scaleType="centerInside" />
@@ -21,5 +21,17 @@
         android:layout_centerInParent="true"
         android:textColor="#333333"
         android:textSize="16sp" />
-    
+
+    <Button
+        android:id="@+id/rightView"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+       	android:background="@drawable/register_button_gray_bg" 
+        android:layout_marginTop="5dp"
+        android:scaleType="centerInside" />
+
 </RelativeLayout>

@@ -89,7 +89,7 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(MettingListAdapter.this.activity, MettingDetailsActivity.class);
-					intent.putExtra("id", (Long)v.getTag());
+					intent.putExtra("metting", (MTMetting)v.getTag());
 					MettingListAdapter.this.activity.startActivity(intent);
 				}
 			});
@@ -107,7 +107,7 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		viewHold.mettingRestriction.setText(metting.getMemberRtt());
 		viewHold.mettingAddress.setText(metting.getMmAddress());
 		ImageLoader.getInstance().displayImage(metting.getMmLogo(), viewHold.mettingPicture);
-		viewHold.mettingDetails.setTag(metting.getMmId());
+		viewHold.mettingDetails.setTag(metting);
 		
 		return convertView;
 	}

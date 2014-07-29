@@ -119,6 +119,12 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				type = new TypeToken<MTSimpleResult>(){}.getType();
 				result = DataProvider.signIn(type, (Long) params[1], (String)params[2]);
 				break;
+			case EDIT_USERINF:
+				type = new TypeToken<MTSimpleResult>(){}.getType();
+				result = DataProvider.modifyUser(type, (String) params[1], (String) params[2], (String) params[3], (String) params[4], (String) params[5],
+						(Integer)params[6], (String) params[7], (String) params[8], (String) params[9], (String) params[10], (String) params[11], (String) params[12]);
+				
+				break;
 			default:
 				Log.e(TAG, TYPE_NOT_SUPPORTED);
 				break;
@@ -189,5 +195,13 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 
 	public void singIn(long id, String muAccount) {
 		this.execute(JsonTarget.SIGNIN, id, muAccount);
+	}
+
+	public void modifyUserInf(String muAccount, String muPassword,
+			String newPassword, String name, String nickName, int sex,
+			String unit, String position, String department, String qq,
+			String email, String weixin) {
+		this.execute(JsonTarget.EDIT_USERINF, muAccount, muPassword, newPassword, name,
+				nickName, sex, unit, position,department, qq, email, weixin);
 	}
 }

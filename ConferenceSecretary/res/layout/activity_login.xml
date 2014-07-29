@@ -107,6 +107,14 @@
             android:background="@drawable/register_button_gray_bg"
             android:text="注册"
             android:textColor="#555555" />
+        
+    <ViewStub
+        android:id="@+id/common_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout="@layout/wait"
+        android:visibility="gone" />
     </RelativeLayout>
 
 </ScrollView>

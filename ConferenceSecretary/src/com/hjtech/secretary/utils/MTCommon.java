@@ -22,4 +22,9 @@ public class MTCommon {
 	public static void ShowToast(String content){
 		Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
 	}
+
+	public static void moveSelectionToLast(EditText passWord) {
+		passWord.requestFocus();
+		passWord.setSelection(passWord.getText().toString().length());
+	}
 }

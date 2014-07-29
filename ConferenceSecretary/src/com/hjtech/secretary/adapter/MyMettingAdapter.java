@@ -102,10 +102,15 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		if (metting.getIsEnroll() == MTMetting.ENROLL) {
 			viewHold.mettingSignin.setVisibility(View.VISIBLE);
 		}else{
-			viewHold.mettingSignin.setVisibility(View.VISIBLE);
-//			viewHold.mettingSignin.setVisibility(View.GONE);
+			viewHold.mettingSignin.setVisibility(View.GONE);
 		}
 		return convertView;
+	}
+
+
+	public void appendData(List<MTMetting> result) {
+		this.data.addAll(result);
+		this.notifyDataSetChanged();
 	}
 
 }

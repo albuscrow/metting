@@ -23,8 +23,6 @@ public class PersonalCenterAdatper extends BaseAdapter {
 		this.context = context;
 	}
 
-
-
 	@Override
 	public int getCount() {
 		return 6;

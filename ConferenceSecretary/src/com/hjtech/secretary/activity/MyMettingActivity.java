@@ -20,6 +20,7 @@ import com.hjtech.secretary.utils.MTCommon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -33,24 +34,42 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 	private PullToRefreshListView meetList;
 	private MyMettingAdapter adapter;
 	
+	private int currentPageNum;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initUI(R.layout.activity_my_meet, R.drawable.common_back, R.string.title_activity_my_metting);
-		initData();
+		initUI(R.layout.activity_my_metting, R.drawable.common_back, R.string.title_activity_my_metting);
+		currentPageNum = 0;
 	}
 	
-	private void initData() {
-		getData(DataProvider.STATUS_ALL);
-	}
-
-	private void getData(int status) {
-		currentStatus = status;
+	private void appendData() {
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 			
 			@Override
 			public void onPreExecute() {
-				
+				showWaitBar();
+			}
+			
+			@Override
+			public void onPostExecute(Object result) {
+				if (result == null) {
+					Toast.makeText(MyMettingActivity.this, "获取会议数据失败！", Toast.LENGTH_LONG).show();
+				}else{
+					adapter.setData((List<MTMetting>) result);
+					adapter.appendData((List<MTMetting>) result);
+				}
+				hideWaitBar();
+			}
+		}).getMyMeet(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, currentStatus);
+	}
+
+	private void getData() {
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+			
+			@Override
+			public void onPreExecute() {
+				showWaitBar();
 			}
 			
 			@Override
@@ -60,9 +79,11 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 				}else{
 					adapter.setData((List<MTMetting>) result);
 				}
+				hideWaitBar();
 			}
-		}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);
+		}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, currentStatus);
 	}
+
 
 	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
@@ -78,15 +99,18 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onPullEvent(PullToRefreshBase<ListView> refreshView,
 					State state, Mode direction) {
-				System.out.println("pull");
+				getData();
 			}
 		});
+		
 		meetList.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
 			@Override
 			public void onLastItemVisible() {
-				System.out.println("last");
+				appendData();
 			}
+
+			
 		});
 		meetList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -94,34 +118,37 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(MyMettingActivity.this, MettingDetailsActivity.class);
-				intent.putExtra("id", id);
+				intent.putExtra("metting",(MTMetting)parent.getAdapter().getItem(position));
 				MyMettingActivity.this.startActivity(intent);
 			}
 		});
 		
 		//init button
 		findViewById(R.id.my_meet_all_button).setOnClickListener(this);
-		findViewById(R.id.my_meet_apply_button).setOnClickListener(this);
+		View applyButton = findViewById(R.id.my_meet_apply_button);
+		applyButton.setOnClickListener(this);
+		changeStatus(applyButton, DataProvider.STATUS_ENROLL);
 		findViewById(R.id.my_meet_signin_button).setOnClickListener(this);
 	}
 
 	int currentStatus = DataProvider.STATUS_ALL;
+	View currentView;
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.my_meet_all_button:
 			if (currentStatus != DataProvider.STATUS_ALL) {
-				getData(DataProvider.STATUS_ALL);
+				changeStatus(v, DataProvider.STATUS_ALL);
 			}
 			break;
 		case R.id.my_meet_apply_button:
 			if (currentStatus != DataProvider.STATUS_ENROLL) {
-				getData(DataProvider.STATUS_ENROLL);
+				changeStatus(v,DataProvider.STATUS_ENROLL);
 			}
 			break;
 		case R.id.my_meet_signin_button:
 			if (currentStatus != DataProvider.STATUS_SIGNIN){
-				getData(DataProvider.STATUS_SIGNIN);
+				changeStatus(v,DataProvider.STATUS_SIGNIN);
 			}
 			break;
 
@@ -129,42 +156,52 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 			break;
 		}
 	}
-	
+
+	private void changeStatus(View v, int status) {
+		currentStatus = status;
+		v.setBackgroundResource(R.drawable.title_gray);
+		if (currentView != null) {
+			currentView.setBackgroundResource(R.drawable.my_metting_button_bg);
+		}
+		currentView = v;
+		getData();
+	}
+
 	@Override
 	protected void onActivityResult(int request, int resultCode, Intent data) {
-		String result = data.getStringExtra("result");
-		System.out.println(result);
-		//TODO temp
-		result = "1";
-		long id = Long.parseLong(result);
-		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-			
-			@Override
-			public void onPreExecute() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onPostExecute(Object result) {
-				if (result == null) {
-					MTCommon.ShowToast("签到失败");
-					return;
+		if (resultCode == RESULT_OK) {
+
+			String result = data.getStringExtra("result");
+			System.out.println(result);
+			//TODO temp
+			result = "1";
+			long id = Long.parseLong(result);
+			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+				@Override
+				public void onPreExecute() {
 				}
-				MTSimpleResult sr = (MTSimpleResult) result;
-				switch (sr.getResult()) {
-				case 1:
-					MTCommon.ShowToast("签到成功");
-					break;
-				case 4:
-					MTCommon.ShowToast("末报名,不能签到");
-					break;
-				default:
-					MTCommon.ShowToast("签到失败");
-					break;
+
+				@Override
+				public void onPostExecute(Object result) {
+					if (result == null) {
+						MTCommon.ShowToast("签到失败");
+						return;
+					}
+					MTSimpleResult sr = (MTSimpleResult) result;
+					switch (sr.getResult()) {
+					case 1:
+						MTCommon.ShowToast("签到成功");
+						break;
+					case 4:
+						MTCommon.ShowToast("末报名,不能签到");
+						break;
+					default:
+						MTCommon.ShowToast("签到失败");
+						break;
+					}
 				}
-				
-			}
-		}).singIn(id, MTUserManager.getUser().getMuAccount());
+			}).singIn(id, MTUserManager.getUser().getMuAccount());
+		}
 	}
 }

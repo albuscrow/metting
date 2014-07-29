@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">二维条形码扫描</string>
-    <string name="placeHolder">placeHolder</string>
+    <string name="place_holder">placeHolder</string>
     <string name="seekbar_add">+</string>
     <string name="seekbar_minus">-</string>
     <string name="create">生成</string>

@@ -13,7 +13,6 @@ import com.hjtech.secretary.data.MTMessageListResult;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.MTCommon;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 public class MessageActivity extends BaseActivity {

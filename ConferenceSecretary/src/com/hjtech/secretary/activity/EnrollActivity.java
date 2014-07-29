@@ -27,7 +27,7 @@ public class EnrollActivity extends BaseActivity {
 	}
 	
 	private void intiData() {
-		String idStr = getIntent().getStringExtra("id");
+		String idStr = (String) getIntent().getSerializableExtra("id");
 		this.mettingId = Long.parseLong(idStr);
 	}
 
@@ -73,7 +73,6 @@ public class EnrollActivity extends BaseActivity {
 					
 					@Override
 					public void onPreExecute() {
-						// TODO Auto-generated method stub
 						
 					}
 					

@@ -4,6 +4,7 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.data.MTUser;
 import com.hjtech.secretary.data.MTUserResult;
 import com.hjtech.secretary.listener.NewActivityListener;
@@ -14,17 +15,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class LoginActivity extends BaseActivity {
 	private EditText phoneNum;
 	private EditText passWord;
 	private CheckBox remPwd;
+	private View loginButton;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -38,15 +38,25 @@ public class LoginActivity extends BaseActivity {
 		
 		gv(R.id.login_register_button).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
 		SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
+
 		phoneNum = ((EditText)gv(R.id.login_phonenum));
-		phoneNum.setText(preferences.getString("acc", ""));
 		passWord = ((EditText)gv(R.id.login_password));
+		
+		String account = getIntent().getStringExtra("account");
+		if (account != null) {
+			phoneNum.setText(account);
+			MTCommon.moveSelectionToLast(passWord);
+		}else{
+			phoneNum.setText(preferences.getString("acc", ""));
+		}
 		remPwd = ((CheckBox)gv(R.id.login_remember_password));
 		if (preferences.getBoolean("rempwd", false)) {
 			passWord.setText(preferences.getString("pwd", ""));
+			MTCommon.moveSelectionToLast(passWord);
 			remPwd.setChecked(true);
 		}
-		gv(R.id.login_button).setOnClickListener(new OnClickListener() {
+		loginButton = gv(R.id.login_button);
+		loginButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -72,31 +82,46 @@ public class LoginActivity extends BaseActivity {
 					
 					@Override
 					public void onPreExecute() {
-						
+						MTCommon.ShowToast("正在登陆...");
+						showWaitBar();
+						loginButton.setEnabled(false);
 					}
 					
 					@Override
 					public void onPostExecute(Object result) {
-						MTUserResult ur = (MTUserResult) result;
-						if (ur.getDetails() == null) {
+						hideWaitBar();
+						loginButton.setEnabled(true);
+						if (result == null) {
+							MTCommon.ShowToast("网络出错啦");
+							return;
+						}
+						
+						if (result instanceof MTSimpleResult) {
 							MTCommon.ShowToast("用户名或密码错误");
 							return;
 						}
-						MTCommon.ShowToast("登陆成功");
-						MTUserManager.save((MTUser)ur.getDetails());
-						Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-						Editor edit = LoginActivity.this.getPreferences(LoginActivity.MODE_PRIVATE).edit();
-						if(remPwd.isChecked()){
-							edit.putBoolean("rempwd", true);
-							edit.putString("pwd", pwd);
+						
+						if (result instanceof MTUserResult) {
+							MTCommon.ShowToast("登陆成功");
+							MTUserResult ur = (MTUserResult) result;
+							MTUserManager.save((MTUser)ur.getDetails());
+							Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+							Editor edit = LoginActivity.this.getPreferences(LoginActivity.MODE_PRIVATE).edit();
+							if(remPwd.isChecked()){
+								edit.putBoolean("rempwd", true);
+								edit.putString("pwd", pwd);
+							}
+							edit.putString("acc", account);
+							edit.commit();
+							LoginActivity.this.startActivity(intent);
 						}
-						edit.putString("acc", account);
-						edit.commit();
-						LoginActivity.this.startActivity(intent);
 						
 					}
 				}).login(account,pwdMd5);
 			}
 		});
+		
 	}
+
+
 }

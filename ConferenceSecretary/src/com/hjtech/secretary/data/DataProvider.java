@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname;
+
 import com.google.gson.reflect.TypeToken;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.JsonUtils;
+import com.hjtech.secretary.utils.MTCommon;
 import com.hjtech.secretary.utils.NetUtils;
 
 
@@ -29,11 +32,12 @@ public class DataProvider {
 	public static final String RELATED_METTING = BASE_URL + "metting/related";
 	public static final String GET_MESSAGE = BASE_URL + "message/list";
 	public static final String SINGIN = BASE_URL + "metting/sign";
+	public static final String EDIT_USERINF = BASE_URL + "users/modify";
 
 	public static final String KEY = "key";
 	public static final String CODE = "code";
-	public static final String ACCOUNT = "muAccount";
-	public static final String ACCOUNT_FOR_LOGIN = "account";
+	public static final String MU_ACCOUNT = "muAccount";
+	public static final String ACCOUNT = "account";
 	public static final String PAGE = "page";
 	
 	public static final String SORT_ORDER = "sortOrder";
@@ -52,17 +56,27 @@ public class DataProvider {
 	
 	public static final String PHONE = "phone";
 	public static final String VCODE = "vcode";
-	public static final String NAME = "muName";
-	public static final String NICK_NAME = "muNickName";
-	public static final String PASSWORD = "muPassword";
-	public static final String PASSWORD_FOR_LOGIN = "password";
+	public static final String MU_NAME = "muName";
+	public static final String NAME = "name";
+	public static final String MU_NICK_NAME = "muNickName";
+	public static final String NICK_NAME = "nickName";
+	public static final String SEX = "sex";
+	public static final String MU_PASSWORD = "muPassword";
+	public static final String PASSWORD = "password";
+	public static final String NEW_PASSWORD = "password";
 	
 	public static final	String METTING_ID = "mettingId";
-	public static final String REGISTER_TYPE = "muRegisterType";
-	public static final String MOBILE = "muMobile";
-	public static final String COMPANY = "muUnitName";
-	public static final String POSITION = "muPosition";
-	public static final String WEIXIN = "muWeiXin";
+	public static final String MU_REGISTER_TYPE = "muRegisterType";
+	public static final String MU_MOBILE = "muMobile";
+	public static final String MU_COMPANY = "muUnitName";
+	public static final String MU_POSITION = "muPosition";
+	public static final String MU_WEIXIN = "muWeiXin";
+	public static final String COMPANY = "company";
+	public static final String POSITION = "position";
+	public static final String SECTOR = "sector";
+	public static final String QQ = "qq";
+	public static final String EMAIL = "email";
+	public static final String WEIXIN = "weixin";
 	public static final String COMMENT_CONTENT = "content";
 	
 	
@@ -71,7 +85,7 @@ public class DataProvider {
 		if (account == null) {
 			return null;
 		}else{
-			params.put(ACCOUNT, account);
+			params.put(MU_ACCOUNT, account);
 		}
 		
 		params.put(PAGE, page);
@@ -101,7 +115,7 @@ public class DataProvider {
 		if (account == null) {
 			return null;
 		}else{
-			params.put(ACCOUNT, account);
+			params.put(MU_ACCOUNT, account);
 		}
 		
 		params.put(PAGE, page);
@@ -119,7 +133,8 @@ public class DataProvider {
 		}
 		return (List<MTMetting>) result.getDetails();
 	}
-	public static int getVerifyCode(Type type, String phone) {
+	
+	public static Object getVerifyCode(Type type, String phone) {
 		Map<String, Object> params = genParems();
 		if (phone == null || phone.length() == 0) {
 			return -2;
@@ -127,13 +142,10 @@ public class DataProvider {
 		params.put(PHONE, phone);
 		
 		String json = NetUtils.getPostResult(params,VERIFY_CODE);
-		MTSimpleResult result = null;
-		if (json != null) {
-			result = (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
-			return result.getResult();
-		}else{
-			return -1;
+		if (json == null) {
+			return null;
 		}
+		return JsonUtils.parseJsonResult(type, json);
 	}
 	
 	public static int validation(Type type, String phone, String verifyCode) {
@@ -161,11 +173,14 @@ public class DataProvider {
 			String nickName, String password) {
 		
 		Map<String, Object> params = genParems();
-		params.put(ACCOUNT, account);
-		params.put(NAME,name);
-		params.put(NICK_NAME,nickName);
-		params.put(PASSWORD, password);
-		
+		params.put(MU_ACCOUNT, account);
+		params.put(MU_NAME,name);
+		params.put(MU_NICK_NAME,nickName);
+		params.put(MU_PASSWORD, password);
+		System.out.println(name);
+		System.out.println(nickName);
+		System.out.println(password);
+		System.out.println(account);
 		String json = NetUtils.getPostResult(params,REGISTER);
 		MTUserResult result = null;
 		if (json == null) {
@@ -181,28 +196,25 @@ public class DataProvider {
 		return result;
 	}
 	
-	public static MTUserResult login(Type type, String account, String password) {
+	public static Object login(Type type, String account, String password) {
 		
 		Map<String, Object> params = genParems();
 		
-		params.put(ACCOUNT_FOR_LOGIN, account);
-		params.put(PASSWORD_FOR_LOGIN, password);
+		params.put(ACCOUNT, account);
+		params.put(PASSWORD, password);
 		
 		String json = NetUtils.getPostResult(params,LOGIN);
-		
-		MTUserResult result = null;
 		if (json == null) {
-			result = new MTUserResult();
-			return result;
+			return null;
 		}
+		
 		int resultCode = JsonUtils.getResult(json);
 		if (resultCode != 1) {
-			result = new MTUserResult();
-			result.setResult(resultCode);
+			return JsonUtils.parseJsonResult(new TypeToken<MTSimpleResult>(){}.getType(), json);
 		}else{
-			result = (MTUserResult) JsonUtils.parseJsonResult(type, json);
+			return JsonUtils.parseJsonResult(type, json);
 		}
-		return result;
+		
 	}
 
 
@@ -222,7 +234,7 @@ public class DataProvider {
 	public static int collectMetting(Type type, Long mettingId, String account) {
 		Map<String, Object> params = genParems();
 		
-		params.put(ACCOUNT, account);
+		params.put(MU_ACCOUNT, account);
 		
 		params.put(METTING_ID, mettingId);
 		
@@ -242,19 +254,19 @@ public class DataProvider {
 		
 		Map<String, Object> params = genParems();
 		
-		params.put(ACCOUNT, account);
+		params.put(MU_ACCOUNT, account);
 		
 		params.put(METTING_ID, id);
 		
-		params.put(NAME, name);
+		params.put(MU_NAME, name);
 		
-		params.put(MOBILE, mobile);
+		params.put(MU_MOBILE, mobile);
 		
-		params.put(COMPANY, company);
+		params.put(MU_COMPANY, company);
 		
-		params.put(POSITION, position);
+		params.put(MU_POSITION, position);
 		
-		params.put(WEIXIN, WEIXIN);
+		params.put(MU_WEIXIN, MU_WEIXIN);
 		
 		String json = NetUtils.getPostResult(params,ENROLL_URL);
 		MTSimpleResult result = null;
@@ -290,7 +302,7 @@ public class DataProvider {
 			String content) {
 		Map<String, Object> params = genParems();
 		params.put(METTING_ID, id);
-		params.put(ACCOUNT, account);
+		params.put(MU_ACCOUNT, account);
 		params.put(COMMENT_CONTENT, content);
 		
 		String json = NetUtils.getPostResult(params, ADD_COMMENT_URL);
@@ -321,7 +333,7 @@ public class DataProvider {
 	
 	public static Object getMessage(Type type, String account, Integer page) {
 		Map<String, Object> params = genParems();
-		params.put(ACCOUNT, account);
+		params.put(MU_ACCOUNT, account);
 		params.put(PAGE, page);
 		
 		String json = NetUtils.getPostResult(params, GET_MESSAGE);
@@ -338,15 +350,40 @@ public class DataProvider {
 
 	public static Object signIn(Type type, Long id, String account) {
 		Map<String, Object> params = genParems();
-		params.put(ACCOUNT, account);
+		params.put(MU_ACCOUNT, account);
 		params.put(METTING_ID, id);
 		
 		String json = NetUtils.getPostResult(params, SINGIN);
 		if (json == null) {
 			return null;
 		}
-		MTSimpleResult result = (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
-		return result;
+		return JsonUtils.parseJsonResult(type, json);
+	}
+	
+	public static Object modifyUser(Type type, String account, String password, 
+			String newPassword, String name, String nickName, int sex, 
+			String company, String position, String sector, String qq,String email, String weixin){
+		Map<String, Object> params = genParems();
+		params.put(ACCOUNT, account);
+		params.put(PASSWORD, password);
+		params.put(NEW_PASSWORD, newPassword);
+		params.put(NAME, name);
+		params.put(NICK_NAME, nickName);
+		params.put(SEX, sex);
+		params.put(COMPANY, company);
+		params.put(POSITION, position);
+		params.put(SECTOR, sector);
+		params.put(QQ, qq);
+		params.put(EMAIL, email);
+		params.put(WEIXIN, weixin);
+		
+		String json = NetUtils.getPostResult(params, EDIT_USERINF);
+		
+		if (json == null) {
+			return null;
+		}
+		
+		return JsonUtils.parseJsonResult(type, json);
 	}
 	
 	private static HashMap<String, Object> genParems() {

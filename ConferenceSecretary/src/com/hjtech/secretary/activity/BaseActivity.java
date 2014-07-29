@@ -11,11 +11,13 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class BaseActivity extends FragmentActivity {
 	
 	private ImageView titleIcon;
+	private View waitBar;
 
 	protected void initUI(int layoutId, int iconId, int titleId) {
 		// init title bar
@@ -27,6 +29,7 @@ public class BaseActivity extends FragmentActivity {
 			titleIcon.setImageResource(iconId);
 		}
 		((TextView)findViewById(R.id.titlebar_text)).setText(getResources().getString(titleId));;
+		waitBar = findViewById(R.id.common_wait);
 	}
 	
 	protected void setbackButton(){
@@ -43,4 +46,13 @@ public class BaseActivity extends FragmentActivity {
 		return findViewById(id);
 	}
 	
+	protected void showWaitBar(){
+		waitBar.setVisibility(View.VISIBLE);
+	}
+	
+	protected void hideWaitBar(){
+		waitBar.setVisibility(View.GONE);
+	}
+	
+
 }

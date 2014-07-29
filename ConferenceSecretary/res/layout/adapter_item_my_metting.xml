@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="15dp"
-    android:layout_height="match_parent" >
-    
-    
-    <TextView 
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="15dp" >
+
+    <TextView
         android:id="@+id/metting_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"/>
-    
+        android:focusable="false"
+        android:textColor="@android:color/black" />
+
     <TextView
         android:id="@+id/metting_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:focusable="false"
         android:textColor="@color/red" />
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@id/metting_status"
+        android:focusable="false"
         android:text="@string/metting_meet_status"
         android:textColor="@android:color/black" />
-    
+
     <ImageView
         android:id="@+id/metting_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/metting_name"
         android:layout_marginTop="15dp"
-        android:contentDescription="@null"/>
-    
-   <TextView
-       android:id="@+id/metting_introduction"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginLeft="10dp"
-       android:layout_alignTop="@id/metting_picture"
-       android:layout_toRightOf="@id/metting_picture"
-       android:maxLines="3" />
-    
-   <Button
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/metting_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/metting_picture"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/metting_picture"
+        android:focusable="false"
+        android:maxLines="3" />
+
+    <Button
         android:id="@+id/metting_signin"
-        android:background="@drawable/common_back"
-        android:text="@string/metting_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/metting_introduction"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:contentDescription="@null"/>
-    
+        android:layout_below="@id/metting_introduction"
+        android:background="@drawable/common_back"
+        android:contentDescription="@null"
+        android:text="@string/metting_signin" />
+
 </RelativeLayout>

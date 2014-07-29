@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" >
+
+        <ImageView
+            android:id="@+id/detail_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/anchor_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/detail_image"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/detail_image"
+            android:text="@string/time" />
+
+        <TextView
+            android:id="@+id/detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/anchor_time"
+            android:layout_toRightOf="@id/anchor_time" />
+
+        <TextView
+            android:id="@+id/detail_charge_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/anchor_time"
+            android:layout_below="@id/anchor_time"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/anchor_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/detail_charge_type"
+            android:layout_below="@id/detail_charge_type"
+            android:layout_marginTop="2dp"
+            android:text="@string/metting_adress" />
+
+        <TextView
+            android:id="@+id/detail_adress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/anchor_place"
+            android:layout_toRightOf="@id/anchor_place" />
+
+        <TextView
+            android:id="@+id/anchor_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/anchor_place"
+            android:layout_below="@id/anchor_place"
+            android:layout_marginTop="2dp"
+            android:text="@string/metting_limit" />
+
+        <TextView
+            android:id="@+id/detail_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/anchor_limit"
+            android:layout_toRightOf="@id/anchor_limit" />
+
+        <Button
+            android:id="@+id/detail_collect"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_alignLeft="@id/anchor_limit"
+            android:layout_below="@id/anchor_limit"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_red_small_bg"
+            android:minHeight="25dp"
+            android:text="@string/metting_collect"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/detail_enroll"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@id/detail_collect"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/detail_collect"
+            android:background="@drawable/button_red_small_bg"
+            android:text="@string/title_activity_enroll"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/detail_invite"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@id/detail_enroll"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/detail_enroll"
+            android:background="@drawable/button_red_small_bg"
+            android:text="@string/metting_detail_invite"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/introduction_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_collect"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/metting_detail"
+            android:textColor="#555555"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/detail_introdution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/introduction_title"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/common_divider_bg"
+            android:lines="4"
+            android:maxEms="17"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/detail_comment"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/detail_introdution"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_red_small_bg"
+            android:text="@string/metting_comment"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/relative_conference_title"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@id/detail_introdution"
+            android:layout_alignRight="@id/detail_introdution"
+            android:layout_below="@id/detail_comment"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/title_gray"
+            android:gravity="center"
+            android:text="@string/metting_detail_relate_metting"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/detail_relate_metting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/relative_conference_title"
+            android:layout_alignRight="@id/relative_conference_title"
+            android:layout_below="@id/relative_conference_title"
+            android:orientation="vertical" >
+
+       </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

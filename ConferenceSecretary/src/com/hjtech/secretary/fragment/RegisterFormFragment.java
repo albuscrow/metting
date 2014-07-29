@@ -72,6 +72,7 @@ public class RegisterFormFragment extends Fragment {
 						MTUserResult ur = (MTUserResult) result;
 						if (ur.getDetails() == null) {
 							MTCommon.ShowToast("注册失败");
+							MTCommon.ShowToast(String.valueOf(ur.getResult()));
 							return;
 						}
 						MTCommon.ShowToast("注册成功");

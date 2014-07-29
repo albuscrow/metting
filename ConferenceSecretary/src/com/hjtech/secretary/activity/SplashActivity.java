@@ -1,7 +1,6 @@
 package com.hjtech.secretary.activity;
 
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.common.AppConfig;
 import com.hjtech.secretary.common.MTUserManager;
 
 import android.os.Bundle;
@@ -23,11 +22,11 @@ public class SplashActivity extends Activity
     		public void run() {
     			Intent mainIntent = null;
     			if(MTUserManager.getUser() != null){
-//    				mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
     				mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
     			}else{
     				mainIntent = new Intent(SplashActivity.this, RegisterActivity.class);
     			}
+    			mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
     			SplashActivity.this.startActivity(mainIntent);
     			SplashActivity.this.finish();
     		}
