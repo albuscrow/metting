@@ -39,7 +39,7 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initUI(R.layout.activity_my_metting, R.drawable.common_back, R.string.title_activity_my_metting);
+//		initUI(R.layout.activity_my_metting, R.drawable.common_back, R.string.title_activity_my_metting);
 		currentPageNum = 0;
 	}
 	
@@ -85,9 +85,9 @@ public class MyMettingActivity extends BaseActivity implements OnClickListener {
 	}
 
 
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		
 		//init metting list

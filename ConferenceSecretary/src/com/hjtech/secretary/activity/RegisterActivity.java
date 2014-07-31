@@ -14,12 +14,12 @@ public class RegisterActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initUI(R.layout.activity_register, -1, R.string.title_activity_register);
+		initUI(R.layout.activity_register, R.string.title_activity_register);
 	}
 	
 	@Override
-	protected void initUI(int layoutId, int iconId, int titleId) {
-		super.initUI(layoutId, iconId, titleId);
+	protected void initUI(int layoutId, int titleId) {
+		super.initUI(layoutId, titleId);
 		formFragment = (RegisterFormFragment) getSupportFragmentManager().findFragmentById(R.id.Register_form);
 		verifyFragment = (RegisterVerifyFragment) getSupportFragmentManager().findFragmentById(R.id.Register_verify);
 	}

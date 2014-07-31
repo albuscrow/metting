@@ -5,8 +5,14 @@ import java.util.List;
 import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
+import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.activity.MyMettingActivity;
+import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
+import com.hjtech.secretary.fragment.MyMettingFragment;
+import com.hjtech.secretary.utils.MTCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Intent;
@@ -20,18 +26,28 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
-	private MyMettingActivity activity;
+	private MyMettingFragment fragment;
+	private MainActivity activity;
+	private int currentPageNum = 0;
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
 
 	private List<MTMetting> data;
+	private int status;
 
-	public MyMettingAdapter(MyMettingActivity myMeetActivity) {
-		this.activity = myMeetActivity;
+	public MyMettingAdapter(MyMettingFragment fragment,int status) {
+		this.fragment = fragment;
+		this.activity = fragment.getMainActivity();
+		this.status = status;
 	}
 	
+
+	public MyMettingAdapter(MyMettingActivity myMettingActivity) {
+//		this.activity = myMettingActivity;
+	}
+
 
 	@Override
 	public int getCount() {
@@ -111,6 +127,46 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	public void appendData(List<MTMetting> result) {
 		this.data.addAll(result);
 		this.notifyDataSetChanged();
+	}
+	
+	public void getData() {
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+			
+			@Override
+			public void onPreExecute() {
+//				showWaitBar();
+			}
+			
+			@Override
+			public void onPostExecute(Object result) {
+				if (result == null) {
+					MTCommon.ShowToast("获取会议数据失败！");
+				}else{
+					setData((List<MTMetting>) result);
+				}
+//				hideWaitBar();
+			}
+		}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);
+	}
+	
+		public void appendData() {
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+			
+			@Override
+			public void onPreExecute() {
+//				showWaitBar();
+			}
+			
+			@Override
+			public void onPostExecute(Object result) {
+				if (result == null) {
+					MTCommon.ShowToast("获取会议数据失败！");
+				}else{
+					appendData((List<MTMetting>) result);
+				}
+//				hideWaitBar();
+			}
+		}).getMyMeet(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
 }

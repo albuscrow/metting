@@ -22,6 +22,9 @@ import com.sina.weibo.sdk.api.share.SendMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.exception.WeiboShareException;
@@ -54,7 +57,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class InviteActivity extends BaseActivity implements OnClickListener, IWeiboHandler.Response {
+public class InviteActivity extends BaseActivity implements OnClickListener, IWeiboHandler.Response, WeiboAuthListener {
 	private static final String TAG = "inviteActivity";
         
 	Spinner sharePlatform;
@@ -72,7 +75,10 @@ public class InviteActivity extends BaseActivity implements OnClickListener, IWe
     private Oauth2AccessToken mAccessToken;
     /** 用于获取微博信息流等操作的API */
     private StatusesAPI mStatusesAPI;
-    
+	/** 微博 Web 授权类，提供登陆等功能  */
+	private WeiboAuth mWeiboAuth;
+	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+	private SsoHandler mSsoHandler;
     
     /**
      * 微博 OpenAPI 回调接口。
@@ -125,17 +131,17 @@ public class InviteActivity extends BaseActivity implements OnClickListener, IWe
 //		if (savedInstanceState != null) {
 //			mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
 //		}	
-		initUI(R.layout.activity_invite, R.drawable.common_back, R.string.title_activity_invite);
+//		initUI(R.layout.activity_invite, R.drawable.common_back, R.string.title_activity_invite);
 	}
 	
 	private void initData() {
 		metting = (MTMetting) getIntent().getSerializableExtra("metting");
 	}
 
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
 		// TODO Auto-generated method stub
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		
 		shareContent = (TextView) gv(R.id.share_invite_content);
@@ -193,19 +199,16 @@ public class InviteActivity extends BaseActivity implements OnClickListener, IWe
 			api.sendReq(req);
 			break;
 		case WEIBO:
-//			try {
-//                // 检查微博客户端环境是否正常，如果未安装微博，弹出对话框询问用户下载微博客户端
-//                if (mWeiboShareAPI.checkEnvironment(true)) {                    
-//                    sendMessage(true, true, false, false, false, false);
-//                }
-//            } catch (WeiboShareException e) {
-//                e.printStackTrace();
-//                MTCommon.ShowToast(e.getMessage());
-//            }
-			System.out.println("InviteActivity.onClick()");
-			Drawable drawable = tdCode.getDrawable();
-			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-			mStatusesAPI.upload("发送一条带本地图片的微博", bitmap, null, null, mListener);
+
+			if (mStatusesAPI != null) {
+				shareWithSina();	
+			}else{
+				MTCommon.ShowToast("您还未绑定新浪微博，正在调转到新浪微博进行绑定");
+				mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+				mSsoHandler = new SsoHandler(this, mWeiboAuth);
+				mSsoHandler.authorize(this);
+			}
+			
 			break;
 
 		default:
@@ -213,6 +216,13 @@ public class InviteActivity extends BaseActivity implements OnClickListener, IWe
 			break;
 		}
 	}
+
+		private void shareWithSina() {
+			Drawable drawable = tdCode.getDrawable();
+			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+			String content = shareContent.getText().toString();
+			mStatusesAPI.upload(content, bitmap, null, null, mListener);
+		}
 		
 	private String buildTransaction(final String type) {
 		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
@@ -239,8 +249,13 @@ public class InviteActivity extends BaseActivity implements OnClickListener, IWe
         
         // 获取当前已保存过的 Token
         mAccessToken = AccessTokenKeeper.readAccessToken(this);
-        // 对statusAPI实例化
-        mStatusesAPI = new StatusesAPI(mAccessToken);
+        if (mAccessToken.getToken().length() != 0) {
+        	// 对statusAPI实例化
+        	mStatusesAPI = new StatusesAPI(mAccessToken);
+		}else{
+			mAccessToken = null;
+			mStatusesAPI = null;
+		}
 		
 		
 		regToWx();
@@ -275,152 +290,41 @@ public class InviteActivity extends BaseActivity implements OnClickListener, IWe
         }
 	}
 	
-//	/**
-//     * 第三方应用发送请求消息到微博，唤起微博分享界面。
-//     * @see {@link #sendMultiMessage} 或者 {@link #sendSingleMessage}
-//     */
-//    private void sendMessage(boolean hasText, boolean hasImage, 
-//			boolean hasWebpage, boolean hasMusic, boolean hasVideo, boolean hasVoice) {
-//        
-//        if (mWeiboShareAPI.isWeiboAppSupportAPI()) {
-//            int supportApi = mWeiboShareAPI.getWeiboAppSupportAPI();
-//            if (supportApi >= 10351 /*ApiUtils.BUILD_INT_VER_2_2*/) {
-//                sendMultiMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo, hasVoice);
-//            } else {
-//                sendSingleMessage(hasText, hasImage, hasWebpage, hasMusic, hasVideo/*, hasVoice*/);
-//            }
-//        } else {
-//        	MTCommon.ShowToast(getResources().getString(R.string.weibo_not_support_api_hint));
-//        }
-//    }
-
-//    /**
-//     * 第三方应用发送请求消息到微博，唤起微博分享界面。
-//     * 注意：当 {@link IWeiboShareAPI#getWeiboAppSupportAPI()} >= 10351 时，支持同时分享多条消息，
-//     * 同时可以分享文本、图片以及其它媒体资源（网页、音乐、视频、声音中的一种）。
-//     * 
-//     * @param hasText    分享的内容是否有文本
-//     * @param hasImage   分享的内容是否有图片
-//     * @param hasWebpage 分享的内容是否有网页
-//     * @param hasMusic   分享的内容是否有音乐
-//     * @param hasVideo   分享的内容是否有视频
-//     * @param hasVoice   分享的内容是否有声音
-//     */
-//    private void sendMultiMessage(boolean hasText, boolean hasImage, boolean hasWebpage,
-//            boolean hasMusic, boolean hasVideo, boolean hasVoice) {
-//        
-//        // 1. 初始化微博的分享消息
-//        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-//        if (hasText) {
-//            weiboMessage.textObject = getTextObj();
-//        }
-//        
-//        if (hasImage) {
-//            weiboMessage.imageObject = getImageObj();
-//        }
-//        
-//        // 用户可以分享其它媒体资源（网页、音乐、视频、声音中的一种）
-//        if (hasWebpage) {
-//            weiboMessage.mediaObject = getWebpageObj();
-//        }
-//        if (hasMusic) {
-//            weiboMessage.mediaObject = getMusicObj();
-//        }
-//        if (hasVideo) {
-//            weiboMessage.mediaObject = getVideoObj();
-//        }
-//        if (hasVoice) {
-//            weiboMessage.mediaObject = getWebpageObj();
-//        }
-//        
-//        // 2. 初始化从第三方到微博的消息请求
-//        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-//        // 用transaction唯一标识一个请求
-//        request.transaction = String.valueOf(System.currentTimeMillis());
-//        request.multiMessage = weiboMessage;
-//        
-//        // 3. 发送请求消息到微博，唤起微博分享界面
-//        mWeiboShareAPI.sendRequest(request);
-//    }
-
-//    private BaseMediaObject getVideoObj() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	private BaseMediaObject getMusicObj() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	private BaseMediaObject getWebpageObj() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	private ImageObject getImageObj() {
-//		ImageObject imageObject = new ImageObject();
-//        BitmapDrawable bitmapDrawable = (BitmapDrawable) tdCode.getDrawable();
-//        imageObject.setImageObject(bitmapDrawable.getBitmap());
-//        return imageObject;
-//	}
-//
-//	private TextObject getTextObj() {
-//        TextObject textObject = new TextObject();
-//        textObject.text = shareContent.getText().toString();
-//        return textObject;
-//	}
-//
-//	/**
-//     * 第三方应用发送请求消息到微博，唤起微博分享界面。
-//     * 当{@link IWeiboShareAPI#getWeiboAppSupportAPI()} < 10351 时，只支持分享单条消息，即
-//     * 文本、图片、网页、音乐、视频中的一种，不支持Voice消息。
-//     * 
-//     * @param hasText    分享的内容是否有文本
-//     * @param hasImage   分享的内容是否有图片
-//     * @param hasWebpage 分享的内容是否有网页
-//     * @param hasMusic   分享的内容是否有音乐
-//     * @param hasVideo   分享的内容是否有视频
-//     */
-//    private void sendSingleMessage(boolean hasText, boolean hasImage, boolean hasWebpage,
-//            boolean hasMusic, boolean hasVideo/*, boolean hasVoice*/) {
-//        
-//        // 1. 初始化微博的分享消息
-//        // 用户可以分享文本、图片、网页、音乐、视频中的一种
-//        WeiboMessage weiboMessage = new WeiboMessage();
-//        if (hasText) {
-//            weiboMessage.mediaObject = getTextObj();
-//        }
-//        if (hasImage) {
-//            weiboMessage.mediaObject = getImageObj();
-//        }
-//        if (hasWebpage) {
-//            weiboMessage.mediaObject = getWebpageObj();
-//        }
-//        if (hasMusic) {
-//            weiboMessage.mediaObject = getMusicObj();
-//        }
-//        if (hasVideo) {
-//            weiboMessage.mediaObject = getVideoObj();
-//        }
-//        /*if (hasVoice) {
-//            weiboMessage.mediaObject = getVoiceObj();
-//        }*/
-//        
-//        // 2. 初始化从第三方到微博的消息请求
-//        SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();
-//        // 用transaction唯一标识一个请求
-//        request.transaction = String.valueOf(System.currentTimeMillis());
-//        request.message = weiboMessage;
-//        
-//        // 3. 发送请求消息到微博，唤起微博分享界面
-//        mWeiboShareAPI.sendRequest(request);
-//    }
     @Override
     protected void onNewIntent(Intent intent) {
-        // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
-        // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
-        // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
-//        mWeiboShareAPI.handleWeiboResponse(intent, this);
+    	setIntent(intent);
     }
+
+	@Override
+	public void onCancel() {
+		MTCommon.ShowToast(getResources().getString(R.string.auth_canceled));
+	}
+
+	@Override
+	public void onComplete(Bundle bundle) {
+		// 从 Bundle 中解析 Token
+		mAccessToken = Oauth2AccessToken.parseAccessToken(bundle);
+		if (mAccessToken.isSessionValid()) {
+			// 保存 Token 到 SharedPreferences
+			AccessTokenKeeper.writeAccessToken(this, mAccessToken);
+			MTCommon.ShowToast(getResources().getString(R.string.auth_success));
+			shareWithSina();
+		} else {
+			// 以下几种情况，您会收到 Code：
+			// 1. 当您未在平台上注册的应用程序的包名与签名时；
+			// 2. 当您注册的应用程序包名与签名不正确时；
+			// 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+			String code = bundle.getString("code");
+			String message = getString(R.string.auth_failed);
+			if (!TextUtils.isEmpty(code)) {
+				message = message + "\nObtained the code: " + code;
+			}
+			MTCommon.ShowToast(message);
+		}	
+	}
+
+	@Override
+	public void onWeiboException(WeiboException e) {
+		MTCommon.ShowToast("Auth exception : " + e.getMessage());
+	}
 }

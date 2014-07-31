@@ -22,7 +22,7 @@ public class MessageActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initUI(R.layout.activity_message, R.drawable.common_back,R.string.title_activity_message);
+//		initUI(R.layout.activity_message, R.drawable.common_back,R.string.title_activity_message);
 		initData();
 	}
 
@@ -51,10 +51,10 @@ public class MessageActivity extends BaseActivity {
 		}).getMessage(MTUserManager.getUser().getMuAccount(), 0);
 	}
 
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
 		// TODO Auto-generated method stub
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		
 		listView = (PullToRefreshListView) gv(R.id.message_list);

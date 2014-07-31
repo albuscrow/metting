@@ -1,7 +1,6 @@
 package com.hjtech.secretary.activity;
 
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.R.id;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.MTSimpleResult;
@@ -18,12 +17,12 @@ public class EditUserInfActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		initUI(R.layout.activity_user_edit, R.drawable.common_back, R.string.title_activity_user_edit);
+		initUI(R.layout.activity_user_edit, R.string.title_activity_personal, R.string.title_activity_user_edit, 0);
 	}
 	
 	@Override
-	protected void initUI(int layoutId, int iconId, int titleId) {
-		super.initUI(layoutId, iconId, titleId);
+	protected void initUI(int layoutId, int backId, int titleId, int rightId) {
+		super.initUI(layoutId, backId, titleId, rightId);
 		setbackButton();
 		
 		Button complete = (Button)gv(R.id.rightView);

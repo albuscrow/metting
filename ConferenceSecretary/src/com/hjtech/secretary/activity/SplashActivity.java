@@ -23,8 +23,10 @@ public class SplashActivity extends Activity
     			Intent mainIntent = null;
     			if(MTUserManager.getUser() != null){
     				mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+    				System.out.println("log");
     			}else{
     				mainIntent = new Intent(SplashActivity.this, RegisterActivity.class);
+    				System.out.println("reg");
     			}
     			mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
     			SplashActivity.this.startActivity(mainIntent);
@@ -39,6 +41,5 @@ public class SplashActivity extends Activity
     {
         return false;
     }
-    
 
 }

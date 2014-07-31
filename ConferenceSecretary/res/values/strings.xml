@@ -3,7 +3,10 @@
 
     <string name="app_name">会小秘</string>
     
-   
+   	<string name="homepage">首页</string>
+   	<string name="tab_metting_list">会议列表</string>
+   	<string name="tab_my_metting">我的会议</string>
+   	<string name="tab_message">消息中心</string>
     
     <string name="home_menu_exit">退出</string>
     

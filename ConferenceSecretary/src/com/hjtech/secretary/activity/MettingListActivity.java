@@ -28,7 +28,7 @@ public class MettingListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initData();
-		initUI(R.layout.activity_metting_list, R.drawable.common_back, R.string.title_activity_metting_list);
+//		initUI(R.layout.activity_metting_list, R.drawable.common_back, R.string.title_activity_metting_list);
 		
 	}
 	
@@ -51,9 +51,9 @@ public class MettingListActivity extends BaseActivity {
 		}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, null, DataProvider.TYPE_ALL);
 	}
 
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		
 		//init metting list

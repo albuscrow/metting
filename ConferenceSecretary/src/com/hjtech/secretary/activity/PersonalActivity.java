@@ -31,9 +31,6 @@ import android.widget.TextView;
 public class PersonalActivity extends BaseActivity implements WeiboAuthListener {
 	private MTUser user;
 
-	/** 显示认证后的信息，如 AccessToken */
-	private TextView mTokenText;
-
 	/** 微博 Web 授权类，提供登陆等功能  */
 	private WeiboAuth mWeiboAuth;
 
@@ -53,7 +50,7 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		super.onCreate(savedInstanceState);
 		initAuth();
 		initData();
-		initUI(R.layout.activity_personal_center, R.drawable.common_back, R.string.title_activity_personal);
+//		initUI(R.layout.activity_personal_center, R.drawable.common_back, R.string.title_activity_personal);
 	}
 
 	
@@ -103,9 +100,9 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		
 	}
 
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		Button edit = (Button)gv(R.id.rightView);
 		edit.setVisibility(View.VISIBLE);
 		edit.setText("编辑");
@@ -143,39 +140,11 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 			
 			@Override
 			public void onClick(View v) {
-//				final SendAuth.Req req = new SendAuth.Req();
-//				req.scope = "post_timeline";
-//				req.state = "none";
-//				api.sendReq(req);
-//				
-//				final SendAuth.Req req = new SendAuth.Req();
-//				req.scope = "snsapi_userinfo";
-//				req.state = "wechat_sdk_demo_test";
-//				api.sendReq(req);		
-				WXTextObject textObj = new WXTextObject();
-						textObj.text = "test";
-
-						// ��WXTextObject�����ʼ��һ��WXMediaMessage����
-						WXMediaMessage msg = new WXMediaMessage();
-						msg.mediaObject = textObj;
-						// �����ı����͵���Ϣʱ��title�ֶβ�������
-						// msg.title = "Will be ignored";
-						msg.description = "test";
-
-						// ����һ��Req
-						SendMessageToWX.Req req = new SendMessageToWX.Req();
-						req.transaction = buildTransaction("text"); // transaction�ֶ�����Ψһ��ʶһ������
-						req.message = msg;
-						req.scene =  SendMessageToWX.Req.WXSceneTimeline; 
-						
-						// ����api�ӿڷ�����ݵ�΢��
-						api.sendReq(req);
+				//TODO
+				MTCommon.ShowToast("绑定要申请支付成功以后才能用，很麻烦");
 			}
 		});
 		
-	}
-	private String buildTransaction(final String type) {
-		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
 	}
 	
 	@Override
@@ -185,31 +154,31 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 	
 	@Override
 	public void onComplete(Bundle bundle) {
-		 // 从 Bundle 中解析 Token
-            mAccessToken = Oauth2AccessToken.parseAccessToken(bundle);
-            if (mAccessToken.isSessionValid()) {
-                // 显示 Token
-            	//updateTokenView(false);
-                
-                // 保存 Token 到 SharedPreferences
-                AccessTokenKeeper.writeAccessToken(this, mAccessToken);
-                MTCommon.ShowToast(getResources().getString(R.string.auth_success));
-                weibo.setText("微博已绑定"); 
-                weibo.setEnabled(false);
-            } else {
-                // 以下几种情况，您会收到 Code：
-                // 1. 当您未在平台上注册的应用程序的包名与签名时；
-                // 2. 当您注册的应用程序包名与签名不正确时；
-                // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
-                String code = bundle.getString("code");
-                String message = getString(R.string.auth_failed);
-                if (!TextUtils.isEmpty(code)) {
-                    message = message + "\nObtained the code: " + code;
-                }
-                MTCommon.ShowToast(message);
-            }
+		// 从 Bundle 中解析 Token
+		mAccessToken = Oauth2AccessToken.parseAccessToken(bundle);
+		if (mAccessToken.isSessionValid()) {
+			// 显示 Token
+			//updateTokenView(false);
+
+			// 保存 Token 到 SharedPreferences
+			AccessTokenKeeper.writeAccessToken(this, mAccessToken);
+			MTCommon.ShowToast(getResources().getString(R.string.auth_success));
+			weibo.setText("微博已绑定"); 
+			weibo.setEnabled(false);
+		} else {
+			// 以下几种情况，您会收到 Code：
+			// 1. 当您未在平台上注册的应用程序的包名与签名时；
+			// 2. 当您注册的应用程序包名与签名不正确时；
+			// 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+			String code = bundle.getString("code");
+			String message = getString(R.string.auth_failed);
+			if (!TextUtils.isEmpty(code)) {
+				message = message + "\nObtained the code: " + code;
+			}
+			MTCommon.ShowToast(message);
+		}
 	}
-	
+
 	@Override
 	public void onCancel() {
 		MTCommon.ShowToast(getResources().getString(R.string.auth_canceled));

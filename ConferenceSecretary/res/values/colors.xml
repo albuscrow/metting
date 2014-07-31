@@ -2,4 +2,9 @@
 <resources>
     <color name="list_background">#eeeeee</color>
     <color name="red">#f00</color>
+    
+    <color name="mt_blue">#0000ff</color>
+    <color name="mt_action_bar_gray">#888888</color>
+    <color name="mt_split_gray">#222222</color>
+    
 </resources>

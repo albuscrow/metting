@@ -5,6 +5,7 @@ import com.hjtech.secretary.utils.MTCommon;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.tencent.android.tpush.XGPushManager;
 
 import android.app.Application;
 
@@ -16,6 +17,8 @@ public class MettingApplication extends Application {
 		MTUserManager.init(getApplicationContext());
 		MTCommon.init(getApplicationContext());
     	AppConfig.initConfig(getApplicationContext());
+    	
+    	XGPushManager.registerPush(getApplicationContext());	
 	}
 	
 	private void initImageLoader() {

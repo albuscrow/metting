@@ -21,4 +21,17 @@
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/login_checkbox_bg</item>
     </style>
+    
+    <style name="mt_tab">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingTop">8dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:textColor">@color/mt_tab_textcolor_selector</item>
+        <item name="android:button">@null</item>
+    </style>
+
 </resources>

@@ -2,6 +2,8 @@ package com.hjtech.secretary.utils;
 
 import android.content.Context;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MTCommon {
@@ -17,6 +19,14 @@ public class MTCommon {
 			return null;
 		}
 		return content;
+	}
+	
+	public static void setContent(EditText et, int StringId){
+		et.setText(context.getResources().getString(StringId));
+	}
+	
+	public static void setContent(TextView et, int StringId){
+		et.setText(context.getResources().getString(StringId));
 	}
 	
 	public static void ShowToast(String content){

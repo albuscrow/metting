@@ -32,10 +32,10 @@ public class MettingDetailsActivity extends BaseActivity implements OnClickListe
 		initUI(R.layout.activity_metting_detail, R.drawable.common_back, R.string.title_activity_metting_details);
 	}
 	
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
 		// TODO Auto-generated method stub
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		gv(R.id.detail_collect).setOnClickListener(new OnClickListener() {
 			

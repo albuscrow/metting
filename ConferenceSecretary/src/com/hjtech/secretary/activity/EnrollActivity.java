@@ -23,7 +23,7 @@ public class EnrollActivity extends BaseActivity {
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		intiData();
-		initUI(R.layout.activity_enroll, R.drawable.common_back, R.string.title_activity_enroll);
+//		initUI(R.layout.activity_enroll, R.drawable.common_back, R.string.title_activity_enroll);
 	}
 	
 	private void intiData() {
@@ -31,9 +31,9 @@ public class EnrollActivity extends BaseActivity {
 		this.mettingId = Long.parseLong(idStr);
 	}
 
-	@Override
+//	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
-		super.initUI(layoutId, iconId, titleId);
+//		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		name =(EditText) gv(R.id.enroll_name_editext);
 		company =(EditText) gv(R.id.enroll_company_edittext);

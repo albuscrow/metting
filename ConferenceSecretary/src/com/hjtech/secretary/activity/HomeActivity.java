@@ -11,6 +11,7 @@ import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTSimpleResult;
+import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.utils.MTCommon;
 
 import android.os.Bundle;
@@ -39,12 +40,12 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 	{
 		super.onCreate(savedInstanceState);
 		
-		initUI(R.layout.activity_home, R.drawable.common_logo_for_titlebar, R.string.title_activity_home);
+		initUI(R.layout.activity_home, R.string.title_activity_home);
 	}
 
-	protected void initUI(int layoutId, int iconId, int textId) {
-		super.initUI(layoutId, iconId, textId);
-		
+	@Override
+	protected void initUI(int layoutId, int textId) {
+		super.initUI(layoutId, textId);
 		
 		//init swipe view
 		PageControl mPageControl = (PageControl) findViewById(R.id.page_control);
@@ -178,7 +179,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 		Intent intent = null;
 		switch (arg2) {
 		case 0:
-			intent = new Intent(this, MyMettingActivity.class);
+			intent = new Intent(this, MainActivity.class);
+			intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
 			break;
 		case 1:
 			intent = new Intent(this, MettingListActivity.class);

@@ -24,4 +24,7 @@ public interface Constants {
 	
 	public static final String APP_ID = "wxbc34d7b4abdd9efd";
 	
+	public static final String XG_V2_SECRET_KEY = "d477e8a3accb1464457677520fc05aee";
+
+	
 }
