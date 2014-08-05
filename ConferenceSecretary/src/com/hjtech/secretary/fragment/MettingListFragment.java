@@ -15,9 +15,11 @@ import com.hjtech.secretary.activity.MettingListActivity;
 import com.hjtech.secretary.adapter.MTPagerAdatper;
 import com.hjtech.secretary.adapter.MettingListAdapter;
 import com.hjtech.secretary.adapter.MyMettingAdapter;
+import com.hjtech.secretary.common.AppConfig;
 import com.hjtech.secretary.data.DataProvider;
 import com.hjtech.secretary.data.MTMetting;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
@@ -30,12 +32,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MettingListFragment extends BaseFragment {
 	
 	private List<LinearLayout> mettingLists = new ArrayList<LinearLayout>();
 	private List<MyMettingAdapter> adapters = new ArrayList<MyMettingAdapter>();
 	private MTPagerAdatper myPagerAdapter;
+	private View stripe;
+	private int currentPage = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,13 +59,15 @@ public class MettingListFragment extends BaseFragment {
 	}
 	
 	
+	@SuppressLint("NewApi")
 	protected ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
+		currentPage = 0;
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_metting_list, null);
 		
-		PagerTabStrip mPagerTabStrip=(PagerTabStrip) gv(R.id.pagertab);
+//		PagerTabStrip mPagerTabStrip=(PagerTabStrip) gv(R.id.pagertab);
         //设置导航条的颜色
-        mPagerTabStrip.setTabIndicatorColorResource(R.color.mt_blue);
+//        mPagerTabStrip.setTabIndicatorColorResource(R.color.mt_blue);
         
         ViewPager mViewPager = (ViewPager) gv(R.id.my_metting_viewpager);
         //添加数据
@@ -71,20 +78,32 @@ public class MettingListFragment extends BaseFragment {
 		}else{
 			myPagerAdapter.init(getMainActivity());
 		}
+        stripe = gv(R.id.stripe);
+        stripe.post(new Runnable() {
+			public void run() {
+				int startPosition = AppConfig.SCREENWIDTH/8 - stripe.getWidth() / 2;
+				stripe.setTag(startPosition);
+				stripe.setX(startPosition + currentPage * AppConfig.SCREENWIDTH/4);
+			}
+		});
 		mViewPager.setAdapter(myPagerAdapter);
         mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			
+
 			@Override
 			public void onPageSelected(int arg0) {
 				MyMettingAdapter adapter = adapters.get(arg0);
 				if (adapter.getData() == null) {
 					adapter.initData();
 				}
+				changeStripText(arg0);
+				currentPage = arg0;
 			}
 			
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				
+				float x = (arg0 + arg1)*(AppConfig.SCREENWIDTH/4*3) / 3 + (Integer) stripe.getTag();
+				stripe.setX(x);
 			}
 			
 			@Override
@@ -93,12 +112,21 @@ public class MettingListFragment extends BaseFragment {
 			}
 		});
         adapters.get(0).initData();
-        
+        changeStripText(currentPage);
         //set tab
 //        getMainActivity().chooseTab(MainActivity.TAB_METTIN_LIST_INDEX);
 		return rootView;
 	}
 	
+	int[] stripeText = new int[]{R.id.stripe1,R.id.stripe2,R.id.stripe3,R.id.stripe4};
+	
+	protected void changeStripText(int arg0) {
+		for (int id : stripeText) {
+			((TextView)gv(id)).setTextColor(getResources().getColor(R.color.mt_text_6));
+		}
+		((TextView)gv(stripeText[arg0])).setTextColor(getResources().getColor(R.color.mt_black));
+	}
+
 	public static final int TOTAL_PAGER = 4;
 	public static final int TODAY = 0;
 	public static final int THIS_WEEK = 1;

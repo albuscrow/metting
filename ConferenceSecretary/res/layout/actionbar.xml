@@ -9,20 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:drawableLeft="@drawable/common_back"
-        android:gravity="center"
         android:textColor="@color/mt_text_6"
-        android:textSize="14sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/titlebar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_centerInParent="true"
         android:textColor="@color/mt_text_0"
-        android:textSize="15sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/rightView"
@@ -31,9 +29,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:gravity="center"
         android:textColor="@color/mt_text_6"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:visibility="gone" />
 
 </RelativeLayout>
