@@ -16,7 +16,8 @@ public class MTComment  implements Serializable{
 		this.mcId = mcId;
 	}
 	public String getMcContent() {
-		return mcContent;
+//		return mcContent;
+		return "fdsafljdsafklsd;fjsdakjsd;aflsfjdsakfjdksalf;jdskalf;jdsaklfjdskaflj;dsafljdsa;fkljdsafljds;afjdksl;afjdsa;lfjds;kalfjdskla;fjdslafjsldfjls;akfjdsalfjd;skafjs";
 	}
 	public void setMcContent(String mcContent) {
 		this.mcContent = mcContent;
@@ -34,7 +35,7 @@ public class MTComment  implements Serializable{
 		this.muName = muName;
 	}
 	public String getMcAddtime() {
-		return mcAddtime;
+		return mcAddtime.substring(0, 11);
 	}
 	public void setMcAddtime(String mcAddtime) {
 		this.mcAddtime = mcAddtime;

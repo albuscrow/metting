@@ -5,12 +5,13 @@ import java.util.List;
 import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
+import com.hjtech.secretary.activity.BaseActivity;
 import com.hjtech.secretary.activity.MainActivity;
-import com.hjtech.secretary.activity.MyMettingActivity;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
+import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.utils.MTCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -21,33 +22,31 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
-	private MyMettingFragment fragment;
-	private MainActivity activity;
+	private BaseActivity activity;
 	private int currentPageNum = 0;
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
+	
+	public List<MTMetting> getData(){
+		return data;
+	}
 
 	private List<MTMetting> data;
 	private int status;
 
-	public MyMettingAdapter(MyMettingFragment fragment,int status) {
-		this.fragment = fragment;
-		this.activity = fragment.getMainActivity();
+	public MyMettingAdapter(BaseFragment fragment,int status) {
+		this.activity = fragment.getBaseActivity();
 		this.status = status;
 	}
 	
-
-	public MyMettingAdapter(MyMettingActivity myMettingActivity) {
-//		this.activity = myMettingActivity;
-	}
-
 
 	@Override
 	public int getCount() {
@@ -77,11 +76,18 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	}
 	
 	class ViewHold{
+		public TextView mettingTimeYear;
+		public TextView mettingTimeMonth;
+		public TextView mettingTimeDay;
+		public TextView mettingTimeWeek;
+		
 		public TextView mettingName;
-		public TextView mettingStatus;
-		public ImageView mettingPicture;
-		public TextView mettingIntroduction;
-		public Button mettingSignin; 
+		public TextView mettingDuringTime;
+		public TextView mettingAddress;
+		public TextView mettingFeeAndRes;
+		
+		public ImageButton mettingSignin; 
+		public ImageView mettingStatus;
 	}
 
 	@Override
@@ -91,16 +97,17 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 			convertView = activity.getLayoutInflater().inflate(R.layout.adapter_item_my_metting, null);
 			viewHold = new ViewHold();
 			viewHold.mettingName = (TextView) convertView.findViewById(R.id.metting_name);
-			viewHold.mettingStatus = (TextView) convertView.findViewById(R.id.metting_status);
-			viewHold.mettingPicture = (ImageView) convertView.findViewById(R.id.metting_picture);
-			viewHold.mettingIntroduction = (TextView) convertView.findViewById(R.id.metting_introduction);
-			viewHold.mettingSignin = (Button) convertView.findViewById(R.id.metting_signin);
+			viewHold.mettingDuringTime = (TextView) convertView.findViewById(R.id.metting_during_time);
+			viewHold.mettingAddress = (TextView) convertView.findViewById(R.id.metting_address);
+			viewHold.mettingFeeAndRes = (TextView) convertView.findViewById(R.id.metting_free_restriction);
+			viewHold.mettingStatus = (ImageView) convertView.findViewById(R.id.metting_status);
+			viewHold.mettingSignin = (ImageButton) convertView.findViewById(R.id.metting_signin);
 			viewHold.mettingSignin.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(activity, CaptureActivity.class);
-					activity.startActivityForResult(intent, MyMettingActivity.SIGNIN);
+					activity.startActivityForResult(intent, MyMettingFragment.SIGNAL);
 				}
 			});
 			
@@ -112,13 +119,14 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		MTMetting metting = (MTMetting) getItem(position);
 		
 		viewHold.mettingName.setText(metting.getMmTitle());
-		viewHold.mettingStatus.setText(metting.getIsEnrollStr());
-		viewHold.mettingIntroduction.setText(metting.getMmDesp());
-		ImageLoader.getInstance().displayImage(metting.getMmLogo(), viewHold.mettingPicture);
+		viewHold.mettingDuringTime.setText(String.format(activity.getResources().getString(R.string.metting_time),metting.getTime()));
+		viewHold.mettingAddress.setText(String.format(activity.getResources().getString(R.string.metting_place),metting.getMmAddress()));
+		viewHold.mettingFeeAndRes.setText(String.format(activity.getResources().getString(R.string.metting_fee_and_res),metting.getMmFreeTypeStr(),metting.getMemberRttForDetail()));
 		if (metting.getIsEnroll() == MTMetting.ENROLL) {
 			viewHold.mettingSignin.setVisibility(View.VISIBLE);
 		}else{
-			viewHold.mettingSignin.setVisibility(View.GONE);
+//			viewHold.mettingSignin.setVisibility(View.GONE);
+			viewHold.mettingSignin.setVisibility(View.VISIBLE);
 		}
 		return convertView;
 	}
@@ -129,34 +137,44 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		this.notifyDataSetChanged();
 	}
 	
-	public void getData() {
-		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-			
-			@Override
-			public void onPreExecute() {
-//				showWaitBar();
-			}
-			
-			@Override
-			public void onPostExecute(Object result) {
-				if (result == null) {
-					MTCommon.ShowToast("获取会议数据失败！");
-				}else{
-					setData((List<MTMetting>) result);
+	Boolean canInit = true;
+	public void initData() {
+		if (canInit) {
+			synchronized (canInit) {
+				if (canInit) {
+					canInit = false;
+					new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+						@Override
+						public void onPreExecute() {
+							//				showWaitBar();
+						}
+
+						@Override
+						public void onPostExecute(Object result) {
+							if (result == null) {
+								MTCommon.ShowToast("获取会议数据失败！");
+							}else{
+								setData((List<MTMetting>) result);
+							}
+							//				hideWaitBar();
+							canInit = true;
+						}
+					}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);				
 				}
-//				hideWaitBar();
 			}
-		}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);
+		}
+
 	}
-	
-		public void appendData() {
+
+	public void getMoreData() {
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-			
+
 			@Override
 			public void onPreExecute() {
-//				showWaitBar();
+				//				showWaitBar();
 			}
-			
+
 			@Override
 			public void onPostExecute(Object result) {
 				if (result == null) {
@@ -164,9 +182,12 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 				}else{
 					appendData((List<MTMetting>) result);
 				}
-//				hideWaitBar();
+				//				hideWaitBar();
 			}
 		}).getMyMeet(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
+	public void setActivity(BaseActivity activity) {
+		this.activity = activity;
+	}
 }

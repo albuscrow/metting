@@ -40,7 +40,7 @@ public class MTMessage implements Serializable {
 		this.mmType = mmType;
 	}
 	public String getMmAddtime() {
-		return mmAddtime;
+		return mmAddtime.substring(0,11);
 	}
 	public void setMmAddTime(String mmAddTime) {
 		this.mmAddtime = mmAddTime;

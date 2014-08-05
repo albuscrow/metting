@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity {
 	protected void initUI(int layoutId, int titleId) {
 		super.initUI(layoutId, titleId);
 		
-		gv(R.id.login_register_button).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
+		gv(R.id.login_register_text).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
 		SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
 
 		phoneNum = ((EditText)gv(R.id.login_phonenum));
@@ -120,6 +120,8 @@ public class LoginActivity extends BaseActivity {
 				}).login(account,pwdMd5);
 			}
 		});
+		
+		gv(R.id.forget_password).setOnClickListener(new NewActivityListener(this, FindPasswordActivity.class));
 		
 	}
 

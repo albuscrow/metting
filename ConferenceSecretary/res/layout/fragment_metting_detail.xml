@@ -2,15 +2,123 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF" >
+    android:background="@color/mt_white" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp" >
+        android:padding="15dp" >
+        
+        <TextView 
+            android:id="@+id/detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mt_black"
+            android:textSize="19sp"/>
+        
+        <TextView 
+            android:id="@+id/detail_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_alignParentRight="true"/>
+        
+        <TextView
+            android:id="@+id/detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_name"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="15sp" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/detail_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_time"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="15sp" />
+        
+        <TextView
+            android:id="@+id/detail_fee_res"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_address"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="15sp" />
+        
+		<uk.co.jasonfry.android.tools.ui.SwipeView
+		    android:id="@+id/swipe_view"
+		    android:layout_below="@id/detail_fee_res"
+		    android:layout_marginTop="18dp"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" />
+
+    	<uk.co.jasonfry.android.tools.ui.PageControl
+    	    android:id="@+id/page_control"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignBottom="@id/swipe_view"
+    	    android:gravity="center_horizontal"
+    	    android:orientation="horizontal" />
+    	
+    	<TextView 
+    	    android:id="@+id/detail_detail"
+    	    android:layout_marginTop="17dp"
+    	    android:layout_width="match_parent"
+    	    android:layout_below="@id/swipe_view"
+    	    android:layout_height="wrap_content"
+    	    android:textSize="15sp"
+            android:textColor="@color/mt_text_6" />
+    	
+    	<Button
+    	    android:id="@+id/detail_enroll"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_below="@id/detail_detail"
+    	    android:layout_marginLeft="20dp"
+    	    android:layout_marginRight="20dp"
+    	    android:layout_marginTop="20dp"
+    	    android:background="@drawable/common_blue_button"
+    	    android:text="@string/enroll"
+    	    android:textColor="@color/mt_white"
+    	    android:textSize="19sp" />
+    	
+    	<LinearLayout
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginTop="23dp"
+    	    android:layout_below="@id/detail_enroll"
+    	    android:orientation="horizontal" >
+
+    	    <TextView
+    	        android:id="@+id/detail_share"
+    	        android:layout_width="0dp"
+    	        android:layout_height="wrap_content"
+    	        android:layout_weight="1"
+    	        android:text="@string/detail_share"
+    	        android:gravity="center"
+    	        android:textColor="@color/mt_blue"
+    	        android:textSize="15sp" />
+    	    
+    	    <TextView
+    	        android:id="@+id/detail_comment"
+    	        android:layout_width="0dp"
+    	        android:layout_height="wrap_content"
+    	        android:layout_weight="1"
+    	        android:text="@string/detail_comment"
+    	        android:gravity="center"
+    	        android:textColor="@color/mt_blue"
+    	        android:textSize="15sp" />
+    	    
+    	</LinearLayout>
+    	
+        
+        <!-- <ImageView
             android:id="@+id/detail_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -170,7 +278,7 @@
             android:layout_below="@id/relative_conference_title"
             android:orientation="vertical" >
 
-       </LinearLayout>
+       </LinearLayout> -->
     </RelativeLayout>
 
 </ScrollView>

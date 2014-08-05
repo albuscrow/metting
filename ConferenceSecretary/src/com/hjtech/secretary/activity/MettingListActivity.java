@@ -1,5 +1,6 @@
 package com.hjtech.secretary.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -48,7 +49,7 @@ public class MettingListActivity extends BaseActivity {
 					adapter.setData((List<MTMetting>) result);
 				}
 			}
-		}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, null, DataProvider.TYPE_ALL);
+		}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, DataProvider.TIME_ALL);
 	}
 
 //	@Override
@@ -58,7 +59,7 @@ public class MettingListActivity extends BaseActivity {
 		
 		//init metting list
 		meetList = (PullToRefreshListView) findViewById(R.id.my_metting_list);
-		adapter = new MettingListAdapter(this);
+//		adapter = new MettingListAdapter(this);
 		meetList.setAdapter(adapter);
 		meetList.setOnPullEventListener(new OnPullEventListener<ListView>() {
 

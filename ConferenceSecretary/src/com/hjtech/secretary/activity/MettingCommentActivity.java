@@ -6,7 +6,6 @@ import com.hjtech.secretary.adapter.MettingCommentAdapter;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
-import com.hjtech.secretary.data.MTComment;
 import com.hjtech.secretary.data.MTCommentResult;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.MTCommon;
@@ -28,13 +27,12 @@ public class MettingCommentActivity extends BaseActivity {
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		initData();
-//		initUI(R.layout.activity_metting_comment, R.drawable.common_back, R.string.title_activity_comment);
+		initUI(R.layout.activity_metting_comment, R.string.title_activity_metting_details, R.string.title_activity_comment);
 	}
 	
-//	@Override
+	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
-		// TODO Auto-generated method stub
-//		super.initUI(layoutId, iconId, titleId);
+		super.initUI(layoutId, iconId, titleId);
 		setbackButton();
 		listView = (PullToRefreshListView) gv(R.id.metting_comment_list);
 		adapter = new MettingCommentAdapter(this);
@@ -62,6 +60,10 @@ public class MettingCommentActivity extends BaseActivity {
 					
 					@Override
 					public void onPostExecute(Object result) {
+						if (result == null) {
+							MTCommon.ShowToast("评论失败");
+							return;
+						}
 						MTSimpleResult sr = (MTSimpleResult) result;
 						if (sr.getResult() != 1) {
 							MTCommon.ShowToast("评论失败");

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="15dp"
     android:layout_height="match_parent" >
+    
+    
     <TextView 
         android:id="@+id/metting_name"
         android:layout_width="wrap_content"
@@ -84,5 +85,5 @@
        android:textColor="@color/red"
        android:contentDescription="@null"
        android:text="@string/metting_details" />
-    
+   
 </RelativeLayout>

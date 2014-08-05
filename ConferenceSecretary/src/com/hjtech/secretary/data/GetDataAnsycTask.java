@@ -59,7 +59,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 			switch (jsonTarget) {
 			case MEET_LIST:
 				type = new TypeToken<MTMettingListResult>(){}.getType();
-				result = DataProvider.getMeetList(type, (String)params[1],(Integer)params[2], (String)params[3], (Integer) params[4]);
+				result = DataProvider.getMettingList(type, (String)params[1],(Integer)params[2], (Integer) params[3]);
 				break;
 			case MY_MEET:
 				type = new TypeToken<MTMettingListResult>(){}.getType();
@@ -67,7 +67,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			case VERIFY_CODE:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
-				result = DataProvider.getVerifyCode(type,(String)params[1]);
+				result = DataProvider.getVerifyCode(type,(String)params[1], (Integer)params[2]);
 				break;
 			case VALIDATION:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
@@ -139,16 +139,16 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		}
 	};
 	
-	public void getMeetList(String account, int page, String sortOrder, int queryType){
-		this.execute(JsonTarget.MEET_LIST, account, page, sortOrder, queryType);
+	public void getMeetList(String account, int page, int queryType){
+		this.execute(JsonTarget.MEET_LIST, account, page, queryType);
 	}
 	
 	public void getMyMeet(String account, int page, int statusType){
 		this.execute(JsonTarget.MY_MEET, account, page, statusType);
 	}
 
-	public void getVerifyCode(String phone) {
-		this.execute(JsonTarget.VERIFY_CODE,phone);
+	public void getVerifyCode(String phone, Integer type) {
+		this.execute(JsonTarget.VERIFY_CODE,phone, type);
 	}
 	
 	public void Validation(String phone, String vCode){

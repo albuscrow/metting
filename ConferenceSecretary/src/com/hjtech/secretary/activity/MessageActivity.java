@@ -22,7 +22,7 @@ public class MessageActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		initUI(R.layout.activity_message, R.drawable.common_back,R.string.title_activity_message);
+		initUI(R.layout.activity_message, R.drawable.common_back,R.string.title_activity_message);
 		initData();
 	}
 
@@ -60,6 +60,6 @@ public class MessageActivity extends BaseActivity {
 		listView = (PullToRefreshListView) gv(R.id.message_list);
 		adapter = new MessageAdapter(this);
 		listView.setAdapter(adapter);
-		
+		adapter.setData(data);
 	}
 }

@@ -3,25 +3,17 @@ package com.hjtech.secretary.adapter;
 import java.util.List;
 
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.activity.MessageActivity;
-import com.hjtech.secretary.activity.MettingCommentActivity;
-import com.hjtech.secretary.activity.MyMettingActivity;
-import com.hjtech.secretary.common.MettingApplication;
-import com.hjtech.secretary.data.MTComment;
+import com.hjtech.secretary.activity.BaseActivity;
 import com.hjtech.secretary.data.MTMessage;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class MessageAdapter extends BaseAdapter implements ListAdapter {
-	private MessageActivity activity;
+	private BaseActivity activity;
 	public void setData(List<MTMessage> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
@@ -29,7 +21,7 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
 
 	private List<MTMessage> data;
 
-	public MessageAdapter(MessageActivity activity) {
+	public MessageAdapter(BaseActivity activity) {
 		this.activity = activity;
 	}
 	

@@ -5,14 +5,15 @@ import com.hjtech.secretary.R;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class AboutActivity extends Activity {
+public class AboutActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initUI();
+		initUI(R.layout.activity_about, R.string.home_about);
 	}
 
-	private void initUI() {
-		this.setContentView(R.layout.activity_about);
+	protected void initUI(int layoutId, int titleId) {
+		super.initUI(layoutId, titleId);
 	}
+
 }

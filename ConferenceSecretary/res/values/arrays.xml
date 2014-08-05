@@ -10,4 +10,11 @@
         <item >已签到</item>
         <item >所有</item>
     </string-array>
+    
+    <string-array name="metting_list_title_strip">
+        <item >今日</item>
+        <item >本周</item>
+        <item >本月</item>
+        <item >全部</item>
+    </string-array>
 </resources>

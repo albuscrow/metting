@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mt_white"
+    android:drawableLeft="@drawable/home_news"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:drawablePadding="5dp"
+    android:paddingTop="5dp"
+    android:textColor="@color/mt_text_6"
+    android:textSize="15sp" >
+
+</TextView>

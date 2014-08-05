@@ -27,6 +27,8 @@ public class NetUtils {
 	private static final String GET_DATA_SUCCESS = "get data success";
 	private static final String GET_DATA_FAILED = "get data failed";
 	
+	private static final boolean DEBUG_FLAG = true;
+	
 	/**
 	 * 失败返回null
 	 * @param params
@@ -42,11 +44,12 @@ public class NetUtils {
 			post.setEntity(new UrlEncodedFormEntity(httpParams,HTTP.UTF_8));
 			HttpConnectionParams.setConnectionTimeout(new BasicHttpParams(), WAIT_TIME);
 			HttpResponse response = MySSLSocketFactory.getDefaultHttpClient().execute(post);
-			System.out.println(response.getStatusLine().getStatusCode());
 			if (response.getStatusLine().getStatusCode() == GET_RESPONSE_SUCCESSCODE) {
 				result = EntityUtils.toString(response.getEntity());
 			}
-			System.out.println(result);
+			if (DEBUG_FLAG) {
+				System.out.println(result);
+			}
 			Log.i(TAG, GET_DATA_SUCCESS);
 		} catch (Exception e) {
 			Log.e(TAG, GET_DATA_FAILED);

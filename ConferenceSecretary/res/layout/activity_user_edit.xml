@@ -2,75 +2,100 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E7E7E7" >
+    android:background="@color/mt_home_bg"
+    android:padding="10dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:orientation="vertical" >
+        
+        <LinearLayout
+            android:id="@+id/edit_profile_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/person_up"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/user_edit_text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/person_profile" />
+            
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="3" >
+
+        	    <ImageView
+        	        android:id="@+id/personal_imageview"
+        	        android:layout_width="50dp"
+        	        android:layout_height="50dp"
+        	        android:contentDescription="@null"
+        	        android:scaleType="centerInside"
+        	        android:src="@drawable/ic_launcher" />
+
+			</LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/edit_name_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_header_bg"
+            android:layout_marginTop="1dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/person_middle"
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/edit_anchor_name"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/edit_name"
-                android:gravity="center"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                android:text="@string/edit_name" />
 
             <EditText
                 android:id="@+id/edit_name_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:inputType="text"
-                android:lines="1"
-                android:text="张三"
-                android:textSize="17sp" />
+                android:text="张三" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/edit_nickname_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_middle_bg"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/edit_anchor_nickname"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/edit_nick"
-                android:gravity="center"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                android:text="@string/edit_nick" />
 
             <EditText
                 android:id="@+id/edit_nickname_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:inputType="text"
-                android:lines="1"
-                android:text="张三"
-                android:textSize="17sp" />
+                android:text="张三" />
 
             
         </LinearLayout>
@@ -78,156 +103,153 @@
         <LinearLayout
             android:id="@+id/edit_password_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_middle_bg"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants"
+            android:focusable="true"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/edit_anchor_password"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/edit_password"
-                android:gravity="center"
-                android:textColor="#888888"
-                android:textSize="17sp" />
-           
+                android:text="@string/edit_password" />
 
-            <EditText
+            <TextView
                 android:id="@+id/edit_password_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
-                android:inputType="textPassword"
-                android:lines="1"
-                android:text="123456"
-                android:textSize="17sp" />
+                android:layout_weight="3"
+                android:text="立即修改" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/edit_sex_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_middle_bg"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/edit_anchor_sex"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/edit_gender"
-                android:gravity="center"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                android:text="@string/edit_gender"/>
            
-            
-
             <EditText
                 android:id="@+id/edit_gender"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:inputType="text"
                 android:lines="1"
-                android:text="男"
-                android:textSize="17sp" />
+                android:text="男" />
 
         </LinearLayout>
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:background="@drawable/edit_layout_white_footer_bg"
+            android:layout_marginTop="1dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/person_down"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/edit_anchor_phonenum"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/edit_phone"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                android:text="@string/personal_phone" />
            
             <TextView
                	android:id="@+id/edit_phone" 
+               	style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:lines="1"
-                android:text="13667607523"
-                android:textSize="17sp" />
+                android:text="13667607523" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/edit_company_buuton"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:background="@drawable/edit_layout_white_header_bg"
+            android:background="@drawable/person_up"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/edit_anchor_company"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/edit_unit"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                android:text="@string/edit_unit" />
             
             <EditText
                 android:id="@+id/edit_company_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:ellipsize="end"
                 android:inputType="text"
-                android:text="杭州华舰信息技术有限公司"
-                android:textSize="17sp" />
+                android:text="杭州华舰信息技术有限公司" />
             
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/edit_department_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_middle_bg"
+            android:gravity="center_vertical"
+            android:background="@drawable/person_middle"
             android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="0dp"
+                style="@style/user_edit_text1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/edit_department"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                android:text="@string/edit_department" />
   
             <EditText
                 android:id="@+id/edit_department_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:inputType="text"
@@ -239,9 +261,11 @@
         <LinearLayout
             android:id="@+id/edit_post_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_footer"
+            android:gravity="center_vertical"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_down"
             android:orientation="horizontal" >
 
             <TextView
@@ -250,118 +274,121 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/edit_position"
-                android:textColor="#888888"
-                android:textSize="17sp" />
+                style="@style/user_edit_text1"
+                android:text="@string/edit_position"/>
   
             <EditText
                 android:id="@+id/edit_position_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:inputType="text"
                 android:lines="1"
                 android:text="软件工程师" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/edit_qq_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/edit_layout_white_header_bg"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/edit_anchor_qq"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/edit_qq"
-                android:textSize="17sp" 
-                android:textColor="#888888" />
-            
-            <EditText
-                android:id="@+id/edit_qq_textview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="5"
-                android:inputType="number"
-                android:lines="1"
-                android:text="850900229"
-                android:textSize="17sp" />
-
-        </LinearLayout>
         
-        <LinearLayout
-            android:id="@+id/edit_email_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_middle_bg"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/edit_anchor_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/edit_email"
-                android:textSize="17sp" 
-                android:textColor="#888888" />
-            
-            <EditText
-                android:id="@+id/edit_email_textview"
-                android:inputType="textEmailAddress"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="5"
-                android:lines="1"
-                android:text="850900229@qq.com" />
-
-        </LinearLayout>
         
         <LinearLayout
             android:id="@+id/edit_weixin_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_layout_white_footer_bg"
+            android:gravity="center_vertical"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/person_up"
             android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/edit_anchor_weixin"
+                style="@style/user_edit_text1"
                 android:layout_width="0dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:textSize="17sp"
-                android:text="@string/edit_weixin"
-                android:textColor="#888888" />
+                android:text="@string/edit_weixin"/>
 
             <EditText
                 android:id="@+id/edit_weixin_textview"
+                style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="5"
+                android:layout_weight="3"
                 android:inputType="text"
                 android:lines="1"
-                android:text="ying6ying" />
+                android:text="ying6ying"/>
 
         </LinearLayout>
+        
+        
+        <LinearLayout
+            android:id="@+id/edit_email_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/edit_anchor_email"
+                style="@style/user_edit_text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/edit_email"/>
+            
+            <EditText
+                android:id="@+id/edit_email_textview"
+                style="@style/user_edit_text2"
+                android:inputType="textEmailAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="3"
+                android:lines="1"
+                android:text="850900229@qq.com" />
+
+        </LinearLayout>
+                <LinearLayout
+            android:id="@+id/edit_qq_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/person_down"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/edit_anchor_qq"
+                style="@style/user_edit_text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/edit_qq" />
+            
+            <EditText
+                android:id="@+id/edit_qq_textview"
+                style="@style/user_edit_text2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="3"
+                android:inputType="number"
+                android:lines="1"
+                android:text="850900229"/>
+
+        </LinearLayout>
+        
+
+        
 
         
     </LinearLayout>

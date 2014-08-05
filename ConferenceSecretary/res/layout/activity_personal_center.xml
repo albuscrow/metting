@@ -1,131 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/mt_home_bg"
+    android:padding="10dp" >
 
-    <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
+        android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/personal_imageview"
-            android:layout_width="60dp"
-            android:contentDescription="@null"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_launcher" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/person_up"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-        <TextView
-            android:id="@+id/anchor_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/personal_imageview"
-            android:text="@string/personal_name" />
+            <TextView
+                android:id="@+id/person_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/person_profile"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/personal_user_name_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/anchor_user_name"
-            android:layout_toRightOf="@id/anchor_user_name" />
+            <ImageView
+                android:id="@+id/personal_imageview"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_launcher" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/anchor_base_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/anchor_user_name"
-            android:layout_below="@id/anchor_user_name"
-            android:layout_marginTop="10dp"
-            android:text="@string/personal_base_info" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-        <TextView
-            android:id="@+id/personal_base_info_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/anchor_base_info"
-            android:layout_toRightOf="@id/anchor_base_info"
-            android:ellipsize="end"
-            android:lines="4"
-            android:maxEms="8"
-            android:minEms="8" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_account"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/anchor_received_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/anchor_base_info"
-            android:layout_below="@id/personal_base_info_textview"
-            android:layout_marginTop="30dp"
-            android:text="@string/personal_received_message" />
+            <TextView
+                android:id="@+id/personal_account_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/mt_text_inf"
+                android:textSize="20sp" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/personal_received_message_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/anchor_received_message"
-            android:layout_toRightOf="@id/anchor_received_message"
-            android:textColor="#BB0000" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-        <TextView
-            android:id="@+id/anchor_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/anchor_received_message"
-            android:layout_below="@id/anchor_received_message"
-            android:layout_marginTop="20dp"
-            android:text="@string/personal_collect_metting" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_unit"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/personal_collect_metting_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/anchor_favorite"
-            android:layout_toRightOf="@id/anchor_favorite"
-            android:textColor="#BB0000" />
+            <TextView
+                android:id="@+id/personal_unit_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/mt_text_inf"
+                android:layout_centerVertical="true"
+                android:textSize="20sp" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/anchor_taked_conference"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/anchor_favorite"
-            android:layout_below="@id/anchor_favorite"
-            android:layout_marginTop="20dp"
-            android:text="@string/personal_enroll_metting" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-        <TextView
-            android:id="@+id/personal_enroll_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/anchor_taked_conference"
-            android:layout_toRightOf="@id/anchor_taked_conference"
-            android:textColor="#BB0000" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_name"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
 
-        <Button
+            <TextView
+                android:id="@+id/personal_user_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/mt_text_inf"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_middle"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_phone"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/personal_phone_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/mt_text_inf"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_down"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_email"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/personal_email_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/mt_text_inf"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/personal_banding_weibo_button"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:layout_below="@id/anchor_taked_conference"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/personal_button_weibo_bg"
-            android:paddingLeft="20dp"
-            android:text="@string/personal_banding_weibo"
-            android:textColor="#FFFFFF" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/person_single"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-        <Button
-            android:id="@+id/personal_banding_weixin_button"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:layout_below="@id/personal_banding_weibo_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/personal_button_weixin_bg"
-            android:paddingLeft="20dp"
-            android:text="@string/personal_banding_weixin"
-            android:textColor="#FFFFFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_weibo"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/personal_weibo_textview"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/mt_text_inf"
+                android:text="未绑定"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/person_up"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_enroll_metting"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/personal_enroll_textview"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/mt_blue"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/person_down"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_collect_metting"
+                android:textColor="@color/mt_text_6"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/personal_collect_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/mt_blue"
+                android:layout_alignParentRight="true"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>

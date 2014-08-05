@@ -45,10 +45,12 @@ public class DataProvider {
 	public static final String SORT_ORDER_DeSC = "desc";
 	
 	public static final String QUERY_TYPE = "type";
-	public static final int TYPE_ALL = 0;
-	public static final int TYPE_ALL_APPLIED = 1;
-	public static final int TYPE_ALL_UNAPPLIED = 2;
-	
+	public static final String TIME = "time";
+	public static final int TIME_TODAY = 1;
+	public static final int TIME_THIS_WEEK = 2;
+	public static final int TIME_MONTH = 3;
+	public static final int TIME_ALL = 0;
+
 	public static final String STATUS = "status";
 	public static final int STATUS_ALL = 0;
 	public static final int STATUS_ENROLL = 1;
@@ -78,9 +80,12 @@ public class DataProvider {
 	public static final String EMAIL = "email";
 	public static final String WEIXIN = "weixin";
 	public static final String COMMENT_CONTENT = "content";
+	public static final int V_TYPE_REGISTER = 1;
+	public static final int V_TYPE_FORGET = 2;
+	private static final String V_TYPE = "type";
 	
 	
-	static List<MTMetting> getMeetList(Type type,String account,int page, String sortOrder, int qType){
+	static List<MTMetting> getMettingList(Type type,String account,int page,int timeType){
 		Map<String, Object> params = genParems();
 		if (account == null) {
 			return null;
@@ -90,13 +95,11 @@ public class DataProvider {
 		
 		params.put(PAGE, page);
 		
-		if (sortOrder == null) {
-			sortOrder = SORT_ORDER_ASC;
-		}
-		params.put(SORT_ORDER, sortOrder);
+		//these parameter is deprecated
+		params.put(SORT_ORDER, SORT_ORDER_ASC);
+		params.put(QUERY_TYPE, 0);
 		
-		params.put(QUERY_TYPE, qType);
-		System.out.println("request url:" + METTING_LIST_URL);
+		params.put(TIME, timeType);
 		String json = NetUtils.getPostResult(params,METTING_LIST_URL);
 		MTMettingListResult result = null;
 		if (json != null) {
@@ -134,13 +137,13 @@ public class DataProvider {
 		return (List<MTMetting>) result.getDetails();
 	}
 	
-	public static Object getVerifyCode(Type type, String phone) {
+	public static Object getVerifyCode(Type type, String phone, int vType) {
 		Map<String, Object> params = genParems();
 		if (phone == null || phone.length() == 0) {
 			return -2;
 		}
 		params.put(PHONE, phone);
-		
+		params.put(V_TYPE, vType);
 		String json = NetUtils.getPostResult(params,VERIFY_CODE);
 		if (json == null) {
 			return null;
@@ -298,8 +301,7 @@ public class DataProvider {
 		return result;
 	}
 	
-	public static MTSimpleResult addComment(Type type, Long id, String account,
-			String content) {
+	public static Object addComment(Type type, Long id, String account, String content) {
 		Map<String, Object> params = genParems();
 		params.put(METTING_ID, id);
 		params.put(MU_ACCOUNT, account);
@@ -307,7 +309,7 @@ public class DataProvider {
 		
 		String json = NetUtils.getPostResult(params, ADD_COMMENT_URL);
 		if (json == null) {
-			return new MTSimpleResult();
+			return null;
 		}else{
 			return (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
 		}

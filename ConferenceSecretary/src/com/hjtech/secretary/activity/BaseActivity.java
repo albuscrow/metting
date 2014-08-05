@@ -1,13 +1,15 @@
 package com.hjtech.secretary.activity;
 
+import java.util.Stack;
+
 import com.hjtech.secretary.R;
+import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.utils.MTCommon;
 
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class BaseActivity extends FragmentActivity {
@@ -102,6 +104,10 @@ public class BaseActivity extends FragmentActivity {
 			}
 		});
 	}
+
+	protected void setRightClick(OnClickListener listener){
+		rightTextView.setOnClickListener(listener);
+	}
 	
 	protected View gv(int id){
 		return findViewById(id);
@@ -114,12 +120,23 @@ public class BaseActivity extends FragmentActivity {
 	protected void hideWaitBar(){
 		waitBar.setVisibility(View.GONE);
 	}
-
+	
 	public void setbackButtonForFragment() {
-		getSupportFragmentManager().popBackStack();
+
+		if (this instanceof MainActivity) {
+			leftText.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Stack<BaseFragment> backStack = ((MainActivity) BaseActivity.this).getBackStack();
+					if (backStack.size() > 0) {
+						BaseActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content, backStack.pop()).commit();
+					}else{
+						BaseActivity.this.finish();
+					}		
+				}
+			});
+		}
+		
 	}
-
-
-
 
 }

@@ -1,39 +1,39 @@
 package com.hjtech.secretary.fragment;
 
-
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.activity.LoginActivity;
-import com.hjtech.secretary.activity.RegisterActivity;
+import com.hjtech.secretary.activity.FindPasswordActivity;
+import com.hjtech.secretary.data.DataProvider;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.MTCommon;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-public class RegisterVerifyFragment extends Fragment{
+public class FindPasswordVerifyFragment extends BaseFragment {
+	
 	private EditText phoneView;
 	private Button verifyButton;
-	private View registerButton;
 	private EditText vcodeView;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_register_verify, null);
-		phoneView = (EditText) view.findViewById(R.id.register_tel_edittext);
-		vcodeView = (EditText) view.findViewById(R.id.register_verify_edittext);
-		verifyButton = (Button) view.findViewById(R.id.register_verifycode_button);
+		return initUI(inflater);
+	}
+	
+	private String phone;
+	private ViewGroup initUI(LayoutInflater inflater){
+		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_findpassword_verify, null);
+		
+		phoneView = (EditText) gv(R.id.register_tel_edittext);
+		vcodeView = (EditText) gv(R.id.register_verify_edittext);
+		verifyButton = (Button) gv(R.id.register_verifycode_button);
 		verifyButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -76,27 +76,28 @@ public class RegisterVerifyFragment extends Fragment{
 							break;
 						case 3:
 							MTCommon.ShowToast("该号码已经被注册，请直接用该号码登陆");
-							Intent intent = new Intent(getActivity(), LoginActivity.class);
-							intent.putExtra("account", phone);
-							getActivity().startActivity(intent);
 							break;
 
 						default:
 							break;
 						}
 					}
-
 					
-				}).getVerifyCode(phone);
+				}).getVerifyCode(phone, DataProvider.V_TYPE_FORGET);
 			}
 		});
 		
-		registerButton = view.findViewById(R.id.next_step_button);
-		registerButton.setOnClickListener(new OnClickListener() {
+		
+				gv(R.id.register_complete_button).setOnClickListener(new OnClickListener() {
 			
+
 			@Override
 			public void onClick(View v) {
-				final String phone = MTCommon.getContent(phoneView);
+				if (true) {
+					getFindPasswordActivity().next(phone);
+					return;
+				}
+				phone = MTCommon.getContent(phoneView);
 				if (phone == null) {
 					MTCommon.ShowToast("请输入手机号");
 					return;
@@ -119,7 +120,6 @@ public class RegisterVerifyFragment extends Fragment{
 					
 					@Override
 					public void onPreExecute() {
-						// TODO Auto-generated method stub
 						
 					}
 					
@@ -129,47 +129,52 @@ public class RegisterVerifyFragment extends Fragment{
 						int resultCode = (Integer) result;
 						switch (resultCode) {
 						case -1:
-							Toast.makeText(getActivity(), "验证不通过，非法用户", Toast.LENGTH_SHORT).show();
+							MTCommon.ShowToast("验证不通过，非法用户");
 							break;
 						case 0:
-							Toast.makeText(getActivity(), "获取失败，服务器内部错误", Toast.LENGTH_SHORT).show();
+							MTCommon.ShowToast("获取失败，服务器内部错误");
 							break;
 						case 1:
-							Toast.makeText(getActivity(), "验证成功", Toast.LENGTH_SHORT).show();
-							((RegisterActivity)getActivity()).next(phone);
+							MTCommon.ShowToast("验证成功");
+							getFindPasswordActivity().next(phone);
 							break;
 						case 2:
-							Toast.makeText(getActivity(), "提交参数错误", Toast.LENGTH_SHORT).show();
+							MTCommon.ShowToast("提交参数错误");
 							break;
 						case 3:
-							Toast.makeText(getActivity(), "验证码失效，请重新获取", Toast.LENGTH_SHORT).show();
+							MTCommon.ShowToast("验证码失效，请重新获取");
 							break;
 						case 4:
-							Toast.makeText(getActivity(), "验证码错误", Toast.LENGTH_SHORT).show();
+							MTCommon.ShowToast("验证码错误");
 							break;
 						default:
 							break;
 						}
 					}
+
 				}).Validation(phone, vcode);
 			}
 		});
-		return view;
+		
+		return rootView;
 	}
-	private void changeButton() {
+	
+	private FindPasswordActivity getFindPasswordActivity() {
+		return (FindPasswordActivity) getBaseActivity();
+	}
+	
+		private void changeButton() {
 		verifyButton.setEnabled(false);
 		new Thread(){
 			
 			private int time;
 
 			public void run() {
-				FragmentActivity activity = getActivity();
 				
-				time = 5;
+				time = 30;
 				while (true) {
-					activity = getActivity();
-					if (activity != null) {
-						activity.runOnUiThread(new Runnable() {
+					if (getBaseActivity() != null) {
+						getBaseActivity().runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
 								verifyButton.setText("请等候" + time +"秒...");
@@ -186,9 +191,8 @@ public class RegisterVerifyFragment extends Fragment{
 					}
 				}
 
-				activity = getActivity();
-				if (activity != null) {
-					activity.runOnUiThread(new Runnable() {
+				if (getBaseActivity() != null) {
+					getBaseActivity().runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
@@ -201,5 +205,4 @@ public class RegisterVerifyFragment extends Fragment{
 			}
 		}.start();
 	}
-	
 }

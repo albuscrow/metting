@@ -5,6 +5,7 @@ import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.listener.NewActivityListener;
 import com.hjtech.secretary.utils.MTCommon;
 
 import android.os.Bundle;
@@ -17,7 +18,7 @@ public class EditUserInfActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		initUI(R.layout.activity_user_edit, R.string.title_activity_personal, R.string.title_activity_user_edit, 0);
+		initUI(R.layout.activity_user_edit, R.string.title_activity_personal, R.string.title_activity_user_edit, R.string.complete);
 	}
 	
 	@Override
@@ -25,11 +26,7 @@ public class EditUserInfActivity extends BaseActivity {
 		super.initUI(layoutId, backId, titleId, rightId);
 		setbackButton();
 		
-		Button complete = (Button)gv(R.id.rightView);
-		complete.setVisibility(View.VISIBLE);
-		complete.setText("完成");
-		complete.setVisibility(View.VISIBLE);
-		complete.setOnClickListener(new OnClickListener() {
+		setRightClick(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -90,12 +87,12 @@ public class EditUserInfActivity extends BaseActivity {
 					return;
 				}
 				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-					
+
 					@Override
 					public void onPreExecute() {
-						
+
 					}
-					
+
 					@Override
 					public void onPostExecute(Object result) {
 						if (result == null) {
@@ -113,6 +110,7 @@ public class EditUserInfActivity extends BaseActivity {
 						name, nickName, sex_int, unit, position, department, qq, email, weixin);
 			}
 		});
-				
+		
+		gv(R.id.edit_password_button).setOnClickListener(new NewActivityListener(this, ModifyPasswordActivity.class));
 	}
 }

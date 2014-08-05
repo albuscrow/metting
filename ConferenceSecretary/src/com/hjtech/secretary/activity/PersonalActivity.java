@@ -12,20 +12,15 @@ import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class PersonalActivity extends BaseActivity implements WeiboAuthListener {
@@ -43,14 +38,16 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 	
 	private IWXAPI api;
 
-	private Button weibo;
+	private RelativeLayout weibo;
+
+	private TextView weiboText;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initAuth();
 		initData();
-//		initUI(R.layout.activity_personal_center, R.drawable.common_back, R.string.title_activity_personal);
+		initUI(R.layout.activity_personal_center, R.string.back, R.string.title_activity_personal, R.string.title_activity_user_edit);
 	}
 
 	
@@ -60,39 +57,12 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		regToWx();
 	}
 	
-	private static final String SDCARD_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath();
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data); 
 		if (mSsoHandler != null) { 
 			mSsoHandler.authorizeCallBack(requestCode, resultCode, data); 
 		} 
-				switch (requestCode) {
-
-		case 0x101: {
-//			final WXAppExtendObject appdata = new WXAppExtendObject();
-//			final String path = CameraUtil.getResultPhotoPath(this, data, SDCARD_ROOT + "/tencent/");
-//			appdata.filePath = path;
-//			appdata.extInfo = "this is ext info";
-//
-//			final WXMediaMessage msg = new WXMediaMessage();
-//			msg.setThumbImage(WeixinUtil.extractThumbNail(path, 150, 150, true));
-//			msg.title = "this is title";
-//			msg.description = "this is description";
-//			msg.mediaObject = appdata;
-//
-//			SendMessageToWX.Req req = new SendMessageToWX.Req();
-//			req.transaction = buildTransaction("appdata");
-//			req.message = msg;
-//			req.scene = isTimelineCb.isChecked() ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
-//			api.sendReq(req);
-
-//			finish();
-			break;
-		}
-		default:
-			break;
-		}
 	}
 
 	private void initData() {
@@ -100,13 +70,10 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		
 	}
 
-//	@Override
-	protected void initUI(int layoutId, int iconId, int titleId) {
-//		super.initUI(layoutId, iconId, titleId);
-		Button edit = (Button)gv(R.id.rightView);
-		edit.setVisibility(View.VISIBLE);
-		edit.setText("编辑");
-		edit.setOnClickListener(new OnClickListener() {
+	@Override
+	protected void initUI(int layoutId, int iconId, int titleId, int rightId) {
+		super.initUI(layoutId, iconId, titleId, rightId);
+		setRightClick(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -116,12 +83,11 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		});
 		setbackButton();
 		((TextView)gv(R.id.personal_user_name_textview)).setText(user.getMuName());
-		((TextView)gv(R.id.personal_base_info_textview)).setText("简介未完");
-		((TextView)gv(R.id.personal_collect_metting_textview)).setText("2未完");
-		((TextView)gv(R.id.personal_received_message_textview)).setText("1未完");
+		((TextView)gv(R.id.personal_collect_textview)).setText("2未完");
 		((TextView)gv(R.id.personal_enroll_textview)).setText("3未完");
 		
-		weibo = (Button) gv(R.id.personal_banding_weibo_button);
+		weiboText = (TextView) gv(R.id.personal_weibo_textview);
+		weibo = (RelativeLayout) gv(R.id.personal_banding_weibo_button);
 		weibo.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -132,18 +98,9 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		
 		Oauth2AccessToken token = AccessTokenKeeper.readAccessToken(this);
 		if (token != null && token.isSessionValid()) {
-			weibo.setText("微博已绑定"); 
+			weiboText.setText("已绑定"); 
 			weibo.setEnabled(false);
 		}
-		
-		gv(R.id.personal_banding_weixin_button).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				//TODO
-				MTCommon.ShowToast("绑定要申请支付成功以后才能用，很麻烦");
-			}
-		});
 		
 	}
 	
@@ -163,7 +120,7 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 			// 保存 Token 到 SharedPreferences
 			AccessTokenKeeper.writeAccessToken(this, mAccessToken);
 			MTCommon.ShowToast(getResources().getString(R.string.auth_success));
-			weibo.setText("微博已绑定"); 
+			weiboText.setText("已绑定"); 
 			weibo.setEnabled(false);
 		} else {
 			// 以下几种情况，您会收到 Code：

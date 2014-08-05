@@ -13,13 +13,10 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.adapter.MTPagerAdatper;
 import com.hjtech.secretary.adapter.MyMettingAdapter;
-import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.DataProvider;
-import com.hjtech.secretary.data.GetDataAnsycTask;
-import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
-import com.hjtech.secretary.utils.MTCommon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -29,13 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class MyMettingFragment extends BaseFragment {
+	public static final int SIGNAL = 10;
 	
-	private List<PullToRefreshListView> mettingLists = new ArrayList<PullToRefreshListView>();
+	private List<LinearLayout> mettingLists = new ArrayList<LinearLayout>();
 	private List<MyMettingAdapter> adapters = new ArrayList<MyMettingAdapter>();
-	private int currentStatus = DataProvider.STATUS_ENROLL;
+	private MTPagerAdatper myPagerAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,93 +55,65 @@ public class MyMettingFragment extends BaseFragment {
 	
 	protected ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
-		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my_metting, null);
+		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_metting_list, null);
 		
 		PagerTabStrip mPagerTabStrip=(PagerTabStrip) gv(R.id.pagertab);
         //设置导航条的颜色
-        mPagerTabStrip.setTabIndicatorColorResource(R.color.mt_blue);
-        mPagerTabStrip.setDrawFullUnderline(false);
+        mPagerTabStrip.setTabIndicatorColorResource(R.color.mt_blue_press);
         
         ViewPager mViewPager = (ViewPager) gv(R.id.my_metting_viewpager);
         //添加数据
-        String[] titles = getResources().getStringArray(R.array.my_metting_title_strip);
-        List<PullToRefreshListView> data = getPagerViewData();
-        mViewPager.setAdapter(new MTPagerAdatper(data, titles));
+        if (myPagerAdapter == null) {
+        	String[] titles = getResources().getStringArray(R.array.my_metting_title_strip);
+        	List<LinearLayout> data = getPagerViewData();
+        	myPagerAdapter = new MTPagerAdatper(data, titles, adapters);
+		}else{
+			myPagerAdapter.init(getMainActivity());
+		}
+		mViewPager.setAdapter(myPagerAdapter);
         mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override
 			public void onPageSelected(int arg0) {
-				adapters.get(arg0).getData();
+				MyMettingAdapter adapter = adapters.get(arg0);
+				if (adapter.getData() == null) {
+					adapter.initData();
+				}
 			}
 			
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
-        adapters.get(0).getData();
-		//init metting list
-//		mettingList = (PullToRefreshListView) gv(R.id.my_metting_list);
-//		adapter = new MyMettingAdapter(this);
-//		mettingList.setAdapter(adapter);
-//		mettingList.setOnPullEventListener(new OnPullEventListener<ListView>() {
-//			@Override
-//			public void onPullEvent(PullToRefreshBase<ListView> refreshView,
-//					State state, Mode direction) {
-//				getData();
-//			}
-//		});
-//		
-//		mettingList.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
-//
-//			@Override
-//			public void onLastItemVisible() {
-//				appendData();
-//			}
-//
-//			
-//		});
-//		mettingList.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-////				Intent intent = new Intent(getMainActivity(), MettingDetailsActivity.class);
-////				intent.putExtra("metting",(MTMetting)parent.getAdapter().getItem(position));
-////				MyMettingActivity.this.startActivity(intent);
-//			}
-//		});
-		
+        adapters.get(0).initData();
+        
+        //set tab
+//        getMainActivity().chooseTab(MainActivity.TAB_MY_METTIN_INDEX);
 		return rootView;
-		
-		//init button
-//		gv(R.id.my_meet_all_button).setOnClickListener(this);
-//		View applyButton = gv(R.id.my_meet_apply_button);
-//		applyButton.setOnClickListener(this);
-//		changeStatus(applyButton, DataProvider.STATUS_ENROLL);
-//		gv(R.id.my_meet_signin_button).setOnClickListener(this);
 	}
 	
 	public static final int TOTAL_PAGER = 3;
 	private static final int[] STATUS_LIST = new int[]{DataProvider.STATUS_ENROLL, DataProvider.STATUS_SIGNIN, DataProvider.STATUS_ALL};
-	private List<PullToRefreshListView> getPagerViewData() {
+	private List<LinearLayout> getPagerViewData() {
+		mettingLists.clear();
+		adapters.clear();
 		LayoutInflater inflater = getMainActivity().getLayoutInflater();
 		for (int i = 0; i < TOTAL_PAGER; ++i) {
-			PullToRefreshListView list = (PullToRefreshListView) inflater.inflate(R.layout.pagerview_item_metting_list, null);
+			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.pagerview_item_metting_list, null);
 			final MyMettingAdapter adapter = new MyMettingAdapter(this, STATUS_LIST[i]);
+			PullToRefreshListView list = (PullToRefreshListView) layout.findViewById(R.id.my_metting_list);
 			list.setAdapter(adapter);
 			list.setOnPullEventListener(new OnPullEventListener<ListView>() {
 				@Override
 				public void onPullEvent(PullToRefreshBase<ListView> refreshView,
 						State state, Mode direction) {
-					adapter.getData();
+					adapter.initData();
 				}
 			});
 			
@@ -150,7 +121,7 @@ public class MyMettingFragment extends BaseFragment {
 	
 				@Override
 				public void onLastItemVisible() {
-					adapter.appendData();
+					adapter.getMoreData();
 				}
 	
 				
@@ -160,12 +131,12 @@ public class MyMettingFragment extends BaseFragment {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
-//					Intent intent = new Intent(getMainActivity(), MettingDetailsActivity.class);
-//					intent.putExtra("metting",(MTMetting)parent.getAdapter().getItem(position));
-//					MyMettingActivity.this.startActivity(intent);
+					Intent intent = new Intent();
+					intent.putExtra("metting",(MTMetting)parent.getAdapter().getItem(position));
+					getMainActivity().switchFragment(MTFragmentFactory.METTING_DETAILS, intent, true);
 				}
 			});
-			mettingLists.add(list);
+			mettingLists.add(layout);
 			adapters.add(adapter);
 		}
 		return mettingLists;

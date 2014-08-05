@@ -1,25 +1,37 @@
 package com.hjtech.secretary.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hjtech.secretary.R;
+import com.hjtech.secretary.activity.BaseActivity;
 
-import android.R.string;
-import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 
 public class MTPagerAdatper extends PagerAdapter {
-	List<PullToRefreshListView> data;
+	List<LinearLayout> data;
 	String[] titles;
+	private List<?> adapters;
 	
-	public MTPagerAdatper(List<PullToRefreshListView> data, String[] titles) {
+	public void init(BaseActivity activity) {
+		if (data != null && data.size() != 0) {
+			container.removeAllViews();
+			for (Object pl : adapters) {
+				if (pl instanceof MyMettingAdapter) {
+					((MyMettingAdapter)pl).setActivity(activity);
+				}else if (pl instanceof MettingListAdapter) {
+					((MettingListAdapter)pl).setActivity(activity);
+				}
+			}
+		}
+	}
+	
+	public MTPagerAdatper(List<LinearLayout> data, String[] titles, List<?> adapters) {
 		this.data = data;
 		this.titles = titles;
+		this.adapters = adapters;
 	}
 
 	@Override
@@ -39,13 +51,18 @@ public class MTPagerAdatper extends PagerAdapter {
 	
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return titles[position];
+		if (position < data.size()) {
+			return titles[position];
+		}
+		return null;
 	}
 	
+	public ViewGroup container;
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
-		PullToRefreshListView view = data.get(position);
+		LinearLayout view = data.get(position);
 		container.addView(view);
+		this.container = container;
 		return view;
 	}
 

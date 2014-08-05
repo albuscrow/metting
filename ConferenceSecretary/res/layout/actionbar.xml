@@ -2,33 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mt_action_bar_gray" >
+    android:background="@color/mt_actionbar_bg" >
     
     <TextView
         android:id="@+id/back_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:drawableLeft="@drawable/common_back"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:gravity="center"
+        android:textColor="@color/mt_text_6"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/titlebar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_centerInParent="true"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textColor="@color/mt_text_0"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/rightView"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true" />
+        android:gravity="center"
+        android:textColor="@color/mt_text_6"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

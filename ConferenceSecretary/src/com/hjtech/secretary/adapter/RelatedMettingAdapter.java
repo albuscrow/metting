@@ -3,7 +3,7 @@ package com.hjtech.secretary.adapter;
 import java.util.List;
 
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.activity.MettingDetailsActivity;
+import com.hjtech.secretary.activity.BaseActivity;
 import com.hjtech.secretary.data.MTMetting;
 
 import android.view.View;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class RelatedMettingAdapter extends BaseAdapter {
 
-	private MettingDetailsActivity activity;
+	private BaseActivity activity;
 
 	private List<MTMetting> data;
 	
@@ -22,7 +22,7 @@ public class RelatedMettingAdapter extends BaseAdapter {
 		this.notifyDataSetChanged();
 	}
 	
-	public RelatedMettingAdapter(MettingDetailsActivity activity) {
+	public RelatedMettingAdapter(BaseActivity activity) {
 		this.activity = activity;
 	}
 	

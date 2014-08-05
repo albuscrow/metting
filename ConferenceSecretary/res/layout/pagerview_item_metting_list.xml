@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.handmark.pulltorefresh.library.PullToRefreshListView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/my_metting_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@id/my_meet_screen"
-    android:divider="@color/list_background"
-    android:dividerHeight="20dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:scrollbars="none"
-    ptr:ptrAnimationStyle="flip"
-    ptr:ptrHeaderSubTextColor="@android:color/black"
-    ptr:ptrHeaderTextColor="@android:color/black" />
+    android:orientation="vertical" >
 
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/my_metting_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="0dp"
+        android:footerDividersEnabled="true"
+        android:scrollbars="none"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@android:color/black"
+        ptr:ptrHeaderTextColor="@android:color/black" />
+
+</LinearLayout>

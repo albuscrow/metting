@@ -102,8 +102,9 @@ public class MTMetting implements java.io.Serializable {
 		this.isEnroll = isEnroll;
 	}
 	public String getMmAddress() {
-		return "会议地点"+mmAddress;
+		return mmAddress;
 	}
+	
 	public void setMmAddress(String mmAddress) {
 		this.mmAddress = mmAddress;
 	}
@@ -112,9 +113,9 @@ public class MTMetting implements java.io.Serializable {
 	}
 	public String getMmFreeTypeStr() {
 		if (mmFreeType == 0) {
-			return "免费会议";
+			return "免费";
 		}else{
-			return "收费会议";
+			return "收费";
 		}
 	}
 	public void setMmFreeType(int mmFreeType) {
@@ -142,7 +143,7 @@ public class MTMetting implements java.io.Serializable {
 		this.memberRtt = memberRtt;
 	}
 	public String getTime() {
-		return mmStartdate + "-" + mmEndtime;
+		return mmStartdate.substring(0,11) + "－" + mmEndtime.substring(0,11);
 	}
 	public String getMmStartdate() {
 		return mmStartdate;
@@ -240,6 +241,11 @@ public class MTMetting implements java.io.Serializable {
 	}
 	public void setMmStatus(int mmStatus) {
 		this.mmStatus = mmStatus;
+	}
+	public CharSequence getTimeForDetail() {
+		return mmStartdate.substring(0, 4) + "年"
+				+ mmStartdate.substring(5,7) + "月"
+				+ mmStartdate.substring(8, 10) + "日";
 	}
 	
 	

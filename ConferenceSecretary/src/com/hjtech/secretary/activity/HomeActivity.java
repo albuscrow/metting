@@ -1,8 +1,5 @@
 package com.hjtech.secretary.activity;
 
-import uk.co.jasonfry.android.tools.ui.PageControl;
-import uk.co.jasonfry.android.tools.ui.SwipeView;
-import uk.co.jasonfry.android.tools.ui.SwipeView.OnPageChangedListener;
 import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
@@ -17,27 +14,21 @@ import com.hjtech.secretary.utils.MTCommon;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 
-public class HomeActivity extends BaseActivity implements OnItemClickListener
-{
-	private long lExitTime;
-	
-	SwipeView mSwipeView;
-	
-	int[] images;
+public class HomeActivity extends BaseActivity implements OnItemClickListener {
+	private long lExitTime = 0;
+
+	private static final int SIGNIN = 10;
+	private ViewFlipper newsFlipper;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		initUI(R.layout.activity_home, R.string.title_activity_home);
@@ -47,122 +38,26 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 	protected void initUI(int layoutId, int textId) {
 		super.initUI(layoutId, textId);
 		
-		//init swipe view
-		PageControl mPageControl = (PageControl) findViewById(R.id.page_control);
-        mSwipeView = (SwipeView) findViewById(R.id.swipe_view);
-
-        loadImages();
-        
-        for(int i=0; i<7;i++)
-        {
-        	mSwipeView.addView(new FrameLayout(this));
-        }
-        
-        ImageView i0 = new ImageView(this);
-        ImageView i1 = new ImageView(this);
-        i0.setImageResource(images[0]);
-        i1.setImageResource(images[1]);
-        
-        ((FrameLayout) mSwipeView.getChildContainer().getChildAt(0)).addView(i0);
-        ((FrameLayout) mSwipeView.getChildContainer().getChildAt(1)).addView(i1);
-        
-        SwipeImageLoader mSwipeImageLoader = new SwipeImageLoader();
-        
-        mSwipeView.setOnPageChangedListener(mSwipeImageLoader);
-        
-        mSwipeView.setPageControl(mPageControl);
-        
-        
         //init main menu
         GridView gridView = (GridView) findViewById(R.id.shape_menu);
 		gridView.setAdapter(new PersonalCenterAdatper(this));
 		gridView.setOnItemClickListener(this);
-	}
-
-	private class SwipeImageLoader implements OnPageChangedListener
-	{
-
-		public void onPageChanged(int oldPage, int newPage) 
-		{
-			if(newPage > oldPage)//going forwards
-			{
-				if(newPage != (mSwipeView.getPageCount() - 1))//if at the end, don't load one page after the end
-				{
-					ImageView v = new ImageView(HomeActivity.this);
-					v.setImageResource(images[newPage+1]);
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage+1)).addView(v);
-				}
-				if(oldPage != 0)//if at the beginning, don't destroy one before the beginning
-				{
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(oldPage-1)).removeAllViews();
-				}
-			}
-			else //going backwards
-			{
-				if(newPage != 0)//if at the beginning, don't load one before the beginning
-				{
-					ImageView v = new ImageView(HomeActivity.this);
-					v.setImageResource(images[newPage-1]);
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage-1)).addView(v);
-				}
-				if(oldPage != (mSwipeView.getPageCount()-1))//if at the end, don't destroy one page after the end
-				{
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(oldPage+1)).removeAllViews();
-				}
-			}
-
+		
+		newsFlipper = (ViewFlipper) gv(R.id.home_news);
+		for (int i = 0; i < 3; ++i) {
+			TextView tx = (TextView) getLayoutInflater().inflate(R.layout.news_text_view, newsFlipper, false);
+			tx.setText("nihao");
+			newsFlipper.addView(tx);
 		}
-
+		
 	}
 
-	private void loadImages()
-	{
-		//Not the most elegant way to do this, but it does enough for demo purposes...
-
-		//The images are not actually being loaded into memory, but the resources 
-		//ids are being put in a format that can be dealt with easily
-
-		images = new int[25];
-		images[0] = R.drawable.main_image001;
-		images[1] = R.drawable.main_image002;
-		images[2] = R.drawable.main_image003;
-		images[3] = R.drawable.main_image004;
-		images[4] = R.drawable.main_image005;
-		images[5] = R.drawable.main_image006;
-		images[6] = R.drawable.main_image007;
-
-	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		getMenuInflater().inflate(R.menu.activity_home, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		super.onOptionsItemSelected(item);
-
-		switch (item.getItemId())
-		{
-		case R.id.home_menu_exit:
-			this.finish();
-			break;
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-	{
-		if (keyCode == KeyEvent.KEYCODE_BACK)
-		{
-			if ((System.currentTimeMillis() - lExitTime) > 2000)
-			{
-				Toast.makeText(this, getText(R.string.home_exit_warning), Toast.LENGTH_SHORT).show();
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if ((System.currentTimeMillis() - lExitTime) > 2000) {
+				MTCommon.ShowToast(getText(R.string.home_exit_warning));
 				lExitTime = System.currentTimeMillis();
 			} else {
 				finish();
@@ -180,20 +75,22 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 		switch (arg2) {
 		case 0:
 			intent = new Intent(this, MainActivity.class);
-			intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
+			intent.putExtra("UIType", MTFragmentFactory.METTING_LIST);
 			break;
 		case 1:
-			intent = new Intent(this, MettingListActivity.class);
+			intent = new Intent(this, MainActivity.class);
+			intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
 			break;
 		case 2:
 			intent = new Intent(this, CaptureActivity.class);
-			startActivityForResult(intent, MyMettingActivity.SIGNIN);
+			startActivityForResult(intent, SIGNIN);
 			return;
 		case 3:
 			intent = new Intent(this, PersonalActivity.class);
 			break;
 		case 4:
-			intent = new Intent(this, MessageActivity.class);
+			intent = new Intent(this, MainActivity.class);
+			intent.putExtra("UIType", MTFragmentFactory.MESSAGE);
 			break;
 		case 5:
 			intent = new Intent(this, AboutActivity.class);
@@ -209,10 +106,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener
 	
 	
 	protected void onActivityResult(int request, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-
+		if (resultCode == RESULT_OK && request == SIGNIN) {
 			String result = data.getStringExtra("result");
-			System.out.println(result);
 			//TODO temp
 			result = "1";
 			long id = Long.parseLong(result);

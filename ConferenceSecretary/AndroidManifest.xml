@@ -78,7 +78,10 @@
         </activity>
         <activity android:name="com.hjtech.secretary.activity.AboutActivity" >
         </activity>
-        <activity android:name="com.hjtech.secretary.activity.RegisterActivity" >
+        <activity android:name="com.hjtech.secretary.activity.FindPasswordActivity" >
+        </activity>
+        <activity android:name="com.hjtech.secretary.activity.RegisterActivity"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name="com.hjtech.secretary.activity.LoginActivity"
@@ -100,7 +103,10 @@
         <activity
             android:name="com.hjtech.secretary.activity.MainActivity"
             android:screenOrientation="portrait" >
-			            
+        </activity>
+        <activity
+            android:name="com.hjtech.secretary.activity.ModifyPasswordActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.hjtech.secretary.activity.InviteActivity"

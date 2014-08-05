@@ -3,9 +3,15 @@ package com.hjtech.secretary.adapter;
 import java.util.List;
 
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.activity.MettingDetailsActivity;
-import com.hjtech.secretary.activity.MettingListActivity;
+import com.hjtech.secretary.activity.BaseActivity;
+import com.hjtech.secretary.activity.MainActivity;
+import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
+import com.hjtech.secretary.fragment.BaseFragment;
+import com.hjtech.secretary.fragment.MTFragmentFactory;
+import com.hjtech.secretary.utils.MTCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Intent;
@@ -19,16 +25,23 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class MettingListAdapter extends BaseAdapter implements ListAdapter {
-	private MettingListActivity activity;
+	private BaseActivity activity;
+	private int currentPageNum = 0;
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
+	
+	public List<MTMetting> getData(){
+		return data;
+	}
 
 	private List<MTMetting> data;
+	private int status;
 
-	public MettingListAdapter(MettingListActivity myMeetActivity) {
-		this.activity = myMeetActivity;
+	public MettingListAdapter(BaseFragment fragment,int status) {
+		this.activity = fragment.getBaseActivity();
+		this.status = status;
 	}
 	
 
@@ -88,9 +101,9 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 				
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(MettingListAdapter.this.activity, MettingDetailsActivity.class);
+					Intent intent = new Intent();
 					intent.putExtra("metting", (MTMetting)v.getTag());
-					MettingListAdapter.this.activity.startActivity(intent);
+					((MainActivity)activity).switchFragment(MTFragmentFactory.METTING_DETAILS, intent, true);
 				}
 			});
 			convertView.setTag(viewHold);
@@ -111,5 +124,67 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		
 		return convertView;
 	}
+	
+	
+	
+	public void appendData(List<MTMetting> result) {
+		this.data.addAll(result);
+		this.notifyDataSetChanged();
+	}
+	
+	Boolean canInit = true;
+	public void initData() {
+		if (canInit) {
+			synchronized (canInit) {
+				if (canInit) {
+					canInit = false;
+					new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+						@Override
+						public void onPreExecute() {
+							//				showWaitBar();
+						}
+
+						@Override
+						public void onPostExecute(Object result) {
+							if (result == null) {
+								MTCommon.ShowToast("获取会议数据失败！");
+							}else{
+								setData((List<MTMetting>) result);
+							}
+							//				hideWaitBar();
+							canInit = true;
+						}
+					}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, status);				
+				}
+			}
+		}
+
+	}
+
+	public void getMoreData() {
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+			@Override
+			public void onPreExecute() {
+				//				showWaitBar();
+			}
+
+			@Override
+			public void onPostExecute(Object result) {
+				if (result == null) {
+					MTCommon.ShowToast("获取会议数据失败！");
+				}else{
+					appendData((List<MTMetting>) result);
+				}
+				//				hideWaitBar();
+			}
+		}).getMeetList(MTUserManager.getUser().getMuAccount(), ++currentPageNum, status);
+	}
+
+	public void setActivity(BaseActivity activity) {
+		this.activity = activity;
+	}
+
 
 }
