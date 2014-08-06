@@ -40,11 +40,11 @@ public class EditUserInfActivity extends BaseActivity {
 					MTCommon.ShowToast("请输入昵称");
 					return;
 				}
-				String newPassword = MTCommon.getContent((EditText) gv(R.id.edit_password_textview));
-				if (newPassword == null) {
-					MTCommon.ShowToast("密码");
-					return;
-				}
+//				String newPassword = MTCommon.getContent((EditText) gv(R.id.edit_password_textview));
+//				if (newPassword == null) {
+//					MTCommon.ShowToast("密码");
+//					return;
+//				}
 				String sex = MTCommon.getContent((EditText) gv(R.id.edit_gender));
 				if (sex == null) {
 					MTCommon.ShowToast("请输入性别");
@@ -106,7 +106,7 @@ public class EditUserInfActivity extends BaseActivity {
 							MTCommon.ShowToast("修改失败");
 						}
 					}
-				}).modifyUserInf(MTUserManager.getUser().getMuAccount(), MTUserManager.getUser().getMuPassword(), newPassword,
+				}).modifyUserInf(MTUserManager.getUser().getMuAccount(), MTUserManager.getUser().getMuPassword(), MTUserManager.getUser().getMuPassword(),
 						name, nickName, sex_int, unit, position, department, qq, email, weixin);
 			}
 		});

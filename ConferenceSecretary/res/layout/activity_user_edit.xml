@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mt_home_bg"
-    android:padding="10dp" >
+    android:padding="13dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/edit_profile_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:gravity="center_vertical"
             android:background="@drawable/person_up"
             android:orientation="horizontal" >
@@ -29,12 +29,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3" >
+                android:layout_weight="2.5" >
 
         	    <ImageView
         	        android:id="@+id/personal_imageview"
-        	        android:layout_width="50dp"
-        	        android:layout_height="50dp"
+        	        android:layout_width="41dp"
+        	        android:layout_height="41dp"
         	        android:contentDescription="@null"
         	        android:scaleType="centerInside"
         	        android:src="@drawable/ic_launcher" />
@@ -46,7 +46,7 @@
             android:id="@+id/edit_name_button"
             android:layout_width="match_parent"
             android:layout_marginTop="1dp"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:gravity="center_vertical"
             android:background="@drawable/person_middle"
             android:orientation="horizontal" >
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:inputType="text"
                 android:text="张三" />
 
@@ -73,7 +73,7 @@
         <LinearLayout
             android:id="@+id/edit_nickname_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/person_middle"
             android:gravity="center_vertical"
@@ -93,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:inputType="text"
                 android:text="张三" />
 
@@ -103,7 +103,7 @@
         <LinearLayout
             android:id="@+id/edit_password_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="1dp"
             android:background="@drawable/person_middle"
@@ -128,7 +128,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:text="立即修改" />
 
         </LinearLayout>
@@ -136,7 +136,7 @@
         <LinearLayout
             android:id="@+id/edit_sex_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="1dp"
             android:background="@drawable/person_middle"
@@ -158,7 +158,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:inputType="text"
                 android:lines="1"
                 android:text="男" />
@@ -167,7 +167,7 @@
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="1dp"
             android:gravity="center_vertical"
@@ -189,7 +189,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:lines="1"
                 android:text="13667607523" />
 
@@ -198,7 +198,7 @@
         <LinearLayout
             android:id="@+id/edit_company_buuton"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:background="@drawable/person_up"
@@ -220,7 +220,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:ellipsize="end"
                 android:inputType="text"
                 android:text="杭州华舰信息技术有限公司" />
@@ -230,7 +230,7 @@
         <LinearLayout
             android:id="@+id/edit_department_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_marginTop="1dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical"
@@ -249,7 +249,7 @@
                 android:id="@+id/edit_department_textview"
                 style="@style/user_edit_text2"
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:inputType="text"
@@ -261,7 +261,7 @@
         <LinearLayout
             android:id="@+id/edit_post_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical"
             android:layout_marginTop="1dp"
@@ -283,7 +283,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:inputType="text"
                 android:lines="1"
                 android:text="软件工程师" />
@@ -294,7 +294,7 @@
         <LinearLayout
             android:id="@+id/edit_weixin_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical"
             android:layout_marginTop="15dp"
@@ -316,7 +316,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:inputType="text"
                 android:lines="1"
                 android:text="ying6ying"/>
@@ -327,7 +327,7 @@
         <LinearLayout
             android:id="@+id/edit_email_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="1dp"
             android:background="@drawable/person_middle"
@@ -350,7 +350,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:lines="1"
                 android:text="850900229@qq.com" />
 
@@ -358,7 +358,7 @@
                 <LinearLayout
             android:id="@+id/edit_qq_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="1dp"
             android:gravity="center_vertical"
@@ -380,7 +380,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="3"
+                android:layout_weight="2.5"
                 android:inputType="number"
                 android:lines="1"
                 android:text="850900229"/>

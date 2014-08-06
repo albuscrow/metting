@@ -243,7 +243,7 @@ public class MTMetting implements java.io.Serializable {
 		this.mmStatus = mmStatus;
 	}
 	public CharSequence getTimeForDetail() {
-		return mmStartdate.substring(0, 4) + "年"
+		return "会议时间：" + mmStartdate.substring(0, 4) + "年"
 				+ mmStartdate.substring(5,7) + "月"
 				+ mmStartdate.substring(8, 10) + "日";
 	}

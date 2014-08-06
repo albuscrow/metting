@@ -2,6 +2,8 @@ package com.hjtech.secretary.adapter;
 
 import java.util.List;
 
+import cn.hugo.android.scanner.CaptureActivity;
+
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.BaseActivity;
 import com.hjtech.secretary.activity.MainActivity;
@@ -10,7 +12,7 @@ import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.fragment.BaseFragment;
-import com.hjtech.secretary.fragment.MTFragmentFactory;
+import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.utils.MTCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -20,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -52,6 +55,7 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		}
 		return data.size();
 	}
+
 	@Override
 	public Object getItem(int position) {
 		if (data != null) {
@@ -70,17 +74,20 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 			return -1l;
 		}
 	}
-
 	
 	class ViewHold{
+		public TextView mettingTimeYear;
+		public TextView mettingTimeMonth;
+		public TextView mettingTimeDay;
+		public TextView mettingTimeWeek;
+		
 		public TextView mettingName;
-		public TextView mettingStatus;
-		public ImageView mettingPicture;
-		public TextView mettingTime;
-		public TextView mettingIsFree;
+		public TextView mettingDuringTime;
 		public TextView mettingAddress;
-		public TextView mettingRestriction;
-		public Button mettingDetails; 
+		public TextView mettingFeeAndRes;
+		
+		public ImageButton mettingSignin; 
+		public ImageView mettingStatus;
 	}
 
 	@Override
@@ -90,22 +97,20 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 			convertView = activity.getLayoutInflater().inflate(R.layout.adapter_item_metting_list, null);
 			viewHold = new ViewHold();
 			viewHold.mettingName = (TextView) convertView.findViewById(R.id.metting_name);
-			viewHold.mettingStatus = (TextView) convertView.findViewById(R.id.metting_status);
-			viewHold.mettingPicture = (ImageView) convertView.findViewById(R.id.metting_picture);
-			viewHold.mettingTime = (TextView) convertView.findViewById(R.id.metting_time);
-			viewHold.mettingIsFree = (TextView) convertView.findViewById(R.id.metting_free);
-			viewHold.mettingRestriction = (TextView) convertView.findViewById(R.id.metting_restriction);
+			viewHold.mettingDuringTime = (TextView) convertView.findViewById(R.id.metting_during_time);
 			viewHold.mettingAddress = (TextView) convertView.findViewById(R.id.metting_address);
-			viewHold.mettingDetails = (Button) convertView.findViewById(R.id.metting_detail);
-			viewHold.mettingDetails.setOnClickListener(new OnClickListener() {
+			viewHold.mettingFeeAndRes = (TextView) convertView.findViewById(R.id.metting_free_restriction);
+			viewHold.mettingStatus = (ImageView) convertView.findViewById(R.id.metting_status);
+			viewHold.mettingSignin = (ImageButton) convertView.findViewById(R.id.metting_signin);
+			viewHold.mettingSignin.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent();
-					intent.putExtra("metting", (MTMetting)v.getTag());
-					((MainActivity)activity).switchFragment(MTFragmentFactory.METTING_DETAILS, intent, true);
+					Intent intent = new Intent(activity, CaptureActivity.class);
+					activity.startActivityForResult(intent, MyMettingFragment.SIGNAL);
 				}
 			});
+			
 			convertView.setTag(viewHold);
 		}else{
 			viewHold = (ViewHold) convertView.getTag();
@@ -113,20 +118,20 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		
 		MTMetting metting = (MTMetting) getItem(position);
 		
-		viewHold.mettingTime.setText(metting.getTime());
 		viewHold.mettingName.setText(metting.getMmTitle());
-		viewHold.mettingStatus.setText(metting.getIsEnrollStr());
-		viewHold.mettingIsFree.setText(metting.getMmFreeTypeStr());
-		viewHold.mettingRestriction.setText(metting.getMemberRtt());
-		viewHold.mettingAddress.setText(metting.getMmAddress());
-		ImageLoader.getInstance().displayImage(metting.getMmLogo(), viewHold.mettingPicture);
-		viewHold.mettingDetails.setTag(metting);
-		
+		viewHold.mettingDuringTime.setText(String.format(activity.getResources().getString(R.string.metting_time),metting.getTime()));
+		viewHold.mettingAddress.setText(String.format(activity.getResources().getString(R.string.metting_place),metting.getMmAddress()));
+		viewHold.mettingFeeAndRes.setText(String.format(activity.getResources().getString(R.string.metting_fee_and_res),metting.getMmFreeTypeStr(),metting.getMemberRttForDetail()));
+		if (metting.getIsEnroll() == MTMetting.ENROLL) {
+			viewHold.mettingSignin.setVisibility(View.VISIBLE);
+		}else{
+//			viewHold.mettingSignin.setVisibility(View.GONE);
+			viewHold.mettingSignin.setVisibility(View.VISIBLE);
+		}
 		return convertView;
 	}
-	
-	
-	
+
+
 	public void appendData(List<MTMetting> result) {
 		this.data.addAll(result);
 		this.notifyDataSetChanged();
@@ -155,7 +160,7 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 							//				hideWaitBar();
 							canInit = true;
 						}
-					}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, status);				
+					}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);				
 				}
 			}
 		}
@@ -179,12 +184,10 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 				}
 				//				hideWaitBar();
 			}
-		}).getMeetList(MTUserManager.getUser().getMuAccount(), ++currentPageNum, status);
+		}).getMyMeet(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
 	public void setActivity(BaseActivity activity) {
 		this.activity = activity;
 	}
-
-
 }

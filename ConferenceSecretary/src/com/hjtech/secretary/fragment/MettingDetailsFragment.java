@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 public class MettingDetailsFragment extends BaseFragment implements OnClickListener {
@@ -31,7 +32,7 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 //	private LinearLayout relatedMettingLayout;
 	
 	SwipeView mSwipeView;
-	int[] images = new int[]{R.drawable.home_picture,R.drawable.home_picture,R.drawable.home_picture,R.drawable.home_picture};
+	int[] images = new int[]{R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1};
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -49,10 +50,9 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 			@Override
 			public void onClick(View v) {
 				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-
+					
 					@Override
 					public void onPreExecute() {
-						// TODO Auto-generated method stub
 
 					}
 
@@ -72,6 +72,8 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 						case 3:
 							MTCommon.ShowToast("会员不存在");
 							break;
+						case 5:
+							MTCommon.ShowToast("该会议已收藏过");
 						default:
 							break;
 						}
@@ -111,8 +113,11 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 
 		ImageView i0 = new ImageView(getBaseActivity());
 		ImageView i1 = new ImageView(getBaseActivity());
+		
 		i0.setImageResource(images[0]);
 		i1.setImageResource(images[1]);
+		i0.setScaleType(ScaleType.FIT_XY);
+		i1.setScaleType(ScaleType.FIT_XY);
 
 		((FrameLayout) mSwipeView.getChildContainer().getChildAt(0)).addView(i0);
 		((FrameLayout) mSwipeView.getChildContainer().getChildAt(1)).addView(i1);
@@ -153,6 +158,7 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 				if(newPage != (mSwipeView.getPageCount() - 1)) {
 					ImageView v = new ImageView(getBaseActivity());
 					v.setImageResource(images[newPage+1]);
+					v.setScaleType(ScaleType.FIT_XY);
 					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage+1)).addView(v);
 				}
 				//if at the beginning, don't destroy one before the beginning
@@ -164,6 +170,7 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 				if(newPage != 0) {
 					ImageView v = new ImageView(getBaseActivity());
 					v.setImageResource(images[newPage-1]);
+					v.setScaleType(ScaleType.FIT_XY);
 					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage-1)).addView(v);
 				}
 				//if at the end, don't destroy one page after the end

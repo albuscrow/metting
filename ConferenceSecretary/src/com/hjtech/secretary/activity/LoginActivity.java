@@ -29,12 +29,12 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		initUI(R.layout.activity_login, R.string.title_activity_login);
+		initUIWithoutActionBar(R.layout.activity_login);
 	}
 	
 	@Override
-	protected void initUI(int layoutId, int titleId) {
-		super.initUI(layoutId, titleId);
+	protected void initUIWithoutActionBar(int layoutId) {
+		super.initUIWithoutActionBar(layoutId);
 		
 		gv(R.id.login_register_text).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
 		SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);

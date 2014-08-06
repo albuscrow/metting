@@ -139,11 +139,9 @@ public class DataProvider {
 	
 	public static Object getVerifyCode(Type type, String phone, int vType) {
 		Map<String, Object> params = genParems();
-		if (phone == null || phone.length() == 0) {
-			return -2;
-		}
 		params.put(PHONE, phone);
 		params.put(V_TYPE, vType);
+		System.out.println(vType);
 		String json = NetUtils.getPostResult(params,VERIFY_CODE);
 		if (json == null) {
 			return null;

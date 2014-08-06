@@ -27,17 +27,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class MettingListFragment extends BaseFragment {
 	
 	private List<LinearLayout> mettingLists = new ArrayList<LinearLayout>();
-	private List<MyMettingAdapter> adapters = new ArrayList<MyMettingAdapter>();
+	private List<MettingListAdapter> adapters = new ArrayList<MettingListAdapter>();
 	private MTPagerAdatper myPagerAdapter;
 	private View stripe;
 	private int currentPage = 0;
@@ -59,7 +61,6 @@ public class MettingListFragment extends BaseFragment {
 	}
 	
 	
-	@SuppressLint("NewApi")
 	protected ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
 		currentPage = 0;
@@ -69,7 +70,7 @@ public class MettingListFragment extends BaseFragment {
         //设置导航条的颜色
 //        mPagerTabStrip.setTabIndicatorColorResource(R.color.mt_blue);
         
-        ViewPager mViewPager = (ViewPager) gv(R.id.my_metting_viewpager);
+        final ViewPager mViewPager = (ViewPager) gv(R.id.my_metting_viewpager);
         //添加数据
         if (myPagerAdapter == null) {
         	String[] titles = getResources().getStringArray(R.array.metting_list_title_strip);
@@ -81,9 +82,12 @@ public class MettingListFragment extends BaseFragment {
         stripe = gv(R.id.stripe);
         stripe.post(new Runnable() {
 			public void run() {
-				int startPosition = AppConfig.SCREENWIDTH/8 - stripe.getWidth() / 2;
+				LayoutParams layoutParams = (LayoutParams) stripe.getLayoutParams();
+				layoutParams.width = AppConfig.SCREENWIDTH/4;
+				int startPosition = AppConfig.SCREENWIDTH/8 - layoutParams.width / 2;
 				stripe.setTag(startPosition);
-				stripe.setX(startPosition + currentPage * AppConfig.SCREENWIDTH/4);
+				layoutParams.leftMargin = (startPosition + currentPage * AppConfig.SCREENWIDTH/4);
+				stripe.setLayoutParams(layoutParams);
 			}
 		});
 		mViewPager.setAdapter(myPagerAdapter);
@@ -92,7 +96,7 @@ public class MettingListFragment extends BaseFragment {
 
 			@Override
 			public void onPageSelected(int arg0) {
-				MyMettingAdapter adapter = adapters.get(arg0);
+				MettingListAdapter adapter = adapters.get(arg0);
 				if (adapter.getData() == null) {
 					adapter.initData();
 				}
@@ -103,7 +107,9 @@ public class MettingListFragment extends BaseFragment {
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				float x = (arg0 + arg1)*(AppConfig.SCREENWIDTH/4*3) / 3 + (Integer) stripe.getTag();
-				stripe.setX(x);
+				LayoutParams layoutParams = (LayoutParams) stripe.getLayoutParams();
+				layoutParams.leftMargin = (int) x;
+				stripe.setLayoutParams(layoutParams);
 			}
 			
 			@Override
@@ -113,6 +119,16 @@ public class MettingListFragment extends BaseFragment {
 		});
         adapters.get(0).initData();
         changeStripText(currentPage);
+        for (int i = 0 ; i < stripeText.length; ++i) {
+        	final int index = i;
+			((TextView)gv(stripeText[i])).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					mViewPager.setCurrentItem(index);
+				}
+			});;
+		}
         //set tab
 //        getMainActivity().chooseTab(MainActivity.TAB_METTIN_LIST_INDEX);
 		return rootView;
@@ -141,7 +157,7 @@ public class MettingListFragment extends BaseFragment {
 		for (int i = 0; i < TOTAL_PAGER; ++i) {
 			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.pagerview_item_metting_list, null);
 			PullToRefreshListView list = (PullToRefreshListView) layout.findViewById(R.id.my_metting_list);
-			final MyMettingAdapter adapter = new MyMettingAdapter(this, STATUS_LIST[i]);
+			final MettingListAdapter adapter = new MettingListAdapter(this, STATUS_LIST[i]);
 			list.setAdapter(adapter);
 			list.setOnPullEventListener(new OnPullEventListener<ListView>() {
 				@Override

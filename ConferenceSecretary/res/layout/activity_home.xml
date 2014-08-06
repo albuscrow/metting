@@ -5,26 +5,11 @@
     android:orientation="vertical"
     android:background="@color/mt_bg"
     tools:context=".ui.HomeActivity" >
-
-    <!-- <uk.co.jasonfry.android.tools.ui.SwipeView
-        android:id="@+id/swipe_view"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <uk.co.jasonfry.android.tools.ui.PageControl
-        android:id="@+id/page_control"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_alignBottom="@id/swipe_view"
-        android:orientation="horizontal" />
- -->    
  
  <ImageView
      android:id="@+id/home_picture"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:layout_marginTop="10dp"
      android:contentDescription="@null"
      android:scaleType="fitXY"
      android:src="@drawable/home_picture" />
@@ -53,7 +38,8 @@
         android:paddingTop="15dp"
         android:text="@string/home_phone"
         android:textColor="@color/mt_text_3"
-        android:textSize="20sp" />
+        android:textSize="14sp" />
+    
     
     <GridView
         android:id="@+id/shape_menu"
@@ -70,5 +56,10 @@
 
     </GridView>
 
+    <View 
+        android:layout_width="match_parent"
+        android:layout_alignBottom="@id/shape_menu"
+        android:layout_height="2dp"
+        android:background="#aaaaaa"/>
 
 </RelativeLayout>

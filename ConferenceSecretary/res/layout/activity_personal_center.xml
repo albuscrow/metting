@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mt_home_bg"
-    android:padding="10dp" >
+    android:padding="13dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,39 +12,37 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="15dp"
             android:background="@drawable/person_up"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:paddingLeft="15dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp" >
 
             <TextView
-                android:id="@+id/person_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/person_profile"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/personal_imageview"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
                 android:contentDescription="@null"
-                android:scaleType="centerInside"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_launcher" />
         </RelativeLayout>
 
         <RelativeLayout
+            style="@style/person_padding"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@drawable/person_middle"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:background="@drawable/person_middle" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +50,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_account"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_account_textview"
@@ -61,16 +59,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textColor="@color/mt_text_inf"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
+            style="@style/person_padding"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@drawable/person_middle"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:background="@drawable/person_middle" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,25 +75,25 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_unit"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_unit_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/mt_text_inf"
                 android:layout_centerVertical="true"
-                android:textSize="20sp" />
+                android:textColor="@color/mt_text_inf"
+                android:textSize="16sp" />
+
         </RelativeLayout>
 
         <RelativeLayout
+            style="@style/person_padding"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@drawable/person_middle"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:background="@drawable/person_middle">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,7 +101,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_name"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_user_name_textview"
@@ -113,16 +110,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textColor="@color/mt_text_inf"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@drawable/person_middle"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            style="@style/person_padding"
+            android:background="@drawable/person_middle">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -130,7 +126,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_phone"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_phone_textview"
@@ -139,16 +135,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textColor="@color/mt_text_inf"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@drawable/person_down"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            style="@style/person_padding" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -156,7 +151,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_email"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_email_textview"
@@ -165,17 +160,16 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/mt_text_inf"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/personal_banding_weibo_button"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/person_single"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            style="@style/person_padding" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,7 +177,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_weibo"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_weibo_textview"
@@ -193,16 +187,15 @@
                 android:layout_alignParentRight="true"
                 android:textColor="@color/mt_text_inf"
                 android:text="未绑定"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/person_up"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            style="@style/person_padding" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -210,7 +203,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_enroll_metting"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_enroll_textview"
@@ -219,16 +212,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/mt_blue"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@drawable/person_down"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            style="@style/person_padding" >
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -236,7 +229,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/personal_collect_metting"
                 android:textColor="@color/mt_text_6"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/personal_collect_textview"
@@ -245,7 +238,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/mt_blue"
                 android:layout_alignParentRight="true"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -58,7 +58,7 @@ public class PersonalCenterAdatper extends BaseAdapter {
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
 		item.setCompoundDrawables(null,drawable, null, null);
 		item.setText(menuItemText[position]);
-		AbsListView.LayoutParams params = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/2);
+		AbsListView.LayoutParams params = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/2 - 3);
 		view.setLayoutParams(params);
 		return view;
 	}

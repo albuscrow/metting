@@ -61,6 +61,11 @@ public class BaseActivity extends FragmentActivity {
 		
 		waitBar = findViewById(R.id.common_wait);
 	}
+	protected void initUIWithoutActionBar(int layoutId) {
+		// init title bar
+		setContentView(layoutId);
+		waitBar = findViewById(R.id.common_wait);
+	}
 	
 	
 	public void changeTitle(int StringId){
