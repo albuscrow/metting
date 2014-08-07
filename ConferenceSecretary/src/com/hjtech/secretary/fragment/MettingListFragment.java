@@ -11,18 +11,14 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.MainActivity;
-import com.hjtech.secretary.activity.MettingListActivity;
 import com.hjtech.secretary.adapter.MTPagerAdatper;
 import com.hjtech.secretary.adapter.MettingListAdapter;
-import com.hjtech.secretary.adapter.MyMettingAdapter;
 import com.hjtech.secretary.common.AppConfig;
 import com.hjtech.secretary.data.DataProvider;
 import com.hjtech.secretary.data.MTMetting;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -66,9 +62,6 @@ public class MettingListFragment extends BaseFragment {
 		currentPage = 0;
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_metting_list, null);
 		
-//		PagerTabStrip mPagerTabStrip=(PagerTabStrip) gv(R.id.pagertab);
-        //设置导航条的颜色
-//        mPagerTabStrip.setTabIndicatorColorResource(R.color.mt_blue);
         
         final ViewPager mViewPager = (ViewPager) gv(R.id.my_metting_viewpager);
         //添加数据
@@ -129,8 +122,7 @@ public class MettingListFragment extends BaseFragment {
 				}
 			});;
 		}
-        //set tab
-//        getMainActivity().chooseTab(MainActivity.TAB_METTIN_LIST_INDEX);
+
 		return rootView;
 	}
 	
@@ -144,10 +136,6 @@ public class MettingListFragment extends BaseFragment {
 	}
 
 	public static final int TOTAL_PAGER = 4;
-	public static final int TODAY = 0;
-	public static final int THIS_WEEK = 1;
-	public static final int THIS_MONTH = 2;
-	public static final int ALL = 3;
 	private static final int[] STATUS_LIST = new int[]{DataProvider.TIME_TODAY, DataProvider.TIME_THIS_WEEK, DataProvider.TIME_MONTH, DataProvider.TIME_ALL};
 
 	private List<LinearLayout> getPagerViewData() {
@@ -173,7 +161,6 @@ public class MettingListFragment extends BaseFragment {
 				public void onLastItemVisible() {
 					adapter.getMoreData();
 				}
-	
 				
 			});
 			list.setOnItemClickListener(new OnItemClickListener() {

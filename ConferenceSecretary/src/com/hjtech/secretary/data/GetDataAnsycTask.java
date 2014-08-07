@@ -10,8 +10,10 @@ import com.hjtech.secretary.R.string;
 import com.hjtech.secretary.activity.MettingListActivity;
 import com.hjtech.secretary.common.AppConfig;
 import com.hjtech.secretary.utils.JsonTarget;
+import com.hjtech.secretary.utils.MTCommon;
 
 import android.R.integer;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
@@ -55,7 +57,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		jsonTarget = (JsonTarget) params[0];
 		Type type;
 		Object result = null;
-		if (AppConfig.isWifiConnect()) {
+		if (AppConfig.isNetConnect()) {
 			switch (jsonTarget) {
 			case MEET_LIST:
 				type = new TypeToken<MTMettingListResult>(){}.getType();
@@ -75,7 +77,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			case REGISTER:
 				type = new TypeToken<MTUserResult>(){}.getType();
-				result = DataProvider.register(type,(String)params[1],(String) params[2],(String) params[3],(String) params[4]);
+				result = DataProvider.register(type,(String)params[1],(String) params[2],(String) params[3],(String) params[4],(String) params[5]);
 				break;
 			case LOGIN:
 				type = new TypeToken<MTUserResult>(){}.getType();
@@ -87,7 +89,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			case COLLECT:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
-				result = DataProvider.collectMetting(type,(Long)params[1],(String)params[2]);
+				result = DataProvider.collectMetting(type,(Long)params[1],(String)params[2], (Integer) params[3]);
 				break;
 			case ENROLL:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
@@ -121,14 +123,26 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			case EDIT_USERINF:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
-				result = DataProvider.modifyUser(type, (String) params[1], (String) params[2], (String) params[3], (String) params[4], (String) params[5],
-						(Integer)params[6], (String) params[7], (String) params[8], (String) params[9], (String) params[10], (String) params[11], (String) params[12]);
-				
+				result = DataProvider.modifyUser(type, (MTUser) params[1]);
+				break;
+			case FORGET_PASSWORD:
+				type = new TypeToken<MTSimpleResult>(){}.getType();
+				result = DataProvider.forgetPassword(type, (String) params[1], (String) params[2], (String) params[3]);
+				break;
+			case MODIFY_PASSWORD:
+				type = new TypeToken<MTSimpleResult>(){}.getType();
+				result = DataProvider.modifyPassword(type, (String) params[1], (String) params[2], (String) params[3]);
+				break;
+			case SHARE:
+				type = new TypeToken<MTSimpleResult>(){}.getType();
+				result = DataProvider.share(type, (String) params[1], (Long) params[2], (Integer) params[3]);
 				break;
 			default:
 				Log.e(TAG, TYPE_NOT_SUPPORTED);
 				break;
 			}
+		}else{
+			MTCommon.ShowToast("无法链接到网络，请检查网络链接");
 		}
 		return result;
 	}
@@ -155,9 +169,9 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.VALIDATION, phone, vCode);
 	}
 
-	public void register(String account, String name, String nickName,
-			String password) {
-		this.execute(JsonTarget.REGISTER, account, name, nickName, password);
+	public void register(String account, String name,
+			String password, String email, String unit) {
+		this.execute(JsonTarget.REGISTER, account, name, password, email, unit);
 	}
 
 	public void login(String account, String pwd) {
@@ -168,8 +182,8 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.METTING_DETAILS, id);
 	}
 
-	public void colloctMetting(Long id, String Account) {
-		this.execute(JsonTarget.COLLECT, id, Account);
+	public void colloctMetting(Long id, String Account, int opt) {
+		this.execute(JsonTarget.COLLECT, id, Account, opt);
 	}
 
 	public void enroll(long id, String account, String name, String mobile, String company, String postion, String weixin) {
@@ -197,11 +211,23 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.SIGNIN, id, muAccount);
 	}
 
-	public void modifyUserInf(String muAccount, String muPassword,
-			String newPassword, String name, String nickName, int sex,
-			String unit, String position, String department, String qq,
-			String email, String weixin) {
-		this.execute(JsonTarget.EDIT_USERINF, muAccount, muPassword, newPassword, name,
-				nickName, sex, unit, position,department, qq, email, weixin);
+
+	public void modifyUserInf(MTUser user) {
+		this.execute(JsonTarget.EDIT_USERINF, user);
 	}
+
+	public void forgetPassword(String phone, String passwordStr, String vcode) {
+		this.execute(JsonTarget.FORGET_PASSWORD, phone, passwordStr, vcode);
+	}
+	
+
+	public void modifyPassword(String muAccount, String old, String newP) {
+		this.execute(JsonTarget.MODIFY_PASSWORD, muAccount, old, newP);
+	}
+
+	public void addShareLog(String muAccount, Long mmId, int type) {
+		this.execute(JsonTarget.SHARE, muAccount, mmId, type);
+	}
+
+
 }

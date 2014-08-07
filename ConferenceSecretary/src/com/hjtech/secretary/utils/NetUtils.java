@@ -1,16 +1,28 @@
 package com.hjtech.secretary.utils;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
@@ -59,6 +71,35 @@ public class NetUtils {
 		return result;
 	}
 	
+	public static int post(HashMap<String, Object> hashMap, String account, File file, String urlServer)  
+			throws Exception {  
+		MultipartEntity mpEntity = new MultipartEntity(); // 文件传输  
+		ContentBody cbFile = new FileBody(file);  
+		mpEntity.addPart("file", cbFile); 
+		ContentBody accountBody = new StringBody(account);
+		mpEntity.addPart("phone", accountBody);
+		for (String key : hashMap.keySet()) {
+			ContentBody body = new StringBody((String) hashMap.get(key));
+			mpEntity.addPart(key, body);
+			System.out.println(hashMap.get(key));
+		}
+
+		HttpPost httppost = new HttpPost(urlServer);  
+		httppost.setHeader(HTTPPOST_HEADER_NAME, HTTPPOST_HEADER_CONTENT);
+		httppost.setEntity(mpEntity);  
+		
+		HttpResponse response = MySSLSocketFactory.getDefaultHttpClient().execute(httppost);  
+		HttpEntity resEntity = response.getEntity();  
+
+		System.out.println(urlServer);
+		System.out.println(response.getStatusLine());// 通信Ok  
+		
+		if (resEntity != null) {
+			resEntity.consumeContent();  
+		}  
+		return response.getStatusLine().getStatusCode();
+	}  
+
 //	public static String getGetResult(Map<String, Object> params,String targetURL){
 //		String result = null;
 //		try {

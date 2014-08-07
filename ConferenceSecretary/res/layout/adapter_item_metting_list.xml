@@ -14,7 +14,7 @@
         android:src="@drawable/metting_status_going" />
     
 	<ImageView
-        android:id="@+id/metting_start"
+        android:id="@+id/metting_star"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/metting_status"
@@ -38,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="2014"
             android:textColor="@color/mt_blue"
             android:textSize="17sp" />
 
@@ -57,7 +56,6 @@
                 android:maxLines="1"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="07"
                 android:textColor="@color/mt_white"
                 android:textSize="18sp" />
 
@@ -70,7 +68,6 @@
                 android:maxLines="1"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="07"
                 android:textColor="@color/mt_white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -80,7 +77,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="星期五"
             android:textColor="@color/mt_text_6"
             android:textSize="14sp" />
     </LinearLayout>
@@ -100,14 +96,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="未而且我而另外企鹅科技"
             android:focusable="false"
             android:textColor="@android:color/black" />
         
         <TextView
             android:id="@+id/metting_during_time"
             android:layout_width="wrap_content"
-            android:text="未而且我而另外企鹅科技"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
 	        android:textColor="@color/mt_text_6"
@@ -117,7 +111,6 @@
 	        android:id="@+id/metting_address"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-            android:text="未而且我而另外企鹅科技"
 	        android:layout_marginTop="3dp"
 	        android:textColor="@color/mt_text_6"
 	        android:textSize="12sp" />
@@ -126,7 +119,6 @@
 	        android:id="@+id/metting_free_restriction"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-            android:text="未而且我而另外企鹅科技"
 	        android:layout_marginTop="3dp"
 	        android:textColor="@color/mt_text_6"
 	        android:textSize="12sp" />

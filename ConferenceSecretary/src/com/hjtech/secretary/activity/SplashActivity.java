@@ -22,7 +22,7 @@ public class SplashActivity extends Activity
     		public void run() {
     			Intent mainIntent = null;
     			mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-    			mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//    			mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
     			SplashActivity.this.startActivity(mainIntent);
     			SplashActivity.this.finish();
     		}

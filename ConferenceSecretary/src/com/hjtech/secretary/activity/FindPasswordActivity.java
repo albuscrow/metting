@@ -1,5 +1,7 @@
 package com.hjtech.secretary.activity;
 
+import android.view.KeyEvent;
+
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.fragment.FindPasswordChangeFragment;
 import com.hjtech.secretary.fragment.FindPasswordVerifyFragment;
@@ -26,9 +28,17 @@ public class FindPasswordActivity extends BaseActivity {
 		super.onResume();
 	}
 
-	public void next(String phone) {
+	public void next(String phone, String code) {
 		changeFragment = new FindPasswordChangeFragment();
-		changeFragment.setPhone(phone);
-		getSupportFragmentManager().beginTransaction().replace(R.id.find_password_container, changeFragment).commit();
+		changeFragment.setData(phone, code);
+		getSupportFragmentManager().beginTransaction().replace(R.id.find_password_container, changeFragment).addToBackStack(null).commit();
+	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && getSupportFragmentManager().getBackStackEntryCount() != 0) {
+			getSupportFragmentManager().popBackStack();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

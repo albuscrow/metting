@@ -7,10 +7,11 @@
     <TextView
         android:id="@+id/back_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical|left"
+        android:paddingRight="40dp"
+        android:paddingLeft="5dp"
         android:drawableLeft="@drawable/common_back"
         android:textColor="@color/mt_text_6"
         android:textSize="15sp" />
@@ -18,7 +19,7 @@
     <TextView
         android:id="@+id/titlebar_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textColor="@color/mt_text_0"
@@ -27,10 +28,12 @@
     <TextView
         android:id="@+id/rightView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="50dp"
+        android:paddingRight="10dp"
+        android:gravity="center_vertical|right"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
         android:textColor="@color/mt_text_6"
         android:textSize="15sp"
         android:visibility="gone" />

@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/metting_detail_collect"
             android:textSize="12sp"
-            android:text="已收藏"
+            android:gravity="center_horizontal"
+            android:ems="4"
             android:textColor="@color/mt_blue"
             android:layout_alignParentRight="true"/>
         

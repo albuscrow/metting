@@ -30,6 +30,7 @@ public class RegisterActivity extends BaseActivity{
 	private EditText emailView;
 	
 	private String phone;
+	private EditText unitView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,6 +106,7 @@ public class RegisterActivity extends BaseActivity{
 		passwordView = (EditText)gv(R.id.register_password_editext);
 		passwordConView = (EditText)gv(R.id.register_password_confirm_editext);
 		emailView = (EditText)gv(R.id.register_email_edittext);	
+		unitView = (EditText) gv(R.id.register_unit_edittext);
 		
 		gv(R.id.register_complete_button).setOnClickListener(new OnClickListener() {
 			
@@ -149,7 +151,7 @@ public class RegisterActivity extends BaseActivity{
 							MTCommon.ShowToast("获取失败，服务器内部错误");
 							break;
 						case 1:
-							MTCommon.ShowToast("验证成功");
+//							MTCommon.ShowToast("验证成功");
 							register();
 							break;
 						case 2:
@@ -218,7 +220,7 @@ public class RegisterActivity extends BaseActivity{
 		
 		final String name = MTCommon.getContent(nameTextView);
 		if(name == null){
-			MTCommon.ShowToast("请输入昵称");
+			MTCommon.ShowToast("请输入名称");
 			return;
 		}
 
@@ -239,9 +241,19 @@ public class RegisterActivity extends BaseActivity{
 		}
 		final String email = MTCommon.getContent(emailView);
 		if (email == null) {
-			MTCommon.ShowToast("请输入邮箱");
+			MTCommon.ShowToast("请输入邮箱地址");
 			return;
 		}
+		if (!MTCommon.isEmail(email)) {
+			MTCommon.ShowToast("请输入正确的邮箱地址");
+			return;
+		}
+		final String unit = MTCommon.getContent(unitView);
+		if (unit == null) {
+			MTCommon.ShowToast("请输入公司名称");
+			return;
+		}
+		
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 			@Override
@@ -250,17 +262,16 @@ public class RegisterActivity extends BaseActivity{
 
 			@Override
 			public void onPostExecute(Object result) {
-				MTUserResult ur = (MTUserResult) result;
-				if (ur.getDetails() == null) {
+				if (result == null || result instanceof MTSimpleResult) {
 					MTCommon.ShowToast("注册失败");
-					MTCommon.ShowToast(String.valueOf(ur.getResult()));
 					return;
 				}
+				MTUserResult ur = (MTUserResult) result;
 				MTCommon.ShowToast("注册成功");
 				MTUserManager.save((MTUser)ur.getDetails());
 				startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
 			}
-		}).register(phone,"albuscrow",name,password);
+		}).register(phone,name,password,email,unit);
 	}
 
 }

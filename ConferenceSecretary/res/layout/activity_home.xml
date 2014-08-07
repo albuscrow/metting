@@ -5,9 +5,15 @@
     android:orientation="vertical"
     android:background="@color/mt_bg"
     tools:context=".ui.HomeActivity" >
- 
+   <View
+       android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aaaaaa" />
+
  <ImageView
      android:id="@+id/home_picture"
+     android:layout_below="@id/line"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:contentDescription="@null"
@@ -40,7 +46,6 @@
         android:textColor="@color/mt_text_3"
         android:textSize="14sp" />
     
-    
     <GridView
         android:id="@+id/shape_menu"
         android:layout_width="match_parent"
@@ -59,7 +64,7 @@
     <View 
         android:layout_width="match_parent"
         android:layout_alignBottom="@id/shape_menu"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#aaaaaa"/>
 
 </RelativeLayout>

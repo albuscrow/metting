@@ -1,5 +1,17 @@
 package com.hjtech.secretary.data;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import com.hjtech.secretary.common.MettingApplication;
+import com.tencent.android.tpush.horse.n;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+
 
 /**
  * MtMetting entity. @author MyEclipse Persistence Tools
@@ -12,8 +24,11 @@ public class MTUser implements java.io.Serializable {
 	private String muPassword;
 	private String muUnitName;
 	private String muName;
+	private int muSex = -1;
 	private String muNickName;
 	private String muPosition;
+	private String muSector;
+	private String muQq;
 	private String muMobile;
 	private String muEmail;
 	private String muWeixin;
@@ -26,7 +41,60 @@ public class MTUser implements java.io.Serializable {
 	private String muLastIp;
 	private String muStatus;
 	private int muRegisterType;
+	private int enCount = -1;
+	private int coCount = -1;
+	private String muSexString;
+	transient private Bitmap muPhotoImage;
 	
+	
+	public Bitmap getMuPhotoImage() {
+		return muPhotoImage;
+	}
+	public void setMuPhotoImage(Bitmap muPhotoImage) {
+		this.muPhotoImage = muPhotoImage;
+	}
+	public int getMuSex() {
+		return muSex;
+	}
+	public String getMuSexString(){
+		setMuSex(muSex);
+		return muSexString;
+	}
+	public void setMuSexString(String string){
+		muSexString = string;
+	}
+	public void setMuSex(int muSex) {
+		this.muSex = muSex;
+		if (muSex == 0) {
+			muSexString = "男";
+		}else if (muSex == 1){
+			muSexString = "女";
+		}
+	}
+	public String getMuSector() {
+		return muSector;
+	}
+	public void setMuSector(String muSector) {
+		this.muSector = muSector;
+	}
+	public String getMuQq() {
+		return muQq;
+	}
+	public void setMuQq(String muQq) {
+		this.muQq = muQq;
+	}
+	public int getEnCount() {
+		return enCount;
+	}
+	public void setEnCount(int enCount) {
+		this.enCount = enCount;
+	}
+	public int getCoCount() {
+		return coCount;
+	}
+	public void setCoCount(int coCount) {
+		this.coCount = coCount;
+	}
 	public int getMuRegisterType() {
 		return muRegisterType;
 	}
@@ -112,7 +180,10 @@ public class MTUser implements java.io.Serializable {
 		this.muAddtime = muAddtime;
 	}
 	public String getMuPhoto() {
-		return muPhoto;
+		if (muPhoto == null) {
+			return null;
+		}
+		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/");
 	}
 	public void setMuPhoto(String muPhoto) {
 		this.muPhoto = muPhoto;
@@ -140,5 +211,36 @@ public class MTUser implements java.io.Serializable {
 	}
 	public void setMuStatus(String muStatus) {
 		this.muStatus = muStatus;
+	}
+	public File getImageFile() {
+		File f =new File(MettingApplication.context.getCacheDir(), "tempFile.png");
+		try {
+			f.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		muPhotoImage.compress(CompressFormat.PNG, 80 , bos);
+		byte[] bitmapdata = bos.toByteArray();	
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(f);
+			fos.write(bitmapdata);
+			fos.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return f;
 	}
 }

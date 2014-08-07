@@ -5,12 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.provider.ContactsContract.CommonDataKinds.Nickname;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import android.graphics.Bitmap;
+import android.os.Debug;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
+import com.hjtech.secretary.fragment.MettingDetailsFragment;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.JsonUtils;
-import com.hjtech.secretary.utils.MTCommon;
 import com.hjtech.secretary.utils.NetUtils;
 
 
@@ -22,6 +38,7 @@ public class DataProvider {
 	public static final String MY_METTING_URL = BASE_URL + "metting/userMettings";
 	public static final String METTING_DETAILS_URL = BASE_URL + "metting/desp";
 	public static final String COLLECT_URL = BASE_URL + "metting/collect";
+	public static final String UNCOLLECT_URL = BASE_URL + "metting/cancel_collect";
 	public static final String COMMENT_URL = BASE_URL + "comment/list";
 	public static final String VERIFY_CODE = BASE_URL + "vcode";
 	public static final String VALIDATION = BASE_URL + "validation";
@@ -33,7 +50,11 @@ public class DataProvider {
 	public static final String GET_MESSAGE = BASE_URL + "message/list";
 	public static final String SINGIN = BASE_URL + "metting/sign";
 	public static final String EDIT_USERINF = BASE_URL + "users/modify";
-
+	public static final String MODIFY_PHOTO = BASE_URL + "users/modify_photo";
+	public static final String FORGET_PASSWORD = BASE_URL + "users/forget";
+	public static final String MODIFY_PASSWORD = BASE_URL + "users/password";
+	private static final String SHARE = BASE_URL + "invite/share";
+	
 	public static final String KEY = "key";
 	public static final String CODE = "code";
 	public static final String MU_ACCOUNT = "muAccount";
@@ -83,6 +104,7 @@ public class DataProvider {
 	public static final int V_TYPE_REGISTER = 1;
 	public static final int V_TYPE_FORGET = 2;
 	private static final String V_TYPE = "type";
+	private static final String MU_EMAIL = "muEmail";
 	
 	
 	static List<MTMetting> getMettingList(Type type,String account,int page,int timeType){
@@ -98,7 +120,6 @@ public class DataProvider {
 		//these parameter is deprecated
 		params.put(SORT_ORDER, SORT_ORDER_ASC);
 		params.put(QUERY_TYPE, 0);
-		
 		params.put(TIME, timeType);
 		String json = NetUtils.getPostResult(params,METTING_LIST_URL);
 		MTMettingListResult result = null;
@@ -115,17 +136,14 @@ public class DataProvider {
 	
 	static List<MTMetting> getMyMeet(Type type,String account,int page, int status){
 		Map<String, Object> params = genParems();
-		if (account == null) {
-			return null;
-		}else{
-			params.put(MU_ACCOUNT, account);
-		}
 		
+		params.put(MU_ACCOUNT, account);
 		params.put(PAGE, page);
-	
 		params.put(STATUS, status);
+		
 		String json = NetUtils.getPostResult(params,MY_METTING_URL);
 		MTMettingListResult result = null;
+		
 		if (json != null) {
 			result = (MTMettingListResult) JsonUtils.parseJsonResult(type, json);
 		}else{
@@ -141,7 +159,6 @@ public class DataProvider {
 		Map<String, Object> params = genParems();
 		params.put(PHONE, phone);
 		params.put(V_TYPE, vType);
-		System.out.println(vType);
 		String json = NetUtils.getPostResult(params,VERIFY_CODE);
 		if (json == null) {
 			return null;
@@ -170,31 +187,28 @@ public class DataProvider {
 		}
 	}
 	
-	public static MTUserResult register(Type type, String account, String name,
-			String nickName, String password) {
+	public static Object register(Type type, String account, String name,
+			String password, String email, String unit) {
 		
 		Map<String, Object> params = genParems();
 		params.put(MU_ACCOUNT, account);
 		params.put(MU_NAME,name);
-		params.put(MU_NICK_NAME,nickName);
+		params.put(MU_NICK_NAME,name);
 		params.put(MU_PASSWORD, password);
-		System.out.println(name);
-		System.out.println(nickName);
-		System.out.println(password);
-		System.out.println(account);
+		params.put(MU_EMAIL, email);
+		params.put("muUnitName", unit);
+		//TODO unit name;
+		
 		String json = NetUtils.getPostResult(params,REGISTER);
-		MTUserResult result = null;
 		if (json == null) {
-			result = new MTUserResult();
+			return null;
 		}
 		int resultCode = JsonUtils.getResult(json);
 		if (resultCode != 1) {
-			result = new MTUserResult();
-			result.setResult(resultCode);
+			return JsonUtils.parseJsonResult(new TypeToken<MTSimpleResult>(){}.getType(), json);
 		}else{
-			result = (MTUserResult) JsonUtils.parseJsonResult(type, json);
+			return JsonUtils.parseJsonResult(type, json);
 		}
-		return result;
 	}
 	
 	public static Object login(Type type, String account, String password) {
@@ -232,21 +246,25 @@ public class DataProvider {
 		return result;
 	}
 	
-	public static int collectMetting(Type type, Long mettingId, String account) {
+	public static Object collectMetting(Type type, Long mettingId, String account, Integer opt) {
 		Map<String, Object> params = genParems();
 		
-		params.put(MU_ACCOUNT, account);
-		
-		params.put(METTING_ID, mettingId);
-		
-		String json = NetUtils.getPostResult(params, COLLECT_URL);
-		MTSimpleResult result = null;
-		if (json != null) {
-			result = (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
-			return result.getResult();
+		String json;
+		if (opt == MettingDetailsFragment.COLLECT) {
+			params.put(MU_ACCOUNT, account);
+			params.put(METTING_ID, mettingId);
+			json = NetUtils.getPostResult(params, COLLECT_URL);
 		}else{
-			return -1;
+			params.put(ACCOUNT, account);
+			params.put(METTING_ID, mettingId);
+			json = NetUtils.getPostResult(params, UNCOLLECT_URL);
 		}
+
+		if (json == null) {
+			return null;
+		}
+		
+		return (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
 	}
 	
 	public static int enrollMetting(Type type, Long id, String account,
@@ -279,24 +297,24 @@ public class DataProvider {
 		}
 	}
 	
-	public static MTCommentResult getComment(Type type, Long id, Integer page) {
+	public static Object getComment(Type type, Long id, Integer page) {
 		Map<String, Object> params = genParems();
 		params.put(METTING_ID, id);
 		params.put(PAGE, page);
+		
 		String json = NetUtils.getPostResult(params,COMMENT_URL);
-		MTCommentResult result = null;
+		
 		if (json == null) {
-			result = new MTCommentResult();
-			result.setResult(-2);
-			return result;
+			return null;
 		}
+		
 		int resultCode = JsonUtils.getResult(json);
+		System.out.println(resultCode);
 		if (resultCode != 1) {
-			result = new MTCommentResult();
+			return (MTSimpleResult) JsonUtils.parseJsonResult(new TypeToken<MTSimpleResult>(){}.getType(), json);
 		}else{
-			result = (MTCommentResult) JsonUtils.parseJsonResult(type, json);
+			return (MTCommentResult) JsonUtils.parseJsonResult(type, json);
 		}
-		return result;
 	}
 	
 	public static Object addComment(Type type, Long id, String account, String content) {
@@ -360,22 +378,100 @@ public class DataProvider {
 		return JsonUtils.parseJsonResult(type, json);
 	}
 	
-	public static Object modifyUser(Type type, String account, String password, 
-			String newPassword, String name, String nickName, int sex, 
-			String company, String position, String sector, String qq,String email, String weixin){
+	public static Object modifyPassword(Type type, String account,
+			String old, String newP) {
 		Map<String, Object> params = genParems();
+		
 		params.put(ACCOUNT, account);
+		params.put(PASSWORD, old);
+		params.put("newPassword", newP);
+			
+		String json = NetUtils.getPostResult(params, MODIFY_PASSWORD);
+		if (json == null) {
+			return null;
+		}
+
+		return JsonUtils.parseJsonResult(type, json);
+	}
+	
+
+	public static Object forgetPassword(Type type, String phone,
+			String password, String code) {
+		Map<String, Object> params = genParems();
+		params.put(MU_ACCOUNT, phone);
 		params.put(PASSWORD, password);
-		params.put(NEW_PASSWORD, newPassword);
-		params.put(NAME, name);
-		params.put(NICK_NAME, nickName);
-		params.put(SEX, sex);
-		params.put(COMPANY, company);
-		params.put(POSITION, position);
-		params.put(SECTOR, sector);
-		params.put(QQ, qq);
-		params.put(EMAIL, email);
-		params.put(WEIXIN, weixin);
+		params.put(VCODE, code);
+		
+		String json = NetUtils.getPostResult(params, FORGET_PASSWORD);
+		if (json == null) {
+			return null;
+		}
+		
+		MTSimpleResult parseJsonResult = (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
+		if (parseJsonResult.getResult() != 1) {
+			Log.e(TAG, "add share log failed");
+		}else{
+			Log.e(TAG, "add share log success");
+		}
+		return parseJsonResult;
+	}	
+	public static Object share(Type type, String account, long id,
+			int typeS) {
+		Map<String, Object> params = genParems();
+		params.put(MU_ACCOUNT, account);
+		params.put(METTING_ID, id);
+		params.put("type", typeS);
+		
+		String json = NetUtils.getPostResult(params, SHARE);
+		System.out.println(json);
+		return null;
+	}
+	
+	
+	public static Object modifyUser(Type type, MTUser user){
+		
+		try {
+			int resultCode = NetUtils.post(genParems(), user.getMuAccount(), user.getImageFile(), MODIFY_PHOTO);
+			if (resultCode != 200) {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		Map<String, Object> params = genParems();
+		params.put(ACCOUNT, user.getMuAccount());
+		//TODO
+		if (user.getMuName() != null) {
+			params.put(NAME, user.getMuName());
+		}
+		if (user.getMuNickName() != null) {
+			params.put(NICK_NAME, user.getMuNickName());
+		}
+		System.out.println(user.getMuSex());
+		if (user.getMuSex() != -1) {
+			params.put(SEX, user.getMuSex());
+		}
+		if (user.getMuUnitName() != null) {
+			params.put(COMPANY, user.getMuUnitName());
+		}
+		if (user.getMuSector() != null) {
+			params.put(SECTOR, user.getMuSector());
+		}
+		if (user.getMuPosition() != null) {
+			params.put(POSITION, user.getMuPosition());
+		}
+		if (user.getMuWeixin() != null) {
+			params.put(WEIXIN, user.getMuWeixin());
+		}
+		if (user.getMuEmail() != null) {
+			params.put(EMAIL, user.getMuEmail());
+		}
+		if (user.getMuQq() != null) {
+			params.put(QQ, user.getMuQq());
+		}
 		
 		String json = NetUtils.getPostResult(params, EDIT_USERINF);
 		
@@ -394,5 +490,6 @@ public class DataProvider {
 		result.put(CODE, code);
 		return result;
 	}
+	
 
 }

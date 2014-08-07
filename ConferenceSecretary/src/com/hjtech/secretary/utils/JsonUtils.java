@@ -23,9 +23,12 @@ public class JsonUtils {
 	}
 	
 	public static int getResult(String json){
-		int pos1 = json.indexOf(':');
-		int pos2 = json.indexOf(',');
-		String res = json.substring(pos1+1, pos2).trim(); 
+		String temp = new String(json);
+		int position = temp.indexOf("\"result\"");
+		temp = temp.substring(position);
+		int pos1 = temp.indexOf(':');
+		int pos2 = temp.indexOf(',');
+		String res = temp.substring(pos1+1, pos2).trim(); 
 		return Integer.parseInt(res);
 	}
 }

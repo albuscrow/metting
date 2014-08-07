@@ -6,7 +6,6 @@ import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.BaseActivity;
-import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
@@ -14,14 +13,12 @@ import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.utils.MTCommon;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -111,23 +108,43 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 				}
 			});
 			
+			viewHold.mettingTimeDay = (TextView) convertView.findViewById(R.id.metting_list_day);
+			viewHold.mettingTimeMonth = (TextView) convertView.findViewById(R.id.metting_list_month);
+			viewHold.mettingTimeWeek = (TextView) convertView.findViewById(R.id.metting_list_week);
+			viewHold.mettingTimeYear = (TextView) convertView.findViewById(R.id.metting_list_year);
+			
 			convertView.setTag(viewHold);
 		}else{
 			viewHold = (ViewHold) convertView.getTag();
 		}
 		
 		MTMetting metting = (MTMetting) getItem(position);
+		metting.initTime();
 		
 		viewHold.mettingName.setText(metting.getMmTitle());
 		viewHold.mettingDuringTime.setText(String.format(activity.getResources().getString(R.string.metting_time),metting.getTime()));
 		viewHold.mettingAddress.setText(String.format(activity.getResources().getString(R.string.metting_place),metting.getMmAddress()));
 		viewHold.mettingFeeAndRes.setText(String.format(activity.getResources().getString(R.string.metting_fee_and_res),metting.getMmFreeTypeStr(),metting.getMemberRttForDetail()));
-		if (metting.getIsEnroll() == MTMetting.ENROLL) {
+		
+		viewHold.mettingTimeDay.setText(metting.getDay());
+		viewHold.mettingTimeMonth.setText(metting.getMonth());
+		viewHold.mettingTimeWeek.setText(metting.getWeek());
+		viewHold.mettingTimeYear.setText(metting.getYear());
+		
+		if (metting.getIsEnroll() == MTMetting.SIGNIN) {
 			viewHold.mettingSignin.setVisibility(View.VISIBLE);
 		}else{
-//			viewHold.mettingSignin.setVisibility(View.GONE);
-			viewHold.mettingSignin.setVisibility(View.VISIBLE);
+			viewHold.mettingSignin.setVisibility(View.GONE);
 		}
+		
+		if (metting.getIsStarted() == MTMetting.UNSTART) {
+			viewHold.mettingStatus.setImageResource(R.drawable.metting_status_unstart);
+		}else if (metting.getIsStarted() == MTMetting.STARTED) {
+			viewHold.mettingStatus.setImageResource(R.drawable.metting_status_going);
+		}else{
+			viewHold.mettingStatus.setImageResource(R.drawable.metting_status_end);
+		}
+		
 		return convertView;
 	}
 

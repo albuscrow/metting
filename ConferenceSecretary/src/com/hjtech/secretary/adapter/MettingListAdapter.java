@@ -86,7 +86,7 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		public TextView mettingAddress;
 		public TextView mettingFeeAndRes;
 		
-		public ImageButton mettingSignin; 
+		public ImageButton isEnroll; 
 		public ImageView mettingStatus;
 	}
 
@@ -101,15 +101,12 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 			viewHold.mettingAddress = (TextView) convertView.findViewById(R.id.metting_address);
 			viewHold.mettingFeeAndRes = (TextView) convertView.findViewById(R.id.metting_free_restriction);
 			viewHold.mettingStatus = (ImageView) convertView.findViewById(R.id.metting_status);
-			viewHold.mettingSignin = (ImageButton) convertView.findViewById(R.id.metting_signin);
-			viewHold.mettingSignin.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(activity, CaptureActivity.class);
-					activity.startActivityForResult(intent, MyMettingFragment.SIGNAL);
-				}
-			});
+			viewHold.isEnroll = (ImageButton) convertView.findViewById(R.id.metting_signin);
+			
+			viewHold.mettingTimeDay = (TextView) convertView.findViewById(R.id.metting_list_day);
+			viewHold.mettingTimeMonth = (TextView) convertView.findViewById(R.id.metting_list_month);
+			viewHold.mettingTimeWeek = (TextView) convertView.findViewById(R.id.metting_list_week);
+			viewHold.mettingTimeYear = (TextView) convertView.findViewById(R.id.metting_list_year);
 			
 			convertView.setTag(viewHold);
 		}else{
@@ -117,17 +114,31 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		}
 		
 		MTMetting metting = (MTMetting) getItem(position);
-		
+		metting.initTime();
 		viewHold.mettingName.setText(metting.getMmTitle());
 		viewHold.mettingDuringTime.setText(String.format(activity.getResources().getString(R.string.metting_time),metting.getTime()));
 		viewHold.mettingAddress.setText(String.format(activity.getResources().getString(R.string.metting_place),metting.getMmAddress()));
 		viewHold.mettingFeeAndRes.setText(String.format(activity.getResources().getString(R.string.metting_fee_and_res),metting.getMmFreeTypeStr(),metting.getMemberRttForDetail()));
-		if (metting.getIsEnroll() == MTMetting.ENROLL) {
-			viewHold.mettingSignin.setVisibility(View.VISIBLE);
+		
+		viewHold.mettingTimeDay.setText(metting.getDay());
+		viewHold.mettingTimeMonth.setText(metting.getMonth());
+		viewHold.mettingTimeWeek.setText(metting.getWeek());
+		viewHold.mettingTimeYear.setText(metting.getYear());
+		
+		if (metting.getIsStarted() == MTMetting.UNSTART) {
+			viewHold.mettingStatus.setImageResource(R.drawable.metting_status_unstart);
+		}else if (metting.getIsStarted() == MTMetting.STARTED) {
+			viewHold.mettingStatus.setImageResource(R.drawable.metting_status_going);
 		}else{
-//			viewHold.mettingSignin.setVisibility(View.GONE);
-			viewHold.mettingSignin.setVisibility(View.VISIBLE);
+			viewHold.mettingStatus.setImageResource(R.drawable.metting_status_end);
 		}
+		
+		if (metting.getIsEnroll() != MTMetting.UNENROLL) {
+			viewHold.isEnroll.setVisibility(View.VISIBLE);
+		}else{
+			viewHold.isEnroll.setVisibility(View.GONE);
+		}
+		
 		return convertView;
 	}
 
@@ -160,7 +171,7 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 							//				hideWaitBar();
 							canInit = true;
 						}
-					}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);				
+					}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, status);				
 				}
 			}
 		}

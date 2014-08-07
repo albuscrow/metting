@@ -16,7 +16,6 @@ public class BaseFragment extends Fragment {
 	
 	@Override
 	public void onAttach(Activity activity) {
-		System.out.println("BaseFragment.onAttach()");
 		super.onAttach(activity);
 		this.activity =  (BaseActivity) activity;
 	}

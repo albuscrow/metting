@@ -48,8 +48,8 @@
     <string name="personal_name">姓   名</string>
     <string name="personal_base_info">基本信息：</string>
     <string name="personal_received_message">我收到的消息：</string>
-    <string name="personal_collect_metting">我收藏的会议：</string>
-    <string name="personal_enroll_metting">我参加的会议：</string>
+    <string name="personal_collect_metting">我收藏的会议</string>
+    <string name="personal_enroll_metting">我参加的会议</string>
     <string name="personal_banding_weibo">微博绑定</string>
     <string name="personal_banding_weixin">微信绑定</string>
     <string name="personal_phone">手机号码</string>

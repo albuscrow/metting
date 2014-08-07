@@ -7,7 +7,6 @@
     <TextView
         android:id="@+id/share_invite_content"
         android:layout_marginTop="17dp"
-        android:text="发卡斯附近阿萨德了佛教撒旦了发打死了佛faslkdfjsadklasdfjasdl;fjdaslfks教的萨发达十分卡桑德拉狂欢节费德勒"
         android:lineSpacingExtra="3dp"
         android:textSize="13sp"
         android:textColor="@color/mt_text_6"
@@ -25,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:contentDescription="@null" />
 
-    <com.hjtech.secretary.view.NoDefaultSpinner
+    <Spinner
         android:id="@+id/share_platform"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

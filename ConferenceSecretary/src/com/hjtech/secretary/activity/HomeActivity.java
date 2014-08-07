@@ -11,10 +11,12 @@ import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.utils.MTCommon;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -49,6 +51,16 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			tx.setText("nihao");
 			newsFlipper.addView(tx);
 		}
+		
+		gv(R.id.home_phone).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Uri uri = Uri.parse("tel:400-000-000");    
+				Intent intent = new Intent(Intent.ACTION_DIAL, uri);       
+				startActivity(intent);
+			}
+		});
 		
 	}
 

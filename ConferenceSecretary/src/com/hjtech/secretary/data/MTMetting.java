@@ -1,6 +1,11 @@
 package com.hjtech.secretary.data;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * MtMetting entity. @author MyEclipse Persistence Tools
@@ -27,7 +32,7 @@ public class MTMetting implements java.io.Serializable {
 	
 	public static final int FREE = 0;
 	public static final int UNFREE = 1;
-	private int mmFreeType;
+	private int mmFeeType;
 	private int mmFeeAmount;
 	
 	private String memberRtt;
@@ -109,17 +114,17 @@ public class MTMetting implements java.io.Serializable {
 		this.mmAddress = mmAddress;
 	}
 	public int getMmFreeType() {
-		return mmFreeType;
+		return mmFeeType;
 	}
 	public String getMmFreeTypeStr() {
-		if (mmFreeType == 0) {
+		if (mmFeeType == 0) {
 			return "免费";
 		}else{
 			return "收费";
 		}
 	}
 	public void setMmFreeType(int mmFreeType) {
-		this.mmFreeType = mmFreeType;
+		this.mmFeeType = mmFreeType;
 	}
 	public int getMmFeeAmount() {
 		return mmFeeAmount;
@@ -249,5 +254,96 @@ public class MTMetting implements java.io.Serializable {
 	}
 	
 	
+	private static final String[] WEEK = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+	private Date startDate;
+	private Calendar calendar = Calendar.getInstance();
+	private String day;
+	private String month;
+	private String year;
+	private String week;
+	private boolean isTimeInit = false;
+	
+	public static final int END = 0;
+	public static final int STARTED = 1;
+	public static final int  UNSTART = 2;
+	
+	private int isStarted;
+	public void initTime(){
+		if (!isTimeInit) {
+			Date startDate = getDate(mmStartdate);
+			calendar.setTime(startDate);
+			day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+			if (day.length() == 1) {
+				day = "0" + day;
+			}
+			month = String.valueOf(calendar.get(Calendar.MONTH ) + 1);
+			if (month.length() == 1) {
+				month = "0" + month;
+			}
+			year = String.valueOf(calendar.get(Calendar.YEAR));
+			week = WEEK[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+
+
+			Date endDate = getDate(mmEndtime);
+			Date currentDate = new Date();
+			if (currentDate.before(startDate)) {
+				isStarted = UNSTART;
+			}else if(currentDate.before(endDate)){
+				isStarted = STARTED;
+			}else{
+				isStarted = END;
+			}
+			isTimeInit = true;
+		}
+
+	}
+	public Date getDate(String date) {
+		if (startDate == null) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+			try {
+				startDate = format.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	
+	public void getStartDay(){
+		
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getWeek() {
+		return week;
+	}
+	public void setWeek(String week) {
+		this.week = week;
+	}
+	public int getIsStarted() {
+		return isStarted;
+	}
+	public void setIsStarted(int isStarted) {
+		this.isStarted = isStarted;
+	}
 
 }

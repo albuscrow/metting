@@ -2,6 +2,7 @@ package com.hjtech.secretary.adapter;
 
 
 import com.hjtech.secretary.R;
+import com.hjtech.secretary.common.AppConfig;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -58,7 +59,7 @@ public class PersonalCenterAdatper extends BaseAdapter {
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
 		item.setCompoundDrawables(null,drawable, null, null);
 		item.setText(menuItemText[position]);
-		AbsListView.LayoutParams params = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, parent.getHeight()/2 - 3);
+		AbsListView.LayoutParams params = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, (int) (parent.getHeight()/2 - 1*AppConfig.SCREEN_DENSITY));
 		view.setLayoutParams(params);
 		return view;
 	}

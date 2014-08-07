@@ -2,11 +2,16 @@ package com.hjtech.secretary.activity;
 
 import java.util.Stack;
 
-
 import com.hjtech.secretary.R;
+import com.hjtech.secretary.common.Constants;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.fragment.InviteFragment;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
+import com.hjtech.secretary.weibo.AccessTokenKeeper;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.openapi.StatusesAPI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +20,21 @@ import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 public class MainActivity extends BaseActivity {
+	/** 当前 Token 信息 */
+	public Oauth2AccessToken mAccessToken;
+	/** 用于获取微博信息流等操作的API */
+	public StatusesAPI mStatusesAPI;
+	/** 微博 Web 授权类，提供登陆等功能  */
+	public WeiboAuth mWeiboAuth;
+	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+	public SsoHandler mSsoHandler;
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (mSsoHandler != null) { 
+			mSsoHandler.authorizeCallBack(requestCode, resultCode, data); 
+		} 
+	};
 	
 	private int UIType;
 	private FragmentManager fragmentManager;
@@ -32,8 +49,24 @@ public class MainActivity extends BaseActivity {
 		}
 		
 		initUI(R.layout.activity_main);
+		
+		initShare();
 	}
 	
+	private void initShare() {
+		// 获取当前已保存过的 Token
+		mAccessToken = AccessTokenKeeper.readAccessToken(this);
+		if (mAccessToken.getToken().length() != 0) {
+			// 对statusAPI实例化
+			mStatusesAPI = new StatusesAPI(mAccessToken);
+		}else{
+			mAccessToken = null;
+			mStatusesAPI = null;
+			mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+			mSsoHandler = new SsoHandler(this, mWeiboAuth);
+		}
+	}
+
 	private BaseFragment currentFragment;
 	private RadioButton tabMyMetting;
 	private RadioButton tabHomepage;
@@ -52,6 +85,7 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
+					backStack.clear();
 					MainActivity.this.finish();
 				}
 			}
@@ -63,6 +97,7 @@ public class MainActivity extends BaseActivity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					switchFragment(MTFragmentFactory.METTING_LIST, null, false);
+					backStack.clear();
 				}
 			}
 		});
@@ -73,6 +108,7 @@ public class MainActivity extends BaseActivity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					switchFragment(MTFragmentFactory.MY_METTING, null, false);
+					backStack.clear();
 				}
 			}
 		});
@@ -83,12 +119,22 @@ public class MainActivity extends BaseActivity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
 					switchFragment(MTFragmentFactory.MESSAGE, null, false);
+					backStack.clear();
 				}
 			}
 		});
 				
 		initTab();
 	}
+	
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data); 
+//		if (currentFragment instanceof InviteFragment) {
+//			((InviteFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
+//		}
+//		super.onActivityResult(requestCode, resultCode, data);
+//	}
 	
 	private void initTab() {
 		

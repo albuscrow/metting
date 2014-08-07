@@ -11,7 +11,6 @@ public class AppConfig {
 	public static Integer SCREENHEIGHT;
 	public static float SCREEN_DENSITY;
 	public static boolean INIT_FINISHED;
-	public static boolean HAS_WIFI;
 	private static Context context;
 
 
@@ -24,11 +23,16 @@ public class AppConfig {
 		INIT_FINISHED = true;
 	}
 
-	public static boolean isWifiConnect() {  
-		ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);  
-		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);  
-		HAS_WIFI = mWifi.isConnected();
-		return HAS_WIFI; 
+	public static boolean isNetConnect() {  
+		ConnectivityManager cManager=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = cManager.getActiveNetworkInfo(); 
+		if (info != null && info.isAvailable()){ 
+			//能联网 
+			return true; 
+		}else{ 
+			//不能联网 
+			return false; 
+		} 
 	} 
 
 }

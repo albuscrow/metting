@@ -3,12 +3,26 @@ package com.hjtech.secretary.data;
 import java.io.Serializable;
 
 public class MTComment  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4839527929204445516L;
 	private long mcId;
 	private String mcContent;
 	private long mcUserId;
 	private String muName;
 	private String mcAddtime;
+	private String muPhoto;
 	
+	public String getMuPhoto() {
+		if (muPhoto == null) {
+			return null;
+		}
+		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/");
+	}
+	public void setMuPhoto(String muPhoto) {
+		this.muPhoto = muPhoto;
+	}
 	public long getMcId() {
 		return mcId;
 	}
@@ -16,8 +30,7 @@ public class MTComment  implements Serializable{
 		this.mcId = mcId;
 	}
 	public String getMcContent() {
-//		return mcContent;
-		return "fdsafljdsafklsd;fjsdakjsd;aflsfjdsakfjdksalf;jdskalf;jdsaklfjdskaflj;dsafljdsa;fkljdsafljds;afjdksl;afjdsa;lfjds;kalfjdskla;fjdslafjsldfjls;akfjdsalfjd;skafjs";
+		return mcContent;
 	}
 	public void setMcContent(String mcContent) {
 		this.mcContent = mcContent;

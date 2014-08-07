@@ -8,24 +8,28 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.android.tpush.XGPushManager;
 
 import android.app.Application;
+import android.content.Context;
 
 public class MettingApplication extends Application {
+	public static Context context;
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		context = getApplicationContext();
+		
 		initImageLoader();
-		MTUserManager.init(getApplicationContext());
-		MTCommon.init(getApplicationContext());
-    	AppConfig.initConfig(getApplicationContext());
+		MTUserManager.init(context);
+		MTCommon.init(context);
+    	AppConfig.initConfig(context);
     	
-    	XGPushManager.registerPush(getApplicationContext());	
+    	XGPushManager.registerPush(context);	
 	}
 	
 	private void initImageLoader() {
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory()
 		.cacheOnDisc()
-		.showImageForEmptyUri(R.drawable.common_logo)
+		.showImageForEmptyUri(R.drawable.common_default_image)
 		.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
 		.defaultDisplayImageOptions(defaultOptions)

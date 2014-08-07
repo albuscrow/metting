@@ -1,5 +1,8 @@
 package com.hjtech.secretary.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -9,8 +12,12 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Environment;
 import android.text.Layout;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,5 +93,42 @@ public class MTCommon {
     	
     	return false;
     }
-	
+    
+    public static Bitmap getImageFromView(ImageView view){
+    	int wid = view.getWidth();
+    	int hei = view.getHeight();
+    	view.setDrawingCacheEnabled(true);
+    	view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), 
+    			MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+    	view.layout(0, 0, 
+    			view.getMeasuredWidth(), view.getMeasuredHeight()); 
+    	view.buildDrawingCache(true);
+    	Bitmap bmap = Bitmap.createBitmap(view.getDrawingCache());
+    	view.setDrawingCacheEnabled(false);
+    	LayoutParams layoutParams = view.getLayoutParams();
+		layoutParams.height = hei;
+		layoutParams.width = wid;
+		view.setLayoutParams(layoutParams);
+    	return bmap;
+    }
+    
+     /** 
+     * 检查是否存在SDCard 
+     * @return 
+     */  
+    public static boolean hasSdcard(){  
+        String state = Environment.getExternalStorageState();  
+        if(state.equals(Environment.MEDIA_MOUNTED)){  
+            return true;  
+        }else{  
+            return false;  
+        }  
+    }     
+    
+    public static boolean isEmail(String input){
+    	String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
+    	Pattern regex = Pattern.compile(check);  
+    	Matcher matcher = regex.matcher(input);  
+    	return matcher.matches();
+    }
 }

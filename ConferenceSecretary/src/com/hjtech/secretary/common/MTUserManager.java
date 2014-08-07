@@ -71,11 +71,58 @@ public class MTUserManager {
 					ofs.close();
 				}	
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return true;
+	}
+
+	public static MTUser updateUser(MTUser user) {
+		if (user.getCoCount() != 0) {
+			MTUserManager.user.setCoCount(user.getCoCount());
+		}
+		if (user.getEnCount() != 0) {
+			MTUserManager.user.setEnCount(user.getEnCount());
+		}
+		if (user.getMuEmail() != null) {
+			MTUserManager.user.setMuEmail(user.getMuEmail());
+		}
+		if (user.getMuName() != null) {
+			MTUserManager.user.setMuName(user.getMuName());
+		}
+		if (user.getMuNickName() != null) {
+			MTUserManager.user.setMuNickName(user.getMuNickName());
+		}
+		if (user.getMuPassword() != null) {
+			MTUserManager.user.setMuPassword(user.getMuPassword());
+		}
+		if (user.getMuPhoto() != null) {
+			MTUserManager.user.setMuPhoto(user.getMuPhoto());
+		}
+		if (user.getMuPosition() != null) {
+			MTUserManager.user.setMuPosition(user.getMuPosition());
+		}
+		if (user.getMuQq() != null) {
+			MTUserManager.user.setMuQq(user.getMuQq());
+		}
+		if (user.getMuSector() != null) {
+			MTUserManager.user.setMuSector(user.getMuSector());
+		}
+		if (user.getMuSexString() != null) {
+			MTUserManager.user.setMuSex(user.getMuSex());
+		}
+		if (user.getMuUnitName() != null) {
+			MTUserManager.user.setMuUnitName(user.getMuUnitName());
+		}
+		if (user.getMuWeixin() != null) {
+			MTUserManager.user.setMuWeixin(user.getMuWeixin());
+		}
+		if (user.getMuPhotoImage() != null) {
+			MTUserManager.user.setMuPhotoImage(user.getMuPhotoImage());
+		}
+		System.out.println(MTUserManager.user.getMuAccount());
+		save(MTUserManager.user);
+		return MTUserManager.user;
 	}
 
 }

@@ -25,7 +25,7 @@
                 android:layout_weight="1"
                 android:text="@string/person_profile" />
             
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -35,11 +35,20 @@
         	        android:id="@+id/personal_imageview"
         	        android:layout_width="41dp"
         	        android:layout_height="41dp"
+        	        android:padding="3dp"
         	        android:contentDescription="@null"
-        	        android:scaleType="centerInside"
-        	        android:src="@drawable/ic_launcher" />
+        	        android:scaleType="centerInside" />
+        	    
+				<ImageView
+				    android:layout_width="41dp"
+				    android:layout_height="41dp"
+				    android:layout_alignParentRight="true"
+				    android:contentDescription="@null"
+				    android:padding="3dp"
+				    android:scaleType="centerInside"
+				    android:src="@drawable/edit_text_more" />
 
-			</LinearLayout>
+			</RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -64,9 +73,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:hint="请尽快完善信息"
                 android:layout_weight="2.5"
-                android:inputType="text"
-                android:text="张三" />
+                android:inputType="text" />
 
         </LinearLayout>
 
@@ -92,10 +101,10 @@
                 style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="请尽快完善信息"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
-                android:inputType="text"
-                android:text="张三" />
+                android:inputType="text" />
 
             
         </LinearLayout>
@@ -118,7 +127,6 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_password" />
 
@@ -139,7 +147,7 @@
             android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="1dp"
-            android:background="@drawable/person_middle"
+            android:background="@drawable/person_down"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
@@ -148,24 +156,23 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_gender"/>
            
             <EditText
                 android:id="@+id/edit_gender"
                 style="@style/user_edit_text2"
+                android:hint="请尽快完善信息"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
                 android:inputType="text"
-                android:lines="1"
-                android:text="男" />
+                android:lines="1"/>
 
         </LinearLayout>
         
-        <LinearLayout
+<!--         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="41dp"
             android:layout_gravity="center_horizontal"
@@ -179,21 +186,20 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/personal_phone" />
            
-            <TextView
+            <EditText
                	android:id="@+id/edit_phone" 
                	style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
-                android:lines="1"
-                android:text="13667607523" />
+                android:inputType="number"
+                android:lines="1" />
 
-        </LinearLayout>
+        </LinearLayout> -->
 
         <LinearLayout
             android:id="@+id/edit_company_buuton"
@@ -210,7 +216,6 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_unit" />
             
@@ -219,11 +224,11 @@
                 style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="请尽快完善信息"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
                 android:ellipsize="end"
-                android:inputType="text"
-                android:text="杭州华舰信息技术有限公司" />
+                android:inputType="text" />
             
         </LinearLayout>
 
@@ -241,7 +246,6 @@
                 android:layout_width="0dp"
                 style="@style/user_edit_text1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_department" />
   
@@ -250,11 +254,11 @@
                 style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_weight="2.5"
+                android:hint="请尽快完善信息"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:inputType="text"
-                android:lines="1"
-                android:text="技术部" />
+                android:lines="1" />
             
         </LinearLayout>
         
@@ -272,7 +276,6 @@
                 android:id="@+id/edit_anchor_post"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 style="@style/user_edit_text1"
                 android:text="@string/edit_position"/>
@@ -282,11 +285,11 @@
                 style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="请尽快完善信息"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
                 android:inputType="text"
-                android:lines="1"
-                android:text="软件工程师" />
+                android:lines="1" />
 
         </LinearLayout>
         
@@ -306,20 +309,19 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_weixin"/>
 
             <EditText
                 android:id="@+id/edit_weixin_textview"
                 style="@style/user_edit_text2"
+                android:hint="请尽快完善信息"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
                 android:inputType="text"
-                android:lines="1"
-                android:text="ying6ying"/>
+                android:lines="1"/>
 
         </LinearLayout>
         
@@ -339,7 +341,6 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_email"/>
             
@@ -349,10 +350,10 @@
                 android:inputType="textEmailAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="请尽快完善信息"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
-                android:lines="1"
-                android:text="850900229@qq.com" />
+                android:lines="1" />
 
         </LinearLayout>
                 <LinearLayout
@@ -370,7 +371,6 @@
                 style="@style/user_edit_text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/edit_qq" />
             
@@ -379,17 +379,13 @@
                 style="@style/user_edit_text2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="请尽快完善信息"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2.5"
                 android:inputType="number"
-                android:lines="1"
-                android:text="850900229"/>
+                android:lines="1"/>
 
         </LinearLayout>
-        
-
-        
-
         
     </LinearLayout>
 

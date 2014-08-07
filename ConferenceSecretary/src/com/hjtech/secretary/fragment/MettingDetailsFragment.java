@@ -3,19 +3,8 @@ package com.hjtech.secretary.fragment;
 import uk.co.jasonfry.android.tools.ui.PageControl;
 import uk.co.jasonfry.android.tools.ui.SwipeView;
 import uk.co.jasonfry.android.tools.ui.SwipeView.OnPageChangedListener;
-
-import com.hjtech.secretary.R;
-import com.hjtech.secretary.activity.EnrollActivity;
-import com.hjtech.secretary.activity.MainActivity;
-import com.hjtech.secretary.activity.MettingCommentActivity;
-import com.hjtech.secretary.common.MTUserManager;
-import com.hjtech.secretary.data.GetDataAnsycTask;
-import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
-import com.hjtech.secretary.data.MTMetting;
-import com.hjtech.secretary.listener.NewActivityListener;
-import com.hjtech.secretary.utils.MTCommon;
-
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +15,29 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
+import com.hjtech.secretary.R;
+import com.hjtech.secretary.activity.EnrollActivity;
+import com.hjtech.secretary.activity.MainActivity;
+import com.hjtech.secretary.activity.MettingCommentActivity;
+import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTMetting;
+import com.hjtech.secretary.data.MTSimpleResult;
+import com.hjtech.secretary.listener.NewActivityListener;
+import com.hjtech.secretary.utils.MTCommon;
+
 public class MettingDetailsFragment extends BaseFragment implements OnClickListener {
 	
+	public static final int UNCOLLECT = 0;
+	public static final int COLLECT = 1;
 	private MTMetting metting;
 //	private LinearLayout relatedMettingLayout;
 	
 	SwipeView mSwipeView;
 	int[] images = new int[]{R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1};
+	private TextView collect;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -45,40 +50,91 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 		setbackButton();
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_metting_detail, null);
 		
-		gv(R.id.detail_collect).setOnClickListener(new OnClickListener() {
+		collect = (TextView) gv(R.id.detail_collect);
+		changeCollectView();
+		collect.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-					
-					@Override
-					public void onPreExecute() {
+				if (metting.getIsCollect() == MTMetting.UNCOLLECT) {
 
-					}
+					new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
-					@Override
-					public void onPostExecute(Object result) {
-						int resultCode = (Integer) result;
-						switch (resultCode) {
-						case 0:
-							MTCommon.ShowToast("收藏失败");
-							break;
-						case 1:
-							MTCommon.ShowToast("收藏成功");
-							break;
-						case 2:
-							MTCommon.ShowToast("参数错误，请检查提交参数");
-							break;
-						case 3:
-							MTCommon.ShowToast("会员不存在");
-							break;
-						case 5:
-							MTCommon.ShowToast("该会议已收藏过");
-						default:
-							break;
+						@Override
+						public void onPreExecute() {
+							MTCommon.ShowToast("正在收藏...");
 						}
-					}
-				}).colloctMetting(metting.getMmId(), MTUserManager.getUser().getMuAccount());
+
+						@Override
+						public void onPostExecute(Object result) {
+							if (result == null) {
+								MTCommon.ShowToast("收藏失败");
+								return;
+							}
+							int resultCode = ((MTSimpleResult) result).getResult();
+							switch (resultCode) {
+							case 0:
+								MTCommon.ShowToast("收藏失败");
+								break;
+							case 1:
+								MTCommon.ShowToast("收藏成功");
+								metting.setIsCollect(MTMetting.COLLECT);
+								changeCollectView();
+								break;
+							case 2:
+								MTCommon.ShowToast("参数错误，请检查提交参数");
+								break;
+							case 3:
+								MTCommon.ShowToast("会员不存在");
+								break;
+							case 5:
+								MTCommon.ShowToast("该会议已收藏过");
+								metting.setIsCollect(MTMetting.COLLECT);
+								changeCollectView();
+							default:
+								break;
+							}
+						}
+					}).colloctMetting(metting.getMmId(), MTUserManager.getUser().getMuAccount(), COLLECT);
+				}else{
+					new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+						@Override
+						public void onPreExecute() {
+							MTCommon.ShowToast("正在取消收藏...");
+						}
+
+						@Override
+						public void onPostExecute(Object result) {
+							if (result == null) {
+								MTCommon.ShowToast("取消收藏失败");
+							}
+							int resultCode = ((MTSimpleResult) result).getResult();
+							switch (resultCode) {
+							case 0:
+								MTCommon.ShowToast("取消收藏失败");
+								break;
+							case 1:
+								MTCommon.ShowToast("取消收藏成功");
+								metting.setIsCollect(MTMetting.UNCOLLECT);
+								changeCollectView();
+								break;
+							case 2:
+								MTCommon.ShowToast("参数错误，请检查提交参数");
+								break;
+							case 3:
+								MTCommon.ShowToast("会员不存在");
+								break;
+							case 5:
+								MTCommon.ShowToast("该会议已收藏过");
+								metting.setIsCollect(MTMetting.COLLECT);
+								changeCollectView();
+							default:
+								break;
+							}
+						}
+					}).colloctMetting(metting.getMmId(), MTUserManager.getUser().getMuAccount(), UNCOLLECT);
+				}
 			}
 		});
 
@@ -128,6 +184,18 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
         
         mSwipeView.setPageControl(mPageControl);
 		return rootView;
+	}
+
+	private void changeCollectView() {
+		if (metting.getIsCollect() == MTMetting.UNCOLLECT) {
+			collect.setText("点击收藏");
+			collect.setTextColor(Color.parseColor("#666666"));;
+			collect.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.metting_detail_uncollect), null, null);
+		}else{
+			collect.setText("已收藏");
+			collect.setTextColor(getResources().getColor(R.color.mt_blue));
+			collect.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.metting_detail_collect), null, null);
+		}
 	}
 
 	private void initData() {

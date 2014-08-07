@@ -11,6 +11,7 @@ import com.hjtech.secretary.listener.NewActivityListener;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -21,15 +22,23 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class LoginActivity extends BaseActivity {
+	protected static final int FORGET_PASSWORD = 0;
 	private EditText phoneNum;
 	private EditText passWord;
 	private CheckBox remPwd;
 	private View loginButton;
+	private MTUser user;
+	private String from;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+		initData();
 		initUIWithoutActionBar(R.layout.activity_login);
+	}
+	
+	private void initData(){
+		from = getIntent().getStringExtra("from");
 	}
 	
 	@Override
@@ -37,23 +46,24 @@ public class LoginActivity extends BaseActivity {
 		super.initUIWithoutActionBar(layoutId);
 		
 		gv(R.id.login_register_text).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
-		SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
-
 		phoneNum = ((EditText)gv(R.id.login_phonenum));
 		passWord = ((EditText)gv(R.id.login_password));
 		
-		String account = getIntent().getStringExtra("account");
-		if (account != null) {
-			phoneNum.setText(account);
-			MTCommon.moveSelectionToLast(passWord);
-		}else{
-			phoneNum.setText(preferences.getString("acc", ""));
-		}
-		remPwd = ((CheckBox)gv(R.id.login_remember_password));
-		if (preferences.getBoolean("rempwd", false)) {
-			passWord.setText(preferences.getString("pwd", ""));
-			MTCommon.moveSelectionToLast(passWord);
-			remPwd.setChecked(true);
+		if (from == null) {
+			SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
+
+			user = MTUserManager.getUser();
+			if (user != null) {
+				phoneNum.setText(user.getMuAccount());
+				MTCommon.moveSelectionToLast(passWord);
+			}
+
+			remPwd = ((CheckBox)gv(R.id.login_remember_password));
+			if (preferences.getBoolean("rempwd", false)) {
+				passWord.setText(preferences.getString("pwd", ""));
+				MTCommon.moveSelectionToLast(passWord);
+				remPwd.setChecked(true);
+			}
 		}
 		loginButton = gv(R.id.login_button);
 		loginButton.setOnClickListener(new OnClickListener() {
@@ -104,16 +114,24 @@ public class LoginActivity extends BaseActivity {
 						if (result instanceof MTUserResult) {
 							MTCommon.ShowToast("登陆成功");
 							MTUserResult ur = (MTUserResult) result;
+							ur.init();
+							
+							//save user inf;
 							MTUserManager.save((MTUser)ur.getDetails());
-							Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 							Editor edit = LoginActivity.this.getPreferences(LoginActivity.MODE_PRIVATE).edit();
 							if(remPwd.isChecked()){
 								edit.putBoolean("rempwd", true);
 								edit.putString("pwd", pwd);
+							}else{
+								edit.putBoolean("rempwd", false);
+								edit.putString("pwd", "");
 							}
-							edit.putString("acc", account);
 							edit.commit();
+							
+							//to the home activity;
+							Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 							LoginActivity.this.startActivity(intent);
+							LoginActivity.this.finish();
 						}
 						
 					}
@@ -121,9 +139,30 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 		
-		gv(R.id.forget_password).setOnClickListener(new NewActivityListener(this, FindPasswordActivity.class));
+		gv(R.id.forget_password).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this, FindPasswordActivity.class);
+				LoginActivity.this.startActivityForResult(intent, FORGET_PASSWORD);
+			}
+		});
 		
 	}
 
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
+		if (arg0 == FORGET_PASSWORD && arg1 == Activity.RESULT_OK) {
+			remPwd.setChecked(false);
+			Editor edit = getPreferences(Activity.MODE_PRIVATE).edit();
+			edit.putBoolean("rempwd", false);
+			edit.putString("pwd", "");
+			edit.commit();
+			String phone = arg2.getStringExtra("phone");
+			phoneNum.setText(phone);
+			MTCommon.moveSelectionToLast(phoneNum);
+		}
+	}
 
 }

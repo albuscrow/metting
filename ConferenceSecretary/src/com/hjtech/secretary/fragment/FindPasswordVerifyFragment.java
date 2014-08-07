@@ -87,16 +87,10 @@ public class FindPasswordVerifyFragment extends BaseFragment {
 			}
 		});
 		
-		
-				gv(R.id.register_complete_button).setOnClickListener(new OnClickListener() {
-			
 
+		gv(R.id.register_complete_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (true) {
-					getFindPasswordActivity().next(phone);
-					return;
-				}
 				phone = MTCommon.getContent(phoneView);
 				if (phone == null) {
 					MTCommon.ShowToast("请输入手机号");
@@ -106,56 +100,57 @@ public class FindPasswordVerifyFragment extends BaseFragment {
 					MTCommon.ShowToast("请输入正确的号码");
 					return;
 				}		
-				String vcode = MTCommon.getContent(vcodeView);
+				final String vcode = MTCommon.getContent(vcodeView);
 				if (vcode == null) {
 					MTCommon.ShowToast("请输入验证码");
 					return;
 				}
-				
+
 				if (vcode.length() != 5) {
 					MTCommon.ShowToast("请输入正确的验证码");
 					return;
 				}
-				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-					
-					@Override
-					public void onPreExecute() {
-						
-					}
-					
-					@Override
-					public void onPostExecute(Object result) {
-						
-						int resultCode = (Integer) result;
-						switch (resultCode) {
-						case -1:
-							MTCommon.ShowToast("验证不通过，非法用户");
-							break;
-						case 0:
-							MTCommon.ShowToast("获取失败，服务器内部错误");
-							break;
-						case 1:
-							MTCommon.ShowToast("验证成功");
-							getFindPasswordActivity().next(phone);
-							break;
-						case 2:
-							MTCommon.ShowToast("提交参数错误");
-							break;
-						case 3:
-							MTCommon.ShowToast("验证码失效，请重新获取");
-							break;
-						case 4:
-							MTCommon.ShowToast("验证码错误");
-							break;
-						default:
-							break;
-						}
-					}
-
-				}).Validation(phone, vcode);
+				getFindPasswordActivity().next(phone, vcode);
+//				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+//
+//					@Override
+//					public void onPreExecute() {
+//
+//					}
+//
+//					@Override
+//					public void onPostExecute(Object result) {
+//
+//						int resultCode = (Integer) result;
+//						switch (resultCode) {
+//						case -1:
+//							MTCommon.ShowToast("验证不通过，非法用户");
+//							break;
+//						case 0:
+//							MTCommon.ShowToast("获取失败，服务器内部错误");
+//							break;
+//						case 1:
+//							MTCommon.ShowToast("验证成功");
+//							getFindPasswordActivity().next(phone, vcode);
+//							break;
+//						case 2:
+//							MTCommon.ShowToast("提交参数错误");
+//							break;
+//						case 3:
+//							MTCommon.ShowToast("验证码失效，请重新获取");
+//							break;
+//						case 4:
+//							MTCommon.ShowToast("验证码错误");
+//							break;
+//						default:
+//							break;
+//						}
+//					}
+//
+//				}).Validation(phone, vcode);
 			}
 		});
-		
+
 		return rootView;
 	}
 	
