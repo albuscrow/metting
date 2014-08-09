@@ -1,22 +1,16 @@
 package com.hjtech.secretary.data;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
 
-import com.hjtech.secretary.R.string;
-import com.hjtech.secretary.activity.MettingListActivity;
 import com.hjtech.secretary.common.AppConfig;
 import com.hjtech.secretary.utils.JsonTarget;
-import com.hjtech.secretary.utils.MTCommon;
 
-import android.R.integer;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.EditText;
+
 
 public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 
@@ -65,7 +59,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			case MY_MEET:
 				type = new TypeToken<MTMettingListResult>(){}.getType();
-				result = DataProvider.getMyMeet(type, (String)params[1],(Integer)params[2], (Integer) params[3]);
+				result = DataProvider.getMyMetting(type, (String)params[1],(Integer)params[2], (Integer) params[3]);
 				break;
 			case VERIFY_CODE:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
@@ -83,10 +77,10 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				type = new TypeToken<MTUserResult>(){}.getType();
 				result = DataProvider.login(type,(String)params[1],(String) params[2]);
 				break;
-			case METTING_DETAILS:
-				type = new TypeToken<MTMettingResult>(){}.getType();
-				result = DataProvider.getMettingDetails(type,(Long)params[1]);
-				break;
+//			case METTING_DETAILS:
+//				type = new TypeToken<MTMettingResult>(){}.getType();
+//				result = DataProvider.getMettingDetails(type,(Long)params[1]);
+//				break;
 			case COLLECT:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
 				result = DataProvider.collectMetting(type,(Long)params[1],(String)params[2], (Integer) params[3]);
@@ -142,22 +136,23 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			}
 		}else{
-			MTCommon.ShowToast("无法链接到网络，请检查网络链接");
+			return -1;
 		}
 		return result;
 	}
 
 	protected void onPostExecute(Object result) {
+		
 		if (onDataAnsyTaskListener != null) {
 			onDataAnsyTaskListener.onPostExecute(result);
 		}
 	};
 	
-	public void getMeetList(String account, int page, int queryType){
+	public void getMettingList(String account, int page, int queryType){
 		this.execute(JsonTarget.MEET_LIST, account, page, queryType);
 	}
 	
-	public void getMyMeet(String account, int page, int statusType){
+	public void getMyMetting(String account, int page, int statusType){
 		this.execute(JsonTarget.MY_MEET, account, page, statusType);
 	}
 
@@ -178,9 +173,9 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.LOGIN, account, pwd);
 	}
 
-	public void getMettingDetails(long id) {
-		this.execute(JsonTarget.METTING_DETAILS, id);
-	}
+//	public void getMettingDetails(long id) {
+//		this.execute(JsonTarget.METTING_DETAILS, id);
+//	}
 
 	public void colloctMetting(Long id, String Account, int opt) {
 		this.execute(JsonTarget.COLLECT, id, Account, opt);
@@ -228,6 +223,4 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 	public void addShareLog(String muAccount, Long mmId, int type) {
 		this.execute(JsonTarget.SHARE, muAccount, mmId, type);
 	}
-
-
 }

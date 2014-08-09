@@ -4,14 +4,26 @@ import java.util.Stack;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.Constants;
+import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.fragment.InviteFragment;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
+import com.hjtech.secretary.fragment.MyMettingFragment;
+import com.hjtech.secretary.utils.MTCommon;
 import com.hjtech.secretary.weibo.AccessTokenKeeper;
+import com.hjtech.secretary.wxapi.WXEntryActivity;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +33,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements IWXAPIEventHandler{
 	/** 当前 Token 信息 */
 	public Oauth2AccessToken mAccessToken;
 	/** 用于获取微博信息流等操作的API */
@@ -30,11 +42,16 @@ public class MainActivity extends BaseActivity {
 	public WeiboAuth mWeiboAuth;
 	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
 	public SsoHandler mSsoHandler;
+	
+	public IWXAPI api;
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (mSsoHandler != null) { 
 			mSsoHandler.authorizeCallBack(requestCode, resultCode, data); 
-		} 
-	};
+		}
+		if (currentFragment instanceof MyMettingFragment) {
+			((MyMettingFragment)currentFragment).onActivityResult(requestCode, resultCode, data);
+		}
+	}
 	
 	private int UIType;
 	private FragmentManager fragmentManager;
@@ -49,9 +66,10 @@ public class MainActivity extends BaseActivity {
 		}
 		
 		initUI(R.layout.activity_main);
-		
 		initShare();
+		api.handleIntent(getIntent(), this);
 	}
+	
 	
 	private void initShare() {
 		// 获取当前已保存过的 Token
@@ -65,6 +83,10 @@ public class MainActivity extends BaseActivity {
 			mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
 			mSsoHandler = new SsoHandler(this, mWeiboAuth);
 		}
+		
+		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
+		api.registerApp(Constants.APP_ID);
+
 	}
 
 	private BaseFragment currentFragment;
@@ -221,28 +243,48 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && backStack.size() > 0) {
-			BaseFragment tempFragment = backStack.pop();
-			if (currentFragment != null) {
-				fragmentManager.beginTransaction().remove(currentFragment).add(R.id.fragment_content, tempFragment).commit();
-			}else{
-				fragmentManager.beginTransaction().add(R.id.fragment_content, tempFragment).commit();
-			}
-			currentFragment = tempFragment;
+			back();
 			return true;
 		}else{
 			return super.onKeyDown(keyCode, event);
 		}
 	}
+
+
+	public void back() {
+		BaseFragment tempFragment = backStack.pop();
+		if (currentFragment != null) {
+			fragmentManager.beginTransaction().remove(currentFragment).add(R.id.fragment_content, tempFragment).commit();
+		}else{
+			fragmentManager.beginTransaction().add(R.id.fragment_content, tempFragment).commit();
+		}
+		currentFragment = tempFragment;
+	}
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
-		if (currentFragment instanceof InviteFragment) {
-			((InviteFragment) currentFragment).onNewIntent(intent);
-		}
+		setIntent(intent);
+		api.handleIntent(intent, this);
+
 		super.onNewIntent(intent);
 	}
 	
 	public Stack<BaseFragment> getBackStack() {
 		return backStack;
+	}
+
+	@Override
+	public void onReq(BaseReq arg0) {
+		System.out.println("MainActivity.onReq()");
+	}
+
+	@Override
+	public void onResp(BaseResp arg0) {
+		System.out.println("MainActivity.onResp()");
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
 	}
 }

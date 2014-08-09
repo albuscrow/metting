@@ -277,9 +277,6 @@ public final class CaptureActivity extends Activity implements
 		beepManager.playBeepSoundAndVibrate();
 
 		String result = ResultParser.parseResult(rawResult).toString();
-		Toast.makeText(this,
-				"识别结果:" + result,
-				Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent();
 		intent.putExtra("result", result);
 		this.setResult(RESULT_OK, intent);

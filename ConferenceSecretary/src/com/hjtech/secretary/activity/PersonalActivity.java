@@ -4,6 +4,7 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.Constants;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.MTUser;
+import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.listener.NewActivityListener;
 import com.hjtech.secretary.utils.MTCommon;
 import com.hjtech.secretary.weibo.AccessTokenKeeper;
@@ -83,8 +84,6 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		});
 		setbackButton();
 		
-//		fillData();
-		
 		weiboText = (TextView) gv(R.id.personal_weibo_textview);
 		weibo = (RelativeLayout) gv(R.id.personal_banding_weibo_button);
 		
@@ -106,6 +105,26 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		
 		Button changeAccountButton = (Button) gv(R.id.change_account_button);
 		changeAccountButton.setOnClickListener(new NewActivityListener(this, LoginActivity.class, "from", "person"));
+		gv(R.id.personal_enroll_button).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PersonalActivity.this, MainActivity.class);
+				intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
+				startActivity(intent);
+			}
+		});
+		
+		gv(R.id.personal_collect_button).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PersonalActivity.this, MainActivity.class);
+				intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
+				intent.putExtra("currentPager", 2);
+				startActivity(intent);
+			}
+		});
 	}
 
 

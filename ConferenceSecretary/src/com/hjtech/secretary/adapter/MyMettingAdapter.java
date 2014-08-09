@@ -8,11 +8,14 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.BaseActivity;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.MTMettingListResult;
+import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.utils.MTCommon;
+import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
 
 import android.content.Intent;
 import android.view.View;
@@ -26,7 +29,8 @@ import android.widget.TextView;
 
 public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	private BaseActivity activity;
-	private int currentPageNum = 0;
+	private int currentPageNum = 1;
+	private int totalDataNum;
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
@@ -131,7 +135,7 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		viewHold.mettingTimeWeek.setText(metting.getWeek());
 		viewHold.mettingTimeYear.setText(metting.getYear());
 		
-		if (metting.getIsEnroll() == MTMetting.SIGNIN) {
+		if (metting.getIsEnroll() == MTMetting.ENROLL && metting.getIsEnroll() != MTMetting.SIGNIN) {
 			viewHold.mettingSignin.setVisibility(View.VISIBLE);
 		}else{
 			viewHold.mettingSignin.setVisibility(View.GONE);
@@ -160,7 +164,9 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 			synchronized (canInit) {
 				if (canInit) {
 					canInit = false;
+					currentPageNum = 1; 
 					new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
 
 						@Override
 						public void onPreExecute() {
@@ -169,15 +175,26 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 
 						@Override
 						public void onPostExecute(Object result) {
+							if (result != null && result instanceof Integer) {
+								MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+								return;
+							}	
+
 							if (result == null) {
 								MTCommon.ShowToast("获取会议数据失败！");
-							}else{
-								setData((List<MTMetting>) result);
+								return;
 							}
+							if (result instanceof MTSimpleResult) {
+								MTCommon.ShowToast("获取会议数据失败！");
+								return;
+							}
+							MTMettingListResult ms = (MTMettingListResult) result;
+							totalDataNum = ms.getTotal();
+							setData(ms.getDetails());
 							//				hideWaitBar();
 							canInit = true;
 						}
-					}).getMyMeet(MTUserManager.getUser().getMuAccount(), 0, status);				
+					}).getMyMetting(MTUserManager.getUser().getMuAccount(), currentPageNum, status);				
 				}
 			}
 		}
@@ -185,23 +202,36 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	}
 
 	public void getMoreData() {
+		if (currentPageNum * 15 > totalDataNum) {
+			return;
+		}
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 			@Override
 			public void onPreExecute() {
-				//				showWaitBar();
+				MTCommon.ShowToast("正在加载更多数据");
 			}
 
 			@Override
 			public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 				if (result == null) {
 					MTCommon.ShowToast("获取会议数据失败！");
-				}else{
-					appendData((List<MTMetting>) result);
+					return;
 				}
+				if (result instanceof MTSimpleResult) {
+					MTCommon.ShowToast("获取会议数据失败！");
+					return;
+				}
+				MTMettingListResult ms = (MTMettingListResult) result;
+				appendData(ms.getDetails());
 				//				hideWaitBar();
 			}
-		}).getMyMeet(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
+		}).getMyMetting(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
 	public void setActivity(BaseActivity activity) {

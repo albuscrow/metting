@@ -47,5 +47,11 @@ public class MTFragmentFactory {
 			return null;
 		}
 	}
+
+	public static void clear() {
+		if (fragmentArray != null) {
+			fragmentArray.clear();
+		}
+	}
 	
 }

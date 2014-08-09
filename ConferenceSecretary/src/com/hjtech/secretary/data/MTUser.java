@@ -180,7 +180,7 @@ public class MTUser implements java.io.Serializable {
 		this.muAddtime = muAddtime;
 	}
 	public String getMuPhoto() {
-		if (muPhoto == null) {
+		if (muPhoto == null || muPhoto.length() == 0) {
 			return null;
 		}
 		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/");
@@ -242,5 +242,14 @@ public class MTUser implements java.io.Serializable {
 			}
 		}
 		return f;
+	}
+	public void addCollect() {
+		++ coCount;
+	}
+	public void addEnroll() {
+		++ enCount;
+	}
+	public void minCollect() {
+		-- enCount;
 	}
 }

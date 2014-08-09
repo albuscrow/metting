@@ -6,12 +6,18 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.MettingCommentActivity;
 import com.hjtech.secretary.data.MTComment;
 import com.hjtech.secretary.utils.MTCommon;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -67,6 +73,8 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 		public TextView commentTime;
 		public TextView commentContent;
 		public TextView commentMore;
+		
+		public ImageView commentPhoto;
 	}
 
 	@Override
@@ -78,6 +86,7 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 			viewHold.commentName = (TextView) convertView.findViewById(R.id.metting_comment_name);
 			viewHold.commentTime = (TextView) convertView.findViewById(R.id.metting_comment_time);
 			viewHold.commentContent = (TextView) convertView.findViewById(R.id.metting_comment_content);
+			viewHold.commentPhoto = (ImageView) convertView.findViewById(R.id.comment_profile);
 			viewHold.commentMore = (TextView) convertView.findViewById(R.id.comment_more);
 			viewHold.commentMore.setTag(viewHold.commentContent);
 			viewHold.commentMore.setOnClickListener(new OnClickListener() {
@@ -129,6 +138,32 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 		}else{
 			convertView.setBackgroundColor(activity.getResources().getColor(R.color.comment_dark));
 		}
+		final ImageView imageView = viewHold.commentPhoto;
+		ImageLoader.getInstance().loadImage(comment.getMuPhoto(), new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+				
+			}
+			
+			@Override
+			public void onLoadingFailed(String imageUri, View view,
+					FailReason failReason) {
+				
+			}
+			
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				if (loadedImage == null) {
+					loadedImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.common_default_image);
+				}
+				imageView.setImageBitmap(MTCommon.getRoundedCornerBitmap(loadedImage, 10));
+			}
+			
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+				
+			}
+		});
 		
 		return convertView;
 	}

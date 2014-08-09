@@ -66,6 +66,11 @@ public class RegisterActivity extends BaseActivity{
 					
 					@Override
 					public void onPostExecute(Object result) {
+							if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 						if (result == null) {
 							MTCommon.ShowToast("网络错误！");
 							return;
@@ -141,8 +146,16 @@ public class RegisterActivity extends BaseActivity{
 					
 					@Override
 					public void onPostExecute(Object result) {
-						
-						int resultCode = (Integer) result;
+							if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
+						if (result == null) {
+							MTCommon.ShowToast("验证失败");
+							return;
+						}
+						int resultCode = ((MTSimpleResult) result).getResult();
 						switch (resultCode) {
 						case -1:
 							MTCommon.ShowToast("验证不通过，非法用户");
@@ -151,7 +164,6 @@ public class RegisterActivity extends BaseActivity{
 							MTCommon.ShowToast("获取失败，服务器内部错误");
 							break;
 						case 1:
-//							MTCommon.ShowToast("验证成功");
 							register();
 							break;
 						case 2:
@@ -262,6 +274,11 @@ public class RegisterActivity extends BaseActivity{
 
 			@Override
 			public void onPostExecute(Object result) {
+					if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 				if (result == null || result instanceof MTSimpleResult) {
 					MTCommon.ShowToast("注册失败");
 					return;

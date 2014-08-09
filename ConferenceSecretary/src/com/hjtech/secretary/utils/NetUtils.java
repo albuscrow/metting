@@ -60,7 +60,19 @@ public class NetUtils {
 				result = EntityUtils.toString(response.getEntity());
 			}
 			if (DEBUG_FLAG) {
-				System.out.println(result);
+				System.out.println(targetURL);
+				String temp = targetURL + "/?";
+				for (String key : params.keySet()) {
+					System.out.println(key);
+					System.out.println(params.get(key));
+					temp += key +"=" +params.get(key) + "&";
+				}
+				System.out.println(temp);
+				System.out.println(response.getStatusLine());
+				
+				if (result != null) {
+					System.out.println(result);
+				}
 			}
 			Log.i(TAG, GET_DATA_SUCCESS);
 		} catch (Exception e) {

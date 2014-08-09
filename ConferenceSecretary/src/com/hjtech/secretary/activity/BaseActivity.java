@@ -6,6 +6,7 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.utils.MTCommon;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -129,23 +130,25 @@ public class BaseActivity extends FragmentActivity {
 	public void setbackButtonForFragment() {
 
 		if (this instanceof MainActivity) {
+			final MainActivity activity = (MainActivity) this;
 			leftText.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Stack<BaseFragment> backStack = ((MainActivity) BaseActivity.this).getBackStack();
-					if (backStack.size() > 0) {
-						BaseActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_content, backStack.pop()).commit();
+					if (activity.getBackStack().size() > 0) {
+						activity.back();
 					}else{
-						BaseActivity.this.finish();
-					}		
+						finish();
+					}
 				}
 			});
 		}
 		
 	}
-	
-	protected void onActivityResult(int arg0, int arg1, android.content.Intent arg2) {
-		System.out.println("BaseActivity.onActivityResult()");
-	};
 
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		System.out.println("BaseActivity.onActivityResult()");
+		super.onActivityResult(arg0, arg1, arg2);
+	}
 }

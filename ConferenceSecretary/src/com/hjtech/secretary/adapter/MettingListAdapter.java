@@ -2,26 +2,20 @@ package com.hjtech.secretary.adapter;
 
 import java.util.List;
 
-import cn.hugo.android.scanner.CaptureActivity;
-
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.BaseActivity;
-import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
+import com.hjtech.secretary.data.MTMettingListResult;
+import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.fragment.BaseFragment;
-import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.utils.MTCommon;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-import android.content.Intent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -29,7 +23,7 @@ import android.widget.TextView;
 
 public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 	private BaseActivity activity;
-	private int currentPageNum = 0;
+	private int currentPageNum = 1;
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
@@ -88,6 +82,8 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		
 		public ImageButton isEnroll; 
 		public ImageView mettingStatus;
+		
+		public ImageView star;
 	}
 
 	@Override
@@ -107,6 +103,8 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 			viewHold.mettingTimeMonth = (TextView) convertView.findViewById(R.id.metting_list_month);
 			viewHold.mettingTimeWeek = (TextView) convertView.findViewById(R.id.metting_list_week);
 			viewHold.mettingTimeYear = (TextView) convertView.findViewById(R.id.metting_list_year);
+			
+			viewHold.star = (ImageView) convertView.findViewById(R.id.metting_star);
 			
 			convertView.setTag(viewHold);
 		}else{
@@ -139,6 +137,8 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 			viewHold.isEnroll.setVisibility(View.GONE);
 		}
 		
+		viewHold.star.setImageResource(metting.getEnCountPictureId());
+		
 		return convertView;
 	}
 
@@ -149,11 +149,13 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 	}
 	
 	Boolean canInit = true;
+	private int totalDataNum;
 	public void initData() {
 		if (canInit) {
 			synchronized (canInit) {
 				if (canInit) {
 					canInit = false;
+					currentPageNum = 1;
 					new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 						@Override
@@ -163,24 +165,35 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 
 						@Override
 						public void onPostExecute(Object result) {
+							if (result != null && result instanceof Integer) {
+								MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+								return;
+							}	
+
 							if (result == null) {
 								MTCommon.ShowToast("获取会议数据失败！");
-							}else{
-								setData((List<MTMetting>) result);
+								return;
 							}
-							//				hideWaitBar();
+							if (result instanceof MTSimpleResult) {
+								MTCommon.ShowToast("获取会议数据失败！");
+								return;
+							}
+							MTMettingListResult mr = (MTMettingListResult) result;
+							totalDataNum = mr.getTotal();
+							setData(mr.getDetails());
 							canInit = true;
 						}
-					}).getMeetList(MTUserManager.getUser().getMuAccount(), 0, status);				
+					}).getMettingList(MTUserManager.getUser().getMuAccount(), currentPageNum, status);				
 				}
 			}
 		}
-
 	}
 
 	public void getMoreData() {
+		if (currentPageNum * 15 > totalDataNum) {
+			return;
+		}
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-
 			@Override
 			public void onPreExecute() {
 				//				showWaitBar();
@@ -188,14 +201,23 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 
 			@Override
 			public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
 				if (result == null) {
 					MTCommon.ShowToast("获取会议数据失败！");
-				}else{
-					appendData((List<MTMetting>) result);
+					return;
 				}
+				if (result instanceof MTSimpleResult) {
+					MTCommon.ShowToast("获取会议数据失败！");
+					return;
+				}
+				MTMettingListResult mr = (MTMettingListResult) result;
+					appendData(mr.getDetails());
 				//				hideWaitBar();
 			}
-		}).getMyMeet(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
+		}).getMettingList(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
 	public void setActivity(BaseActivity activity) {

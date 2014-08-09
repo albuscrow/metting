@@ -1,33 +1,35 @@
-package com.hjtech.secretary.weixin;
+package com.hjtech.secretary.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Window;
 
+import com.hjtech.secretary.common.Constants;
+import com.hjtech.secretary.fragment.InviteFragment;
+import com.hjtech.secretary.utils.MTCommon;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-	private static IWXAPI api;
+	public static InviteFragment shareFragment;
+	private IWXAPI api;
 	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		System.out.println("WXEntryActivity.onCreateContextMenu()");
-		super.onCreateContextMenu(menu, v, menuInfo);
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// 注册微信sdk
+		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
+		api.registerApp(Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
+		this.finish();
 	}
+	
 	@Override
 	public void onReq(BaseReq arg0) {
 	}
@@ -37,25 +39,26 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		super.onNewIntent(intent);
 		setIntent(intent);
         api.handleIntent(intent, this);
+		this.finish();
 	}
 
 	@Override
 	public void onResp(BaseResp resp) {
 		switch (resp.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
+			MTCommon.ShowToast("分享成功");
+			shareFragment.addShareLog(InviteFragment.WEIXIN);
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
+			MTCommon.ShowToast("取消分享");
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
+			MTCommon.ShowToast("分享失败");
 			break;
 		default:
 			break;
 		}
 		
-	}
-
-	public static void setAPI(IWXAPI api) {
-		WXEntryActivity.api = api;
 	}
 
 }

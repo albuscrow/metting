@@ -81,19 +81,26 @@ public class MettingCommentActivity extends BaseActivity {
 					
 					@Override
 					public void onPreExecute() {
-						// TODO Auto-generated method stub
-						
+						MTCommon.ShowToast("正在发表您的评论");
+						submit.setEnabled(false);
 					}
 					
 					@Override
 					public void onPostExecute(Object result) {
+						if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 						if (result == null) {
 							MTCommon.ShowToast("评论失败");
+							submit.setEnabled(true);
 							return;
 						}
 						MTSimpleResult sr = (MTSimpleResult) result;
 						if (sr.getResult() != 1) {
 							MTCommon.ShowToast("评论失败");
+							submit.setEnabled(true);
 							return;
 						}else{
 							MTCommon.ShowToast("评论成功");
@@ -117,12 +124,18 @@ public class MettingCommentActivity extends BaseActivity {
 
 			@Override
 			public void onPostExecute(Object result) {
+						if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 				MTCommentResult cr = (MTCommentResult) result;
 				if (cr == null || cr.getResult() != 1) {
 					MTCommon.ShowToast("评论获取失败");
 					return;
 				}
 				adapter.setData(cr.getDetails());
+				submit.setEnabled(true);
 			}
 		}).getMettingComment(mettingId,0);
 	}
@@ -144,6 +157,10 @@ public class MettingCommentActivity extends BaseActivity {
 
 			@Override
 			public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}
 				MTCommentResult cr = (MTCommentResult) result;
 				if (cr == null || cr.getResult() != 1) {
 					MTCommon.ShowToast("评论获取失败");

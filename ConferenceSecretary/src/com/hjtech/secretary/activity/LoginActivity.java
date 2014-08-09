@@ -7,10 +7,12 @@ import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.data.MTUser;
 import com.hjtech.secretary.data.MTUserResult;
+import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.listener.NewActivityListener;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,17 +50,17 @@ public class LoginActivity extends BaseActivity {
 		gv(R.id.login_register_text).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
 		phoneNum = ((EditText)gv(R.id.login_phonenum));
 		passWord = ((EditText)gv(R.id.login_password));
+		remPwd = ((CheckBox)gv(R.id.login_remember_password));
+		user = MTUserManager.getUser();
 		
 		if (from == null) {
 			SharedPreferences preferences = getPreferences(LoginActivity.MODE_PRIVATE);
 
-			user = MTUserManager.getUser();
 			if (user != null) {
 				phoneNum.setText(user.getMuAccount());
 				MTCommon.moveSelectionToLast(passWord);
 			}
 
-			remPwd = ((CheckBox)gv(R.id.login_remember_password));
 			if (preferences.getBoolean("rempwd", false)) {
 				passWord.setText(preferences.getString("pwd", ""));
 				MTCommon.moveSelectionToLast(passWord);
@@ -101,6 +103,12 @@ public class LoginActivity extends BaseActivity {
 					public void onPostExecute(Object result) {
 						hideWaitBar();
 						loginButton.setEnabled(true);
+						
+						if (result != null && result instanceof Integer) {
+							MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+							return;
+						}
+						
 						if (result == null) {
 							MTCommon.ShowToast("网络出错啦");
 							return;
@@ -128,6 +136,9 @@ public class LoginActivity extends BaseActivity {
 							}
 							edit.commit();
 							
+							MTFragmentFactory.clear();
+							
+							//init fragment
 							//to the home activity;
 							Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 							LoginActivity.this.startActivity(intent);

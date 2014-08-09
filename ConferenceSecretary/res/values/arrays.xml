@@ -8,6 +8,7 @@
     <string-array name="my_metting_title_strip">
         <item >已报名</item>
         <item >已签到</item>
+        <item >已收藏</item>
         <item >所有</item>
     </string-array>
     

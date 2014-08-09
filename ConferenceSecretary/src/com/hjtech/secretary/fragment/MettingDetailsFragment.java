@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -67,6 +68,11 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 
 						@Override
 						public void onPostExecute(Object result) {
+							if (result != null && result instanceof Integer) {
+								MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+								return;
+							}	
+
 							if (result == null) {
 								MTCommon.ShowToast("收藏失败");
 								return;
@@ -80,6 +86,7 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 								MTCommon.ShowToast("收藏成功");
 								metting.setIsCollect(MTMetting.COLLECT);
 								changeCollectView();
+								MTUserManager.getUser().addCollect();
 								break;
 							case 2:
 								MTCommon.ShowToast("参数错误，请检查提交参数");
@@ -118,6 +125,7 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 								MTCommon.ShowToast("取消收藏成功");
 								metting.setIsCollect(MTMetting.UNCOLLECT);
 								changeCollectView();
+								MTUserManager.getUser().minCollect();
 								break;
 							case 2:
 								MTCommon.ShowToast("参数错误，请检查提交参数");
@@ -140,7 +148,13 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 
 //		relatedMettingLayout= (LinearLayout) gv(R.id.detail_relate_metting);
 		
-		gv(R.id.detail_enroll).setOnClickListener(new NewActivityListener(getMainActivity(), EnrollActivity.class, "id", metting.getMmId().toString()));
+		Button enroll = (Button) gv(R.id.detail_enroll);
+		if (metting.getIsEnroll() == MTMetting.UNENROLL && metting.getIsStarted() == MTMetting.UNSTART) {
+			enroll.setOnClickListener(new NewActivityListener(getMainActivity(), EnrollActivity.class, "id", metting.getMmId().toString()));
+		}else{
+			enroll.setTextColor(getResources().getColor(R.color.mt_text_3));
+			enroll.setBackgroundResource(R.drawable.button_gray);
+		}
 		gv(R.id.detail_comment).setOnClickListener(new NewActivityListener(getMainActivity(), MettingCommentActivity.class, "id", metting.getMmId().toString()));
 		gv(R.id.detail_share).setOnClickListener(new OnClickListener() {
 			

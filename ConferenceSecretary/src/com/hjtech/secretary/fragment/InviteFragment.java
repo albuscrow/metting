@@ -2,21 +2,19 @@ package com.hjtech.secretary.fragment;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.MainActivity;
-import com.hjtech.secretary.common.Constants;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.utils.MTCommon;
-import com.hjtech.secretary.view.NoDefaultSpinner;
 import com.hjtech.secretary.weibo.AccessTokenKeeper;
-import com.hjtech.secretary.weixin.WXEntryActivity;
+import com.hjtech.secretary.wxapi.WXEntryActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
@@ -24,14 +22,17 @@ import com.sina.weibo.sdk.openapi.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.utils.LogUtil;
+import com.tencent.mid.util.Util;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXTextObject;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -61,7 +62,6 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	public static final int WEIXIN = 0;
 	public static final int WEIBO = 1;
 
-	private IWXAPI api;
 
 	/**
 	 * 微博 OpenAPI 回调接口。
@@ -81,7 +81,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 				} else if (response.startsWith("{\"created_at\"")) {
 					// 调用 Status#parse 解析字符串成微博对象
 					addShareLog(WEIBO);
-					confirm.setEnabled(false);
+					confirm.setEnabled(true);
 					MTCommon.ShowToast("分享成功");
 				} else {
 					MTCommon.ShowToast(response);
@@ -106,16 +106,12 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 
 		initShare();
 		initData();
-
+		WXEntryActivity.shareFragment = this;
 		return initUI(inflater);
 	}
 
 	private void initShare() {
 
-
-		api = WXAPIFactory.createWXAPI(getBaseActivity(), Constants.APP_ID, true);
-		api.registerApp(Constants.APP_ID);
-		WXEntryActivity.setAPI(api);
 	}
 
 	private void initData() {
@@ -130,7 +126,32 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		shareContent.setText(String.format(getResources().getString(R.string.share_content),MTUserManager.getUser().getMuName(), metting.getMmTitle()));
 
 		tdCode = (ImageView) gv(R.id.share_td_code);
-		ImageLoader.getInstance().displayImage(metting.getMmQr(), tdCode);
+		
+		ImageLoader.getInstance().loadImage(metting.getMmEnqr(), new ImageLoadingListener() {
+
+				@Override
+				public void onLoadingStarted(String imageUri, View view) {
+				}
+
+				@Override
+				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+					if (loadedImage == null) {
+						tdCode.setImageResource(R.drawable.common_default_image);
+					}else{
+						tdCode.setImageBitmap(loadedImage);
+					}
+				}
+
+				@Override
+				public void onLoadingCancelled(String imageUri, View view) {
+				}
+
+				@Override
+				public void onLoadingFailed(String imageUri, View view,
+						FailReason failReason) {
+				}
+
+			});
 
 		sharePlatform = (Spinner) gv(R.id.share_platform);
 		sharePlatform.setAdapter(ArrayAdapter.createFromResource(getBaseActivity(), R.array.share_platform, R.layout.share_spinner));
@@ -150,7 +171,9 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 
 		confirm = (TextView) gv(R.id.share_confirm);
 		confirm.setOnClickListener(this);
-		return rootView;
+		
+		
+				return rootView;
 	}
 
 
@@ -160,28 +183,34 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		switch (sharePlatformFlag) {
 		case WEIXIN:
 
-			// 初始化一个WXTextObject对象
-			WXTextObject textObj = new WXTextObject();
-			textObj.text = text;
-
-			// 用WXTextObject对象初始化一个WXMediaMessage对象
-			WXMediaMessage msg = new WXMediaMessage();
-			msg.mediaObject = textObj;
-			// 发送文本类型的消息时，title字段不起作用
-			// msg.title = "Will be ignored";
+			WXWebpageObject webpage = new WXWebpageObject();  
+			webpage.webpageUrl = metting.getMmEnpage();
+//			System.out.println(metting.getMmEnpage());
+			WXMediaMessage msg = new WXMediaMessage(webpage);  
+			msg.title = "会小蜜";  
 			msg.description = text;
+//			WXWebpageObject webpage = new WXWebpageObject();
+//			System.out.println(metting.getMmEnpage());
+//			webpage.webpageUrl = "http://www.xxxx.com/wap/showShare/";
+//			WXMediaMessage msg = new WXMediaMessage(webpage);
+//			msg.title = "我要约";
+//			msg.description = "我要约分享";
 
-			// 构造一个Req
-			SendMessageToWX.Req req = new SendMessageToWX.Req();
-			req.transaction = buildTransaction("text"); // transaction字段用于唯一标识一个请求
-			req.message = msg;
-			req.scene = SendMessageToWX.Req.WXSceneTimeline;
-
-			// 调用api接口发送数据到微信
-			api.sendReq(req);
+			try{  
+				Bitmap bmp = MTCommon.getImageFromView(tdCode);
+				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);  
+				bmp.recycle();  
+				msg.setThumbImage(thumbBmp);  
+			}catch(Exception e){  
+				e.printStackTrace();  
+			}
+			SendMessageToWX.Req req = new SendMessageToWX.Req();  
+			req.transaction = String.valueOf(System.currentTimeMillis());  
+			req.message = msg;  
+			req.scene = SendMessageToWX.Req.WXSceneTimeline;  
+			getMainActivity().api.sendReq(req);
 			break;
 		case WEIBO:
-
 			if (getMainActivity().mStatusesAPI != null) {
 				shareWithSina();	
 			}else{
@@ -200,7 +229,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		return ((MainActivity) getBaseActivity());
 	}
 
-	private void addShareLog(int type) {
+	public void addShareLog(int type) {
 		if (type == WEIBO) {
 			new GetDataAnsycTask().addShareLog(MTUserManager.getUser().getMuAccount(), metting.getMmId(), 2);
 		}else{
@@ -211,8 +240,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	private void shareWithSina() {
 		confirm.setEnabled(false);
 		MTCommon.ShowToast("正在分享到微博，请稍后...");
-		Drawable drawable = tdCode.getDrawable();
-		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+		Bitmap bitmap = MTCommon.getImageFromView(tdCode);
 		String content = shareContent.getText().toString();
 		getMainActivity().mStatusesAPI.upload(content, bitmap, null, null, mListener);
 	}
@@ -244,10 +272,6 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 
 			break;
 		}
-	}
-
-	public void onNewIntent(Intent intent) {
-		getBaseActivity().setIntent(intent);
 	}
 
 	@Override

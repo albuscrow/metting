@@ -120,8 +120,6 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	protected void onActivityResult(int request, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK && request == SIGNIN) {
 			String result = data.getStringExtra("result");
-			//TODO temp
-			result = "1";
 			long id = Long.parseLong(result);
 			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
@@ -133,6 +131,11 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 
 				@Override
 				public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 					if (result == null) {
 						MTCommon.ShowToast("签到失败");
 						return;

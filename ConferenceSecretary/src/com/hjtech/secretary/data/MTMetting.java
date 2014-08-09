@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import com.hjtech.secretary.R;
+
 /**
  * MtMetting entity. @author MyEclipse Persistence Tools
  */
@@ -21,12 +23,12 @@ public class MTMetting implements java.io.Serializable {
 	
 	public static final int COLLECT = 1;
 	public static final int UNCOLLECT = 0;
-	private int isCollect;
+	private int isCollect = 1;
 	
 	public static final int ENROLL = 0;
 	public static final int UNENROLL = 2;
 	public static final int SIGNIN = 1;
-	private int isEnroll;
+	private int isEnroll = -1;
 	
 	private String mmAddress;
 	
@@ -51,13 +53,37 @@ public class MTMetting implements java.io.Serializable {
 
 	private String mmQr;
 	private String mmEnpage;
-	private String Enqr;
+	private String mmEnqr;
 	
 	private String mmMayVisits;
 	private int mmViewCount;
 	private int mmSignCount;
 	private int mmEnrollCount;
 	private int mmStatus;
+	
+	private int enCount;
+	
+	public int getEnCount() {
+		return enCount;
+	}
+	
+	public int getEnCountPictureId() {
+		if (enCount <= 5) {
+			return R.drawable.star1;
+		}else if(enCount <= 10){
+			return R.drawable.star2;
+		}else if(enCount <= 20){
+			return R.drawable.star3;
+		}else if(enCount <= 50){
+			return R.drawable.star4;
+		}else{
+			return R.drawable.star5;
+		}
+	}
+	
+	public void setEnCount(int enCount) {
+		this.enCount = enCount;
+	}
 	public Long getMmId() {
 		return mmId;
 	}
@@ -206,16 +232,22 @@ public class MTMetting implements java.io.Serializable {
 		this.mmQr = mmQr;
 	}
 	public String getMmEnpage() {
+		if (mmEnpage == null || mmEnpage.length() == 0) {
+			return "http://www.xxxx.com/wap/showShare/";
+		}
 		return mmEnpage;
 	}
 	public void setMmEnpage(String mmEnpage) {
 		this.mmEnpage = mmEnpage;
 	}
-	public String getEnqr() {
-		return Enqr;
+	public String getMmEnqr() {
+		if (mmEnqr == null || mmEnqr.length() == 0) {
+			return null;
+		}
+		return "http://211.155.229.136:8050/"+mmEnqr.replace("\\", "/");
 	}
-	public void setEnqr(String enqr) {
-		Enqr = enqr;
+	public void setMmEnqr(String enqr) {
+		mmEnqr = enqr;
 	}
 	public String getMmMayVisits() {
 		return mmMayVisits;
@@ -253,7 +285,6 @@ public class MTMetting implements java.io.Serializable {
 				+ mmStartdate.substring(8, 10) + "日";
 	}
 	
-	
 	private static final String[] WEEK = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 	private Date startDate;
 	private Calendar calendar = Calendar.getInstance();
@@ -265,7 +296,7 @@ public class MTMetting implements java.io.Serializable {
 	
 	public static final int END = 0;
 	public static final int STARTED = 1;
-	public static final int  UNSTART = 2;
+	public static final int UNSTART = 2;
 	
 	private int isStarted;
 	public void initTime(){

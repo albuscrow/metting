@@ -67,21 +67,31 @@ public class EnrollActivity extends BaseActivity {
 					MTCommon.ShowToast("请输入手机号");
 					return;
 				}
+				if (mobileStr.length() != 11 && mobileStr.length() != 13) {
+					MTCommon.ShowToast("请输入正确的手机号");
+					return;
+				}
 				
 				MTUser user = MTUserManager.getUser();
 				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-					
+
 					@Override
 					public void onPreExecute() {
-						
+
 					}
-					
+
 					@Override
 					public void onPostExecute(Object result) {
+						if (result != null && result instanceof Integer) {
+							MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+							return;
+						}	
+
 						int resultCode = (Integer) result;
 						switch (resultCode) {
 						case 1:
 							MTCommon.ShowToast("报名成功");
+							MTUserManager.getUser().addEnroll();
 							EnrollActivity.this.finish();
 							break;
 						case 2:

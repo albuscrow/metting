@@ -69,6 +69,11 @@ public class ModifyPasswordActivity extends BaseActivity {
 					
 					@Override
 					public void onPostExecute(Object result) {
+						if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
 						if (result == null) {
 							MTCommon.ShowToast("修改密码失败");
 							return;

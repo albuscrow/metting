@@ -36,6 +36,7 @@ public class DataProvider {
 	public static final String BASE_URL = "http://211.155.229.136:8080/mettingapi/";
 	public static final String METTING_LIST_URL = BASE_URL + "metting/list";
 	public static final String MY_METTING_URL = BASE_URL + "metting/userMettings";
+	public static final String GET_COLLECT = BASE_URL + "collect/list";
 	public static final String METTING_DETAILS_URL = BASE_URL + "metting/desp";
 	public static final String COLLECT_URL = BASE_URL + "metting/collect";
 	public static final String UNCOLLECT_URL = BASE_URL + "metting/cancel_collect";
@@ -76,6 +77,7 @@ public class DataProvider {
 	public static final int STATUS_ALL = 0;
 	public static final int STATUS_ENROLL = 1;
 	public static final int STATUS_SIGNIN = 2;
+	public static final int STATUS_COLLECT = 3;
 	
 	public static final String PHONE = "phone";
 	public static final String VCODE = "vcode";
@@ -107,7 +109,7 @@ public class DataProvider {
 	private static final String MU_EMAIL = "muEmail";
 	
 	
-	static List<MTMetting> getMettingList(Type type,String account,int page,int timeType){
+	static Object getMettingList(Type type,String account,int page,int timeType){
 		Map<String, Object> params = genParems();
 		if (account == null) {
 			return null;
@@ -122,37 +124,41 @@ public class DataProvider {
 		params.put(QUERY_TYPE, 0);
 		params.put(TIME, timeType);
 		String json = NetUtils.getPostResult(params,METTING_LIST_URL);
-		MTMettingListResult result = null;
-		if (json != null) {
-			result = (MTMettingListResult) JsonUtils.parseJsonResult(type, json);
+		if (json == null) {
+			return null;
+		}
+		int resultCode = JsonUtils.getResult(json);
+		if (resultCode != 1) {
+			return JsonUtils.parseJsonResult(new TypeToken<MTSimpleResult>(){}.getType(), json);
 		}else{
-			return null;
+			return JsonUtils.parseJsonResult(type, json);
 		}
-		if (result.getResult() <= 0) {
-			return null;
-		}
-		return (List<MTMetting>) result.getDetails();
+
 	}
 	
-	static List<MTMetting> getMyMeet(Type type,String account,int page, int status){
+	static Object getMyMetting(Type type,String account,int page, int status){
 		Map<String, Object> params = genParems();
 		
 		params.put(MU_ACCOUNT, account);
 		params.put(PAGE, page);
-		params.put(STATUS, status);
-		
-		String json = NetUtils.getPostResult(params,MY_METTING_URL);
-		MTMettingListResult result = null;
-		
-		if (json != null) {
-			result = (MTMettingListResult) JsonUtils.parseJsonResult(type, json);
+		String json = null;
+		if (status == STATUS_COLLECT) {
+			json = NetUtils.getPostResult(params, GET_COLLECT);
 		}else{
+			params.put(STATUS, status);
+			json = NetUtils.getPostResult(params,MY_METTING_URL);
+		}
+		
+		if (json == null) {
 			return null;
 		}
-		if (result.getResult() <= 0) {
-			return null;
+		
+		int resultCode = JsonUtils.getResult(json);
+		if (resultCode != 1 ) {
+			return JsonUtils.parseJsonResult(new TypeToken<MTSimpleResult>(){}.getType(), json);
+		}else{
+			return JsonUtils.parseJsonResult(type, json);
 		}
-		return (List<MTMetting>) result.getDetails();
 	}
 	
 	public static Object getVerifyCode(Type type, String phone, int vType) {
@@ -166,7 +172,7 @@ public class DataProvider {
 		return JsonUtils.parseJsonResult(type, json);
 	}
 	
-	public static int validation(Type type, String phone, String verifyCode) {
+	public static Object validation(Type type, String phone, String verifyCode) {
 		Map<String, Object> params = genParems();
 		if (phone == null || phone.length() == 0) {
 			return -2;
@@ -178,13 +184,10 @@ public class DataProvider {
 		}
 		params.put(VCODE, verifyCode);
 		String json = NetUtils.getPostResult(params,VALIDATION);
-		MTSimpleResult result = null;
-		if (json != null) {
-			result = (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
-			return result.getResult();
-		}else{
-			return -1;
+		if (json == null) {
+			return null;
 		}
+		return JsonUtils.parseJsonResult(type, json);
 	}
 	
 	public static Object register(Type type, String account, String name,
@@ -233,18 +236,18 @@ public class DataProvider {
 	}
 
 
-	public static MTMettingResult getMettingDetails(Type type, Long id) {
-		Map<String, Object> params = genParems();
-		
-		params.put(METTING_ID, id);
-		
-		String json = NetUtils.getPostResult(params,METTING_DETAILS_URL);
-		MTMettingResult result = null;
-		if (json != null) {
-			result = (MTMettingResult) JsonUtils.parseJsonResult(type, json);
-		}
-		return result;
-	}
+//	public static MTMettingResult getMettingDetails(Type type, Long id) {
+//		Map<String, Object> params = genParems();
+//		
+//		params.put(METTING_ID, id);
+//		
+//		String json = NetUtils.getPostResult(params,METTING_DETAILS_URL);
+//		MTMettingResult result = null;
+//		if (json != null) {
+//			result = (MTMettingResult) JsonUtils.parseJsonResult(type, json);
+//		}
+//		return result;
+//	}
 	
 	public static Object collectMetting(Type type, Long mettingId, String account, Integer opt) {
 		Map<String, Object> params = genParems();
@@ -267,7 +270,7 @@ public class DataProvider {
 		return (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
 	}
 	
-	public static int enrollMetting(Type type, Long id, String account,
+	public static Object enrollMetting(Type type, Long id, String account,
 			String name, String mobile, String company,
 			String position, String weixin) {
 		
@@ -288,13 +291,10 @@ public class DataProvider {
 		params.put(MU_WEIXIN, MU_WEIXIN);
 		
 		String json = NetUtils.getPostResult(params,ENROLL_URL);
-		MTSimpleResult result = null;
-		if (json != null) {
-			result = (MTSimpleResult) JsonUtils.parseJsonResult(type, json);
-			return result.getResult();
-		}else{
-			return -1;
+		if (json == null) {
+			return null;
 		}
+		return JsonUtils.parseJsonResult(type, json);
 	}
 	
 	public static Object getComment(Type type, Long id, Integer page) {

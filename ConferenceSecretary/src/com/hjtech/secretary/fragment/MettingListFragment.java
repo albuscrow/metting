@@ -99,7 +99,7 @@ public class MettingListFragment extends BaseFragment {
 			
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				float x = (arg0 + arg1)*(AppConfig.SCREENWIDTH/4*3) / 3 + (Integer) stripe.getTag();
+				float x = (arg0 + arg1)*AppConfig.SCREENWIDTH/4 + (Integer) stripe.getTag();
 				LayoutParams layoutParams = (LayoutParams) stripe.getLayoutParams();
 				layoutParams.leftMargin = (int) x;
 				stripe.setLayoutParams(layoutParams);
