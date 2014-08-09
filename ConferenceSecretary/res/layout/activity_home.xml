@@ -53,11 +53,11 @@
         android:layout_above="@id/home_phone"
         android:layout_below="@id/home_news"
         android:layout_marginTop="1dp"
-        android:horizontalSpacing="1dp"
+        android:horizontalSpacing="1px"
         android:listSelector="@null"
         android:numColumns="3"
         android:scrollbars="none"
-        android:verticalSpacing="1dp" >
+        android:verticalSpacing="1px" >
 
     </GridView>
 

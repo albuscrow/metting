@@ -1,11 +1,12 @@
 package com.hjtech.secretary.activity;
 
 import java.util.Stack;
-
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.utils.MTCommon;
-
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -32,11 +33,15 @@ public class BaseActivity extends FragmentActivity {
 	protected void initUI(int layoutId, int titleId) {
 		initUI(layoutId, 0, titleId, 0);
 	}
+	@SuppressLint("NewApi")
 	protected void initUI(int layoutId, int backContentId, int titleContentId, int rightTextViewContentId) {
 		// init title bar
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); 
 		setContentView(layoutId);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.actionbar);
+//		View mCustomView = getLayoutInflater().inflate(R.layout.actionbar, null);
+//		ActionBar bar = getActionBar();
+//		bar.setCustomView(mCustomView, new ActionBar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		
 		leftText = (TextView)gv(R.id.back_text);
 		if (backContentId != 0) {

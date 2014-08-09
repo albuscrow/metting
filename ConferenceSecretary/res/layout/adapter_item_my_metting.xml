@@ -84,7 +84,7 @@
             android:id="@+id/metting_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="@dimen/metting_title_ts"
             android:focusable="false"
             android:textColor="@android:color/black" />
         
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
 	        android:textColor="@color/mt_text_6"
-            android:textSize="12sp" />
+            android:textSize="@dimen/metting_inf_ts"/>
 	    
 	    <TextView
 	        android:id="@+id/metting_address"
@@ -102,7 +102,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="3dp"
 	        android:textColor="@color/mt_text_6"
-	        android:textSize="12sp" />
+	        android:textSize="@dimen/metting_inf_ts" />
 	    
 	    <TextView
 	        android:id="@+id/metting_free_restriction"
@@ -110,8 +110,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="3dp"
 	        android:textColor="@color/mt_text_6"
-	        android:textSize="12sp" />
-	
+	        android:textSize="@dimen/metting_inf_ts" />
     </LinearLayout>
 
     <ImageButton

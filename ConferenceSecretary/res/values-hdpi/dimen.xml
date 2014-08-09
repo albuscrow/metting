@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="metting_inf_ts">10sp</dimen>
+    <dimen name="metting_title_ts">12sp</dimen>
+</resources>
