@@ -7,6 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/mt_login_bg"
         android:padding="20dp" >
 
         <ImageView
@@ -24,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/login_imageview"
             android:layout_marginTop="20dp"
+            android:background="@color/mt_login_bg"
             android:text="@string/about_us"
             android:textColor="@color/mt_text_6"
             android:textSize="13sp" />
