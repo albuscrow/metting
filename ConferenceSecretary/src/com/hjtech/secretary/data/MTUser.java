@@ -183,7 +183,7 @@ public class MTUser implements java.io.Serializable {
 		if (muPhoto == null || muPhoto.length() == 0) {
 			return null;
 		}
-		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/");
+		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/") + "?data=" + String.valueOf(System.currentTimeMillis());
 	}
 	public void setMuPhoto(String muPhoto) {
 		this.muPhoto = muPhoto;

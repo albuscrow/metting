@@ -186,7 +186,6 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 	protected void onResume() {
 		user = MTUserManager.getUser();
 		fillData();
-		
 		super.onResume();
 	}
 	

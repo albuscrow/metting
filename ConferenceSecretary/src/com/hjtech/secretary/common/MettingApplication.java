@@ -27,8 +27,8 @@ public class MettingApplication extends Application {
 	
 	private void initImageLoader() {
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory()
-		.cacheOnDisc()
+//		.cacheInMemory()
+//		.cacheOnDisc()
 		.showImageForEmptyUri(R.drawable.common_default_image)
 		.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())

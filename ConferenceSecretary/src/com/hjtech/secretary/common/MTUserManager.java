@@ -78,10 +78,10 @@ public class MTUserManager {
 	}
 
 	public static MTUser updateUser(MTUser user) {
-		if (user.getCoCount() != 0) {
+		if (user.getCoCount() != -1) {
 			MTUserManager.user.setCoCount(user.getCoCount());
 		}
-		if (user.getEnCount() != 0) {
+		if (user.getEnCount() != -1) {
 			MTUserManager.user.setEnCount(user.getEnCount());
 		}
 		if (user.getMuEmail() != null) {
