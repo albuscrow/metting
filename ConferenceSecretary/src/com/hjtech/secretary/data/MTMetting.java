@@ -244,6 +244,9 @@ public class MTMetting implements java.io.Serializable {
 		if (mmEnpage == null || mmEnpage.length() == 0) {
 			return "http://www.xxxx.com/wap/showShare/";
 		}
+		if (mmEnpage.charAt(0) == '/') {
+			mmEnpage = mmEnpage.substring(1);
+		}
 		return "http://211.155.229.136:8050/"+mmEnpage.replace("\\", "/");
 	}
 	public void setMmEnpage(String mmEnpage) {

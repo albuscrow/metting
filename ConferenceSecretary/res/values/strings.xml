@@ -74,7 +74,7 @@
     <string name="edit_weixin">微   信</string>
     
     <string name="choose_share_platform">请选择分享途径</string>
-    <string name="share_content">我是%1$s,有个%2$s不错，我邀请你参加，下面是这个会议的二维码，扫一下就可以报名了，（会务通）</string>
+    <string name="share_content">我是%1$s,有个%2$s不错，我邀请你参加，下面是这个会议的二维码，扫一下就可以报名了。（wps·会小秘）</string>
     <string name="share_confirm">点击邀请</string>
 
     

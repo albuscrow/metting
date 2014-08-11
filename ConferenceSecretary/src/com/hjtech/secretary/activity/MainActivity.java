@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.Constants;
 import com.hjtech.secretary.fragment.BaseFragment;
+import com.hjtech.secretary.fragment.InviteFragment;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.weibo.AccessTokenKeeper;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseActivity {
 	
 	public IWXAPI api;
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (mSsoHandler != null) { 
 			mSsoHandler.authorizeCallBack(requestCode, resultCode, data); 
 		}

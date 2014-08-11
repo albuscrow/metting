@@ -250,6 +250,6 @@ public class MTUser implements java.io.Serializable {
 		++ enCount;
 	}
 	public void minCollect() {
-		-- enCount;
+		-- coCount;
 	}
 }

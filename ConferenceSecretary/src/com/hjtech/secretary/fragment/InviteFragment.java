@@ -1,5 +1,8 @@
 package com.hjtech.secretary.fragment;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.R.string;
 import com.hjtech.secretary.activity.MainActivity;
@@ -33,13 +36,19 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +60,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class InviteFragment extends BaseFragment implements OnClickListener, IWeiboHandler.Response, WeiboAuthListener {
 
@@ -190,6 +200,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		case WEIXIN_CIRLE:
 			WXWebpageObject webpage = new WXWebpageObject();  
 			webpage.webpageUrl = metting.getMmEnpage();
+			System.out.println(metting.getMmEnpage());
 			WXMediaMessage msg = new WXMediaMessage(webpage);  
 			msg.title = "会小蜜";  
 			msg.description = text;
@@ -241,9 +252,12 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		case MESSAGE:
 			Uri smsToUri = Uri.parse("smsto:");  
 			Intent sendIntent = new Intent(Intent.ACTION_VIEW, smsToUri);  
-			sendIntent.putExtra("sms_body", text);  
-			sendIntent.setType("vnd.android-dir/mms-sms");  
+			String message = "我是"+MTUserManager.getUser().getMuName()+",有个\"" + metting.getMmTitle() + "\"不错，我邀请你参加，下面是这个会议的网址，点进去就可以报名了:\n"+metting.getMmEnpage()+"\n（wps·会小秘）";
+			sendIntent.putExtra("sms_body", message);
+			sendIntent.putExtra("exit_on_sent", true);
+			sendIntent.setType("vnd.android-dir/mms-sms");
 			startActivityForResult(sendIntent,MESSAGE_CODE); 
+			addShareLog(DataProvider.MESSAGE_SHARE, null, null);
 			break;
 			
 		default:
@@ -261,6 +275,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	public void addShareLog(int type, String phone, String content) {
 		new GetDataAnsycTask().addShareLog(MTUserManager.getUser().getMuAccount(), metting.getMmId(), type, phone, content);
 	}
+	
 
 	private void shareWithSina() {
 		confirm.setEnabled(false);
@@ -269,11 +284,6 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		String content = shareContent.getText().toString();
 		getMainActivity().mStatusesAPI.upload(content, bitmap, null, null, mListener);
 	}
-
-//	private String buildTransaction(final String type) {
-//		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
-//	}
-
 
 	/**
 	 * 接收微客户端博请求的数据。
