@@ -142,13 +142,12 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 		ImageLoader.getInstance().loadImage(comment.getMuPhoto(), new ImageLoadingListener() {
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
-				
 			}
 			
 			@Override
 			public void onLoadingFailed(String imageUri, View view,
 					FailReason failReason) {
-				
+				imageView.setImageResource(R.drawable.common_default_image);
 			}
 			
 			@Override
