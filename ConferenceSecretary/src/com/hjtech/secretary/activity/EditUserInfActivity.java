@@ -97,6 +97,7 @@ public class EditUserInfActivity extends BaseActivity {
 				@Override
 				public void onLoadingFailed(String imageUri, View view,
 						FailReason failReason) {
+					imageView .setImageResource(R.drawable.common_default_image);
 				}
 
 				@Override
@@ -354,7 +355,6 @@ public class EditUserInfActivity extends BaseActivity {
 	private void getImageToView(Intent data) {
 		Bundle extras = data.getExtras();
 		if (extras != null) {
-			System.out.println("ok");
 			photo = decodeUriAsBitmap(imageUri);// decode bitmap
 			imageView.setImageBitmap(photo);
 		}

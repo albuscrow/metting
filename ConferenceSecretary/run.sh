@@ -1,1 +1,1 @@
-rm -fR $(find ../ -type d -name crunch|xargs) && ant release install
+rm -fR $(find ../ -type d -name crunch|xargs) &&ant release install run 

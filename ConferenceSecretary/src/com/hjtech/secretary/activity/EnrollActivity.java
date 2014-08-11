@@ -4,6 +4,8 @@ import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTMetting;
+import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.data.MTUser;
 import com.hjtech.secretary.utils.MTCommon;
 
@@ -11,13 +13,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class EnrollActivity extends BaseActivity {
 	private EditText name;
 	private EditText company;
 	private EditText post;
 	private EditText mobile;
-	private long mettingId;
+	private MTMetting metting;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -27,8 +30,7 @@ public class EnrollActivity extends BaseActivity {
 	}
 	
 	private void intiData() {
-		String idStr = (String) getIntent().getSerializableExtra("id");
-		this.mettingId = Long.parseLong(idStr);
+		this.metting = (MTMetting) getIntent().getSerializableExtra("metting");
 	}
 
 	@Override
@@ -44,6 +46,7 @@ public class EnrollActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
+
 				String nameStr = MTCommon.getContent(name);
 				if(nameStr == null){
 					MTCommon.ShowToast("请输入姓名");
@@ -86,8 +89,8 @@ public class EnrollActivity extends BaseActivity {
 							MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 							return;
 						}	
-
-						int resultCode = (Integer) result;
+						MTSimpleResult sr = (MTSimpleResult) result;
+						int resultCode = sr.getResult();
 						switch (resultCode) {
 						case 1:
 							MTCommon.ShowToast("报名成功");
@@ -100,13 +103,20 @@ public class EnrollActivity extends BaseActivity {
 						case 3:
 							MTCommon.ShowToast("会员不存在");
 							break;
+						case 4:
+							MTCommon.ShowToast("您已经报名过此会议");
+							EnrollActivity.this.finish();
+							break;
 						default:
 							MTCommon.ShowToast("报名失败，未知错误");
 							break;
 						}
 					}
-				}).enroll(mettingId, user.getMuAccount(), nameStr, mobileStr, companyStr, postStr, user.getMuWeixin());
+				}).enroll(metting.getMmId(), user.getMuAccount(), nameStr, mobileStr, companyStr, postStr, user.getMuWeixin());
+				System.out.println(metting.getMmId());
 			}
 		});
+		
+		((TextView)gv(R.id.metting_name)).setText("你报名的会议是" + metting.getMmTitle());
 	}
 }

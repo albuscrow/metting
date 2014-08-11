@@ -12,6 +12,7 @@
        android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/metting_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -98,7 +99,7 @@
 	            android:id="@+id/enroll_phone_editext"
 	            style="@style/enroll_edit"
 	            android:layout_toRightOf="@id/enroll_phone"
-	            android:inputType="text" />
+	            android:inputType="number" />
             
         </RelativeLayout>
 

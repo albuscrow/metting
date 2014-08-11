@@ -20,6 +20,7 @@ import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.data.MTSimpleResult;
+import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
 
 import android.annotation.SuppressLint;
@@ -55,7 +56,22 @@ public class MyMettingFragment extends BaseFragment {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK && requestCode == MyMettingFragment.SIGNAL) {
 			String result = data.getStringExtra("result");
-			long id = Long.parseLong(result);
+			String idStr = null; 
+			long id;
+			try {
+				idStr = Encryption.decodeBase64(result);
+				int position = idStr.indexOf("sign:");
+				if (position == -1) {
+					MTCommon.ShowToast("请扫描正确的二维码");
+					return;
+				}
+				id = Long.valueOf(idStr.substring(position + 5).trim());
+			} catch (Exception e) {
+				e.printStackTrace();
+				MTCommon.ShowToast("请扫描正确的二维码");
+				return;
+			}
+			
 			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 				@Override
@@ -65,10 +81,10 @@ public class MyMettingFragment extends BaseFragment {
 
 				@Override
 				public void onPostExecute(Object result) {
-				if (result != null && result instanceof Integer) {
-					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
-					return;
-				}	
+					if (result != null && result instanceof Integer) {
+						MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+						return;
+					}	
 
 					if (result == null) {
 						MTCommon.ShowToast("签到失败");

@@ -4,17 +4,10 @@ import java.util.Stack;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.Constants;
-import com.hjtech.secretary.common.MTUserManager;
-import com.hjtech.secretary.data.GetDataAnsycTask;
-import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
-import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.fragment.BaseFragment;
-import com.hjtech.secretary.fragment.InviteFragment;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.fragment.MyMettingFragment;
-import com.hjtech.secretary.utils.MTCommon;
 import com.hjtech.secretary.weibo.AccessTokenKeeper;
-import com.hjtech.secretary.wxapi.WXEntryActivity;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
@@ -33,7 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 
-public class MainActivity extends BaseActivity implements IWXAPIEventHandler{
+public class MainActivity extends BaseActivity {
 	/** 当前 Token 信息 */
 	public Oauth2AccessToken mAccessToken;
 	/** 用于获取微博信息流等操作的API */
@@ -67,7 +60,6 @@ public class MainActivity extends BaseActivity implements IWXAPIEventHandler{
 		
 		initUI(R.layout.activity_main);
 		initShare();
-		api.handleIntent(getIntent(), this);
 	}
 	
 	
@@ -264,27 +256,11 @@ public class MainActivity extends BaseActivity implements IWXAPIEventHandler{
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
-		api.handleIntent(intent, this);
-
 		super.onNewIntent(intent);
 	}
 	
 	public Stack<BaseFragment> getBackStack() {
 		return backStack;
 	}
-
-	@Override
-	public void onReq(BaseReq arg0) {
-		System.out.println("MainActivity.onReq()");
-	}
-
-	@Override
-	public void onResp(BaseResp arg0) {
-		System.out.println("MainActivity.onResp()");
-	}
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
 }

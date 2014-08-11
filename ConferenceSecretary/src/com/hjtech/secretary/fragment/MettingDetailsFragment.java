@@ -1,9 +1,7 @@
 package com.hjtech.secretary.fragment;
 
-import uk.co.jasonfry.android.tools.ui.PageControl;
-import uk.co.jasonfry.android.tools.ui.SwipeView;
-import uk.co.jasonfry.android.tools.ui.SwipeView.OnPageChangedListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,9 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.hjtech.secretary.R;
@@ -27,21 +23,25 @@ import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.listener.NewActivityListener;
 import com.hjtech.secretary.utils.MTCommon;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
-public class MettingDetailsFragment extends BaseFragment implements OnClickListener {
+public class MettingDetailsFragment extends BaseFragment {
 	
 	public static final int UNCOLLECT = 0;
 	public static final int COLLECT = 1;
 	private MTMetting metting;
 //	private LinearLayout relatedMettingLayout;
 	
-	SwipeView mSwipeView;
-	int[] images = new int[]{R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1};
+//	SwipeView mSwipeView;
+//	int[] images = new int[]{R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1};
 	private TextView collect;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		System.out.println("MettingDetailsFragment.onCreateView()");
 		initData();
 		initActionBar(R.string.title_activity_metting_list, R.string.title_activity_metting_details, 0);
 		return initUI(inflater);
@@ -150,7 +150,7 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 		
 		Button enroll = (Button) gv(R.id.detail_enroll);
 		if (metting.getIsEnroll() == MTMetting.UNENROLL && metting.getIsStarted() == MTMetting.UNSTART) {
-			enroll.setOnClickListener(new NewActivityListener(getMainActivity(), EnrollActivity.class, "id", metting.getMmId().toString()));
+			enroll.setOnClickListener(new NewActivityListener(getMainActivity(), EnrollActivity.class, "metting", metting));
 		}else{
 			enroll.setTextColor(getResources().getColor(R.color.mt_text_3));
 			enroll.setBackgroundResource(R.drawable.button_gray);
@@ -172,31 +172,55 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 		((TextView)gv(R.id.detail_detail)).setText(metting.getMmDesp());
 		((TextView)gv(R.id.detail_name)).setText(metting.getMmTitle());
 		
-		
+		final ImageView imageView = (ImageView) gv(R.id.swipe_view);
+		ImageLoader.getInstance().displayImage(metting.getMmLogo(), imageView, new ImageLoadingListener() {
+			
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+			}
+			
+			@Override
+			public void onLoadingFailed(String imageUri, View view,
+					FailReason failReason) {
+				imageView.setImageResource(R.drawable.home_picture_1);
+			}
+			
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				if (loadedImage == null) {
+					imageView.setImageResource(R.drawable.home_picture_1);
+				}
+			}
+			
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+				
+			}
+		});
 		//init swipe view
-		PageControl mPageControl = (PageControl) gv(R.id.page_control);
-		mSwipeView = (SwipeView) gv(R.id.swipe_view);
-
-		for(int i=0; i<4;i++) {
-			mSwipeView.addView(new FrameLayout(getBaseActivity()));
-		}
-
-		ImageView i0 = new ImageView(getBaseActivity());
-		ImageView i1 = new ImageView(getBaseActivity());
-		
-		i0.setImageResource(images[0]);
-		i1.setImageResource(images[1]);
-		i0.setScaleType(ScaleType.FIT_XY);
-		i1.setScaleType(ScaleType.FIT_XY);
-
-		((FrameLayout) mSwipeView.getChildContainer().getChildAt(0)).addView(i0);
-		((FrameLayout) mSwipeView.getChildContainer().getChildAt(1)).addView(i1);
-
-		SwipeImageLoader mSwipeImageLoader = new SwipeImageLoader();
-        
-        mSwipeView.setOnPageChangedListener(mSwipeImageLoader);
-        
-        mSwipeView.setPageControl(mPageControl);
+//		PageControl mPageControl = (PageControl) gv(R.id.page_control);
+//		mSwipeView = (SwipeView) gv(R.id.swipe_view);
+//
+//		for(int i=0; i<4;i++) {
+//			mSwipeView.addView(new FrameLayout(getBaseActivity()));
+//		}
+//
+//		ImageView i0 = new ImageView(getBaseActivity());
+//		ImageView i1 = new ImageView(getBaseActivity());
+//		
+//		i0.setImageResource(images[0]);
+//		i1.setImageResource(images[1]);
+//		i0.setScaleType(ScaleType.FIT_XY);
+//		i1.setScaleType(ScaleType.FIT_XY);
+//
+//		((FrameLayout) mSwipeView.getChildContainer().getChildAt(0)).addView(i0);
+//		((FrameLayout) mSwipeView.getChildContainer().getChildAt(1)).addView(i1);
+//
+//		SwipeImageLoader mSwipeImageLoader = new SwipeImageLoader();
+//        
+//        mSwipeView.setOnPageChangedListener(mSwipeImageLoader);
+//        
+//        mSwipeView.setPageControl(mPageControl);
 		return rootView;
 	}
 
@@ -213,7 +237,9 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 	}
 
 	private void initData() {
-		metting = (MTMetting) getIntent().getSerializableExtra("metting");
+		if (getIntent() != null) {
+			metting = (MTMetting) getIntent().getSerializableExtra("metting");
+		}
 	}
 	
 	public MainActivity getMainActivity(){
@@ -221,47 +247,47 @@ public class MettingDetailsFragment extends BaseFragment implements OnClickListe
 	}
 	
 	
-	@Override
-	public void onClick(View v) {
-		Intent intent = new Intent();
-		long id = (Long) v.getTag();
-		intent.putExtra("id", id);
-		getMainActivity().switchFragment(MTFragmentFactory.METTING_DETAILS, intent, true);
-	}
+//	@Override
+//	public void onClick(View v) {
+//		Intent intent = new Intent();
+//		long id = (Long) v.getTag();
+//		intent.putExtra("id", id);
+//		getMainActivity().switchFragment(MTFragmentFactory.METTING_DETAILS, intent, true);
+//	}
 	
 	
 	
-	private class SwipeImageLoader implements OnPageChangedListener {
-
-		public void onPageChanged(int oldPage, int newPage) {
-			//going forwards
-			if(newPage > oldPage) {
-				//if at the end, don't load one page after the end
-				if(newPage != (mSwipeView.getPageCount() - 1)) {
-					ImageView v = new ImageView(getBaseActivity());
-					v.setImageResource(images[newPage+1]);
-					v.setScaleType(ScaleType.FIT_XY);
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage+1)).addView(v);
-				}
-				//if at the beginning, don't destroy one before the beginning
-				if(oldPage != 0) {
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(oldPage-1)).removeAllViews();
-				}
-			} else {
-				//if at the beginning, don't load one before the beginning
-				if(newPage != 0) {
-					ImageView v = new ImageView(getBaseActivity());
-					v.setImageResource(images[newPage-1]);
-					v.setScaleType(ScaleType.FIT_XY);
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage-1)).addView(v);
-				}
-				//if at the end, don't destroy one page after the end
-				if(oldPage != (mSwipeView.getPageCount()-1)) {
-					((FrameLayout) mSwipeView.getChildContainer().getChildAt(oldPage+1)).removeAllViews();
-				}
-			}
-
-		}
-
-	}
+//	private class SwipeImageLoader implements OnPageChangedListener {
+//
+//		public void onPageChanged(int oldPage, int newPage) {
+//			//going forwards
+//			if(newPage > oldPage) {
+//				//if at the end, don't load one page after the end
+//				if(newPage != (mSwipeView.getPageCount() - 1)) {
+//					ImageView v = new ImageView(getBaseActivity());
+//					v.setImageResource(images[newPage+1]);
+//					v.setScaleType(ScaleType.FIT_XY);
+//					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage+1)).addView(v);
+//				}
+//				//if at the beginning, don't destroy one before the beginning
+//				if(oldPage != 0) {
+//					((FrameLayout) mSwipeView.getChildContainer().getChildAt(oldPage-1)).removeAllViews();
+//				}
+//			} else {
+//				//if at the beginning, don't load one before the beginning
+//				if(newPage != 0) {
+//					ImageView v = new ImageView(getBaseActivity());
+//					v.setImageResource(images[newPage-1]);
+//					v.setScaleType(ScaleType.FIT_XY);
+//					((FrameLayout) mSwipeView.getChildContainer().getChildAt(newPage-1)).addView(v);
+//				}
+//				//if at the end, don't destroy one page after the end
+//				if(oldPage != (mSwipeView.getPageCount()-1)) {
+//					((FrameLayout) mSwipeView.getChildContainer().getChildAt(oldPage+1)).removeAllViews();
+//				}
+//			}
+//
+//		}
+//
+//	}
 }

@@ -22,6 +22,7 @@
     <string name="title_activity_enroll">报名</string>
     <string name="title_activity_comment">会议评论</string>
     <string name="title_activity_message">消息列表</string>
+    <string name="title_activity_message_detail">消息详情</string>
     <string name="title_activity_invite">邀请好友参加</string>
     
     <string name="metting_apply">已报名</string>

@@ -200,7 +200,6 @@ public class DataProvider {
 		params.put(MU_PASSWORD, password);
 		params.put(MU_EMAIL, email);
 		params.put("muUnitName", unit);
-		//TODO unit name;
 		
 		String json = NetUtils.getPostResult(params,REGISTER);
 		if (json == null) {
@@ -443,7 +442,6 @@ public class DataProvider {
 		
 		Map<String, Object> params = genParems();
 		params.put(ACCOUNT, user.getMuAccount());
-		//TODO
 		if (user.getMuName() != null) {
 			params.put(NAME, user.getMuName());
 		}

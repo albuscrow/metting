@@ -58,9 +58,10 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	private ImageView tdCode;
 	private TextView confirm;
 	private int sharePlatformFlag;
-	public static final int NONE = 0;
-	public static final int WEIXIN = 0;
-	public static final int WEIBO = 1;
+	public static final int NONE = -1;
+	public static final int WEIXIN_CIRLE = 0;
+	public static final int WEIXIN_FRIEND = 1;
+	public static final int WEIBO = 2;
 
 
 	/**
@@ -181,20 +182,12 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	public void onClick(View v) {
 		String text = shareContent.getText().toString();
 		switch (sharePlatformFlag) {
-		case WEIXIN:
-
+		case WEIXIN_CIRLE:
 			WXWebpageObject webpage = new WXWebpageObject();  
 			webpage.webpageUrl = metting.getMmEnpage();
-//			System.out.println(metting.getMmEnpage());
 			WXMediaMessage msg = new WXMediaMessage(webpage);  
 			msg.title = "会小蜜";  
 			msg.description = text;
-//			WXWebpageObject webpage = new WXWebpageObject();
-//			System.out.println(metting.getMmEnpage());
-//			webpage.webpageUrl = "http://www.xxxx.com/wap/showShare/";
-//			WXMediaMessage msg = new WXMediaMessage(webpage);
-//			msg.title = "我要约";
-//			msg.description = "我要约分享";
 
 			try{  
 				Bitmap bmp = MTCommon.getImageFromView(tdCode);
@@ -209,6 +202,28 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 			req.message = msg;  
 			req.scene = SendMessageToWX.Req.WXSceneTimeline;  
 			getMainActivity().api.sendReq(req);
+			break;
+			
+		case WEIXIN_FRIEND:
+			WXWebpageObject webpage2 = new WXWebpageObject();  
+			webpage2.webpageUrl = metting.getMmEnpage();
+			WXMediaMessage msg2 = new WXMediaMessage(webpage2);  
+			msg2.title = "会小蜜";  
+			msg2.description = text;
+
+			try{  
+				Bitmap bmp = MTCommon.getImageFromView(tdCode);
+				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);  
+				bmp.recycle();  
+				msg2.setThumbImage(thumbBmp);  
+			}catch(Exception e){  
+				e.printStackTrace();  
+			}
+			SendMessageToWX.Req req2 = new SendMessageToWX.Req();  
+			req2.transaction = String.valueOf(System.currentTimeMillis());  
+			req2.message = msg2;  
+			req2.scene = SendMessageToWX.Req.WXSceneSession;  
+			getMainActivity().api.sendReq(req2);
 			break;
 		case WEIBO:
 			if (getMainActivity().mStatusesAPI != null) {

@@ -209,7 +209,7 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 
 			@Override
 			public void onPreExecute() {
-				MTCommon.ShowToast("正在加载更多数据");
+//				MTCommon.ShowToast("正在加载更多数据");
 			}
 
 			@Override

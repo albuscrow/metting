@@ -1,12 +1,8 @@
 package com.hjtech.secretary.activity;
 
-import java.util.Stack;
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.utils.MTCommon;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -153,7 +149,6 @@ public class BaseActivity extends FragmentActivity {
 	
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		System.out.println("BaseActivity.onActivityResult()");
 		super.onActivityResult(arg0, arg1, arg2);
 	}
 }

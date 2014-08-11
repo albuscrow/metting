@@ -9,12 +9,10 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:textColor="@color/mt_text_3"
-         android:text="轩这其"
          android:textSize="13sp" />
     
     <TextView
         android:id="@+id/message_time"
-        android:text="2014-08-09"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -44,7 +42,6 @@
         android:layout_toLeftOf="@id/message_more"
         android:ellipsize="end"
         android:lines="2"
-        android:text="消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容消息内容"
         android:textColor="#686868"
         android:textSize="12.4sp" />
        

@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.util.Locale;
 import java.util.Random;
 
+import android.util.Base64;
 import Decoder.BASE64Encoder;
 
 public class Encryption {
@@ -55,6 +56,10 @@ public class Encryption {
 			sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
 		}
 		return sb.toString();
+	}
+
+	public static String decodeBase64(String input) {
+		return new String(Base64.decode(input, Base64.DEFAULT));
 	}
 
 }

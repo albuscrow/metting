@@ -1,5 +1,7 @@
 package com.hjtech.secretary.activity;
 
+import java.util.List;
+
 import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
@@ -7,8 +9,12 @@ import com.hjtech.secretary.adapter.PersonalCenterAdatper;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTMessage;
+import com.hjtech.secretary.data.MTMessageListResult;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
+import com.hjtech.secretary.listener.NewActivityListener;
+import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
 
 import android.net.Uri;
@@ -32,8 +38,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		initUI(R.layout.activity_home, R.string.title_activity_home);
+		initData();
 	}
 
 	@Override
@@ -46,11 +52,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		gridView.setOnItemClickListener(this);
 		
 		newsFlipper = (ViewFlipper) gv(R.id.home_news);
-		for (int i = 0; i < 3; ++i) {
-			TextView tx = (TextView) getLayoutInflater().inflate(R.layout.news_text_view, newsFlipper, false);
-			tx.setText("nihao");
-			newsFlipper.addView(tx);
-		}
+		TextView tx = (TextView) getLayoutInflater().inflate(R.layout.news_text_view, newsFlipper, false);
+		tx.setText("");
+		newsFlipper.addView(tx);
 		
 		gv(R.id.home_phone).setOnClickListener(new OnClickListener() {
 			
@@ -120,7 +124,21 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	protected void onActivityResult(int request, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK && request == SIGNIN) {
 			String result = data.getStringExtra("result");
-			long id = Long.parseLong(result);
+			String idStr = null; 
+			long id;
+			try {
+				idStr = Encryption.decodeBase64(result);
+				int position = idStr.indexOf("sign:");
+				if (position == -1) {
+					MTCommon.ShowToast("请扫描正确的二维码");
+					return;
+				}
+				id = Long.valueOf(idStr.substring(position + 5).trim());
+			} catch (Exception e) {
+				e.printStackTrace();
+				MTCommon.ShowToast("请扫描正确的二维码");
+				return;
+			}
 			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 				@Override
@@ -156,5 +174,39 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 				}
 			}).singIn(id, MTUserManager.getUser().getMuAccount());
 		}
+	}
+	private void initData() {
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+			@Override
+			public void onPreExecute() {
+
+			}
+
+			@Override
+			public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
+				if (result == null) {
+					MTCommon.ShowToast("获取消息失败");
+					return;
+				}
+				if (result instanceof MTSimpleResult) {
+					MTCommon.ShowToast("获取消息失败");
+					return;
+				}else{
+					List<MTMessage> data = (List<MTMessage>) ((MTMessageListResult)result).getDetails();
+					newsFlipper.removeAllViews();
+					for (int i = 0; i < data.size(); ++i) {
+						TextView tx = (TextView) getLayoutInflater().inflate(R.layout.news_text_view, newsFlipper, false);
+						tx.setText(data.get(i).getMmTitle());
+						tx.setOnClickListener(new NewActivityListener(HomeActivity.this, MainActivity.class, "UIType", MTFragmentFactory.MESSAGE));
+						newsFlipper.addView(tx);
+					}				}
+			}
+		}).getMessage(MTUserManager.getUser().getMuAccount(), 0);
 	}
 }

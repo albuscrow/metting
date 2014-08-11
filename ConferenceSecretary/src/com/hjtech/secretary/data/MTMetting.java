@@ -1,6 +1,5 @@
 package com.hjtech.secretary.data;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +13,10 @@ import com.hjtech.secretary.R;
  */
 public class MTMetting implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3729758463593905136L;
 	// Fields
 
 	private Long mmId;
@@ -97,7 +100,13 @@ public class MTMetting implements java.io.Serializable {
 		this.mmTitle = mmTitle;
 	}
 	public String getMmLogo() {
-		return mmLogo;
+		if (mmLogo == null) {
+			return null;
+		}
+		if (mmLogo.charAt(0) != '/') {
+			mmLogo = "/" + mmLogo;
+		}
+		return "http://211.155.229.136:8050"+mmLogo.replace("\\", "/");
 	}
 	public void setMmLogo(String mmLogo) {
 		this.mmLogo = mmLogo;
@@ -174,7 +183,7 @@ public class MTMetting implements java.io.Serializable {
 		this.memberRtt = memberRtt;
 	}
 	public String getTime() {
-		return mmStartdate.substring(0,11) + "－" + mmEndtime.substring(0,11);
+		return mmStartdate.substring(0,11) + "-" + mmEndtime.substring(0,11);
 	}
 	public String getMmStartdate() {
 		return mmStartdate;
@@ -235,7 +244,7 @@ public class MTMetting implements java.io.Serializable {
 		if (mmEnpage == null || mmEnpage.length() == 0) {
 			return "http://www.xxxx.com/wap/showShare/";
 		}
-		return mmEnpage;
+		return "http://211.155.229.136:8050/"+mmEnpage.replace("\\", "/");
 	}
 	public void setMmEnpage(String mmEnpage) {
 		this.mmEnpage = mmEnpage;

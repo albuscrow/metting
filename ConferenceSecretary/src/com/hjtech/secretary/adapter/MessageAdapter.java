@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.BaseActivity;
+import com.hjtech.secretary.activity.MessageDetailActivity;
 import com.hjtech.secretary.data.MTMessage;
+import com.hjtech.secretary.listener.NewActivityListener;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +82,7 @@ public class MessageAdapter extends BaseAdapter implements ListAdapter {
 		viewHold.messageName.setText(message.getMmTitle());
 		viewHold.messageTime.setText(message.getMmAddtime());
 		viewHold.messageContent.setText(message.getMmContent());
+		convertView.setOnClickListener(new NewActivityListener(activity, MessageDetailActivity.class, "message", message));
 		return convertView;
 	}
 

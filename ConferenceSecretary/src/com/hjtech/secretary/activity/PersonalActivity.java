@@ -144,6 +144,7 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 				@Override
 				public void onLoadingFailed(String imageUri, View view,
 						FailReason failReason) {
+						imageView.setImageResource(R.drawable.common_default_image);
 				}
 
 				@Override

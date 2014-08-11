@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.adapter.MessageAdapter;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
@@ -57,7 +56,7 @@ public class MessageFragment extends BaseFragment {
 				if (result != null && result instanceof Integer) {
 					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 					return;
-				}	
+				}
 
 				if (result == null) {
 					MTCommon.ShowToast("获取消息失败");

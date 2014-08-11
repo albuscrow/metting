@@ -94,7 +94,6 @@ public class LoginActivity extends BaseActivity {
 					
 					@Override
 					public void onPreExecute() {
-						MTCommon.ShowToast("正在登陆...");
 						showWaitBar();
 						loginButton.setEnabled(false);
 					}
