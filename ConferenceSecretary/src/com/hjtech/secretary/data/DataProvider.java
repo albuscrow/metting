@@ -107,6 +107,9 @@ public class DataProvider {
 	public static final int V_TYPE_FORGET = 2;
 	private static final String V_TYPE = "type";
 	private static final String MU_EMAIL = "muEmail";
+	public static final int WEIXIN_SHARE = 0;
+	public static final int WEIBO_SHARE = 1;
+	public static final int MESSAGE_SHARE = 2;
 	
 	
 	static Object getMettingList(Type type,String account,int page,int timeType){
@@ -415,11 +418,19 @@ public class DataProvider {
 		return parseJsonResult;
 	}	
 	public static Object share(Type type, String account, long id,
-			int typeS) {
+			int typeS, String phone, String message) {
 		Map<String, Object> params = genParems();
 		params.put(MU_ACCOUNT, account);
 		params.put(METTING_ID, id);
 		params.put("type", typeS);
+		
+		if (phone != null && phone.length() != 0) {
+			params.put("phone", phone);
+		}
+		
+		if (message != null && phone.length() != 0) {
+			params.put("content", message);
+		}
 		
 		String json = NetUtils.getPostResult(params, SHARE);
 		System.out.println(json);

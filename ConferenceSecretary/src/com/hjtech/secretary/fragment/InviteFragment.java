@@ -1,8 +1,10 @@
 package com.hjtech.secretary.fragment;
 
 import com.hjtech.secretary.R;
+import com.hjtech.secretary.R.string;
 import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.data.DataProvider;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.utils.MTCommon;
@@ -31,10 +33,12 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -62,6 +66,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	public static final int WEIXIN_CIRLE = 0;
 	public static final int WEIXIN_FRIEND = 1;
 	public static final int WEIBO = 2;
+	public static final int MESSAGE = 3;
 
 
 	/**
@@ -81,7 +86,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 					}
 				} else if (response.startsWith("{\"created_at\"")) {
 					// 调用 Status#parse 解析字符串成微博对象
-					addShareLog(WEIBO);
+					addShareLog(DataProvider.WEIBO_SHARE, null, null);
 					confirm.setEnabled(true);
 					MTCommon.ShowToast("分享成功");
 				} else {
@@ -233,23 +238,28 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 				getMainActivity().mSsoHandler.authorize(this);
 			}
 			break;
-
+		case MESSAGE:
+			Uri smsToUri = Uri.parse("smsto:");  
+			Intent sendIntent = new Intent(Intent.ACTION_VIEW, smsToUri);  
+			sendIntent.putExtra("sms_body", text);  
+			sendIntent.setType("vnd.android-dir/mms-sms");  
+			startActivityForResult(sendIntent,MESSAGE_CODE); 
+			break;
+			
 		default:
 			MTCommon.ShowToast("请选择分享途径");
 			break;
 		}
 	}
+	
+	static public int MESSAGE_CODE = 1002;
 
 	private MainActivity getMainActivity() {
 		return ((MainActivity) getBaseActivity());
 	}
 
-	public void addShareLog(int type) {
-		if (type == WEIBO) {
-			new GetDataAnsycTask().addShareLog(MTUserManager.getUser().getMuAccount(), metting.getMmId(), 2);
-		}else{
-			new GetDataAnsycTask().addShareLog(MTUserManager.getUser().getMuAccount(), metting.getMmId(), 1);
-		}
+	public void addShareLog(int type, String phone, String content) {
+		new GetDataAnsycTask().addShareLog(MTUserManager.getUser().getMuAccount(), metting.getMmId(), type, phone, content);
 	}
 
 	private void shareWithSina() {
@@ -260,9 +270,9 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		getMainActivity().mStatusesAPI.upload(content, bitmap, null, null, mListener);
 	}
 
-	private String buildTransaction(final String type) {
-		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
-	}
+//	private String buildTransaction(final String type) {
+//		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+//	}
 
 
 	/**

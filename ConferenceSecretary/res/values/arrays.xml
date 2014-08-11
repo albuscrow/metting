@@ -4,6 +4,7 @@
         <item >微信朋友圈</item>
         <item >微信好友</item>
         <item >微博</item>
+        <item >短信</item>
     </string-array>
     
     <string-array name="my_metting_title_strip">

@@ -129,7 +129,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				break;
 			case SHARE:
 				type = new TypeToken<MTSimpleResult>(){}.getType();
-				result = DataProvider.share(type, (String) params[1], (Long) params[2], (Integer) params[3]);
+				result = DataProvider.share(type, (String) params[1], (Long) params[2], (Integer) params[3], (String) params[4], (String) params[5]);
 				break;
 			default:
 				Log.e(TAG, TYPE_NOT_SUPPORTED);
@@ -220,7 +220,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.MODIFY_PASSWORD, muAccount, old, newP);
 	}
 
-	public void addShareLog(String muAccount, Long mmId, int type) {
-		this.execute(JsonTarget.SHARE, muAccount, mmId, type);
+	public void addShareLog(String muAccount, Long mmId, int type, String phone, String message) {
+		this.execute(JsonTarget.SHARE, muAccount, mmId, type, phone, message);
 	}
 }
