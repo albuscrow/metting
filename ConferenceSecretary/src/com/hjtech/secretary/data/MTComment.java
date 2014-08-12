@@ -18,7 +18,7 @@ public class MTComment  implements Serializable{
 		if (muPhoto == null || muPhoto.length() == 0) {
 			return null;
 		}
-		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/");
+		return "http://211.155.229.136:8050/"+muPhoto.replace("\\", "/") + "?time=" + String.valueOf(System.currentTimeMillis());
 	}
 	public void setMuPhoto(String muPhoto) {
 		this.muPhoto = muPhoto;

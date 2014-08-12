@@ -18,7 +18,6 @@ import com.hjtech.secretary.utils.MTCommon;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,7 +29,8 @@ public class MettingCommentActivity extends BaseActivity {
 	private EditText comment;
 	private TextView submit;
 	
-	private int pageNum = 0;
+	private int pageNum = 1;
+	private int totalNumber = 0;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -115,6 +115,7 @@ public class MettingCommentActivity extends BaseActivity {
 	}
 	
 	private void refreshList() {
+		pageNum = 1;
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 			@Override
@@ -130,6 +131,7 @@ public class MettingCommentActivity extends BaseActivity {
 				}	
 
 				MTCommentResult cr = (MTCommentResult) result;
+				totalNumber = cr.getTotal();
 				if (cr == null || cr.getResult() != 1) {
 					MTCommon.ShowToast("评论获取失败");
 					return;
@@ -147,29 +149,31 @@ public class MettingCommentActivity extends BaseActivity {
 	}
 	
 	private void getMore() {
+		if (pageNum * 15 < totalNumber) {
+			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
-		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+				@Override
+				public void onPreExecute() {
 
-			@Override
-			public void onPreExecute() {
-
-			}
-
-			@Override
-			public void onPostExecute(Object result) {
-				if (result != null && result instanceof Integer) {
-					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
-					return;
 				}
-				MTCommentResult cr = (MTCommentResult) result;
-				if (cr == null || cr.getResult() != 1) {
-					MTCommon.ShowToast("评论获取失败");
-					return;
+
+				@Override
+				public void onPostExecute(Object result) {
+					if (result != null && result instanceof Integer) {
+						MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+						return;
+					}
+					MTCommentResult cr = (MTCommentResult) result;
+					totalNumber = cr.getTotal();
+					if (cr == null || cr.getResult() != 1) {
+						MTCommon.ShowToast("评论获取失败");
+						return;
+					}
+					adapter.appendData(cr.getDetails());
+
 				}
-				adapter.appendData(cr.getDetails());
-				
-			}
-		}).getMettingComment(mettingId, pageNum++);
+			}).getMettingComment(mettingId, pageNum++);
+		}
 	}
 
 }
