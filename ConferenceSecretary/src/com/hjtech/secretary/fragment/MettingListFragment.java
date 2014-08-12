@@ -71,6 +71,9 @@ public class MettingListFragment extends BaseFragment {
         	myPagerAdapter = new MTPagerAdatper(data, titles, adapters);
 		}else{
 			myPagerAdapter.init(getMainActivity());
+			for (MettingListAdapter adapter : adapters) {
+				adapter.initData();
+			}
 		}
         stripe = gv(R.id.stripe);
         stripe.post(new Runnable() {

@@ -53,7 +53,6 @@ public class MyMettingFragment extends BaseFragment {
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		System.out.println("tttttttttttttttttttttttttttttttttttttttttddddddddddddddddddddddddddddddddddddddddd");
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK && requestCode == MyMettingFragment.SIGNAL) {
 			String result = data.getStringExtra("result");
@@ -139,6 +138,9 @@ public class MyMettingFragment extends BaseFragment {
         	myPagerAdapter = new MTPagerAdatper(data, titles, adapters);
 		}else{
 			myPagerAdapter.init(getMainActivity());
+			for (MyMettingAdapter adapter : adapters) {
+				adapter.initData();
+			}
 		}
         
         stripe = gv(R.id.stripe);
