@@ -119,34 +119,34 @@ public class EditUserInfActivity extends BaseActivity {
 		}
 
 		String muName = user.getMuName();
-		if (muName != null) {
+		if (muName != null && muName.length() != 0) {
 			nameEdit.setText(muName);
 			nameEdit.setSelection(muName.length());
 		}
 		String muNickName = user.getMuNickName();
-		if (muNickName != null) {
+		if (muNickName != null && muNickName.length() != 0) {
 			nickEdit.setText(muNickName);
 		}
 		String muSexString = user.getMuSexString();
-		if (muSexString != null) {
+		if (muSexString != null && muSexString.length() != 0) {
 			sexEdit.setText(muSexString);
 		}
-		if (user.getMuUnitName() != null) {
+		if (user.getMuUnitName() != null && user.getMuUnitName().length() != 0) {
 			unitEdit.setText(user.getMuUnitName());
 		}
-		if (user.getMuSector() != null) {
+		if (user.getMuSector() != null && user.getMuSector().length() != 0) {
 			departmentEdit.setText(user.getMuSector());
 		}
-		if (user.getMuPosition() != null) {
+		if (user.getMuPosition() != null && user.getMuPosition().length() != 0) {
 			positionEdit.setText(user.getMuPosition());
 		}
-		if (user.getMuQq() != null) {
+		if (user.getMuQq() != null && user.getMuQq().length() != 0) {
 			qqEdit.setText(user.getMuQq());
 		}
-		if (user.getMuWeixin() != null) {
+		if (user.getMuWeixin() != null && user.getMuWeixin().length() != 0) {
 			weixinEdit.setText(user.getMuWeixin());
 		}
-		if (user.getMuEmail() != null) {
+		if (user.getMuEmail() != null && user.getMuEmail().length() != 0) {
 			emailEdit.setText(user.getMuEmail());
 		}
 
@@ -238,6 +238,7 @@ public class EditUserInfActivity extends BaseActivity {
 									MTCommon.ShowToast("修改成功");
 									EditUserInfActivity.this.user = MTUserManager
 											.updateUser(user);
+									finish();
 								} else {
 									MTCommon.ShowToast("修改失败");
 								}

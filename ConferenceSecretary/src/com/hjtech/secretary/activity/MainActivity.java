@@ -43,9 +43,9 @@ public class MainActivity extends BaseActivity {
 		if (mSsoHandler != null) { 
 			mSsoHandler.authorizeCallBack(requestCode, resultCode, data); 
 		}
-		if (currentFragment instanceof MyMettingFragment) {
-			((MyMettingFragment)currentFragment).onActivityResult(requestCode, resultCode, data);
-		}
+//		if (currentFragment instanceof MyMettingFragment) {
+//			((MyMettingFragment)currentFragment).onActivityResult(requestCode, resultCode, data);
+//		}
 	}
 	
 	private int UIType;

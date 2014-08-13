@@ -224,7 +224,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 			WXWebpageObject webpage2 = new WXWebpageObject();  
 			webpage2.webpageUrl = metting.getMmEnpage();
 			WXMediaMessage msg2 = new WXMediaMessage(webpage2);  
-			msg2.title = "会小蜜";  
+			msg2.title = "会小秘";  
 			msg2.description = text;
 
 			try{  
@@ -250,7 +250,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 			}
 			break;
 		case MESSAGE:
-			Uri smsToUri = Uri.parse("smsto:");  
+			Uri smsToUri = Uri.parse("smsto");  
 			Intent sendIntent = new Intent(Intent.ACTION_VIEW, smsToUri);  
 			String message = "我是"+MTUserManager.getUser().getMuName()+",有个\"" + metting.getMmTitle() + "\"不错，我邀请你参加，下面是这个会议的网址，点进去就可以报名了:\n"+metting.getMmEnpage()+"\n（wps·会小秘）";
 			sendIntent.putExtra("sms_body", message);

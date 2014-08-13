@@ -203,7 +203,8 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 					for (int i = 0; i < data.size(); ++i) {
 						TextView tx = (TextView) getLayoutInflater().inflate(R.layout.news_text_view, newsFlipper, false);
 						tx.setText(data.get(i).getMmTitle());
-						tx.setOnClickListener(new NewActivityListener(HomeActivity.this, MainActivity.class, "UIType", MTFragmentFactory.MESSAGE));
+//						tx.setOnClickListener(new NewActivityListener(HomeActivity.this, MainActivity.class, "UIType", MTFragmentFactory.MESSAGE));
+						tx.setOnClickListener(new NewActivityListener(HomeActivity.this, MessageDetailActivity.class, "message", data.get(i), "from", "home"));
 						newsFlipper.addView(tx);
 					}				}
 			}

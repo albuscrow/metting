@@ -120,12 +120,18 @@ public class MTUser implements java.io.Serializable {
 		this.muPassword = muPassword;
 	}
 	public String getMuUnitName() {
+		if (muUnitName == null) {
+			return "";
+		}
 		return muUnitName;
 	}
 	public void setMuUnitName(String muUnitName) {
 		this.muUnitName = muUnitName;
 	}
 	public String getMuName() {
+		if (muName == null) {
+			return "";
+		}
 		return muName;
 	}
 	public void setMuName(String muName) {
@@ -150,6 +156,9 @@ public class MTUser implements java.io.Serializable {
 		this.muMobile = muMobile;
 	}
 	public String getMuEmail() {
+		if (muEmail == null) {
+			return "";
+		}
 		return muEmail;
 	}
 	public void setMuEmail(String muEmail) {

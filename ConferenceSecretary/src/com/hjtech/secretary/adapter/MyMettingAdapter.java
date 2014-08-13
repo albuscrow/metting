@@ -31,6 +31,7 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	private BaseActivity activity;
 	private int currentPageNum = 1;
 	private int totalDataNum;
+	private BaseFragment fragment;
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
@@ -45,6 +46,7 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 
 	public MyMettingAdapter(BaseFragment fragment,int status) {
 		this.activity = fragment.getBaseActivity();
+		this.fragment = fragment;
 		this.status = status;
 	}
 	
@@ -108,7 +110,7 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(activity, CaptureActivity.class);
-					activity.startActivityForResult(intent, MyMettingFragment.SIGNAL);
+					fragment.startActivityForResult(intent, MyMettingFragment.SIGNAL);
 				}
 			});
 			

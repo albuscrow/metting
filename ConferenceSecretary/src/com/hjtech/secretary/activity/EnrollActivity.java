@@ -18,9 +18,10 @@ import android.widget.TextView;
 public class EnrollActivity extends BaseActivity {
 	private EditText name;
 	private EditText company;
-	private EditText post;
+	private EditText email;
 	private EditText mobile;
 	private MTMetting metting;
+	private MTUser user;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -31,6 +32,7 @@ public class EnrollActivity extends BaseActivity {
 	
 	private void intiData() {
 		this.metting = (MTMetting) getIntent().getSerializableExtra("metting");
+		this.user = MTUserManager.getUser();
 	}
 
 	@Override
@@ -39,8 +41,13 @@ public class EnrollActivity extends BaseActivity {
 		setbackButton();
 		name =(EditText) gv(R.id.enroll_name_editext);
 		company =(EditText) gv(R.id.enroll_unit_editext);
-		post =(EditText) gv(R.id.enroll_position_editext);
+		email =(EditText) gv(R.id.enroll_email);
 		mobile = (EditText) gv(R.id.enroll_phone_editext);
+		
+		name.setText(user.getMuName());
+		company.setText(user.getMuUnitName());
+		email.setText(user.getMuEmail());
+		mobile.setText(user.getMuAccount());
 		
 		gv(R.id.enroll_button).setOnClickListener(new OnClickListener() {
 			
@@ -59,7 +66,7 @@ public class EnrollActivity extends BaseActivity {
 					return;
 				}
 				
-				String postStr = MTCommon.getContent(post);
+				String postStr = MTCommon.getContent(email);
 				if (postStr == null) {
 					MTCommon.ShowToast("请输入职务");
 					return;

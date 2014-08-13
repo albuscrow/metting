@@ -8,16 +8,22 @@ import com.hjtech.secretary.data.MTMessage;
 
 public class MessageDetailActivity extends BaseActivity {
 	private MTMessage message;
+	private String from;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		initData();
-		initUI(R.layout.activity_message_detail, R.string.title_activity_message, R.string.title_activity_message_detail);
+		if (from != null && from.equals("home")) {
+			initUI(R.layout.activity_message_detail, R.string.homepage, R.string.title_activity_message_detail);
+		}else{
+			initUI(R.layout.activity_message_detail, R.string.title_activity_message, R.string.title_activity_message_detail);
+		}
 	}
 	
 	private void initData() {
 		message = (MTMessage)getIntent().getSerializableExtra("message");
+		from = (String) getIntent().getSerializableExtra("from");
 	}
 
 	@Override

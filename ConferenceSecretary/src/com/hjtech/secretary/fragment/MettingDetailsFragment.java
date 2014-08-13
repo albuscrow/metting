@@ -1,5 +1,6 @@
 package com.hjtech.secretary.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import cn.hugo.android.scanner.CaptureActivity;
 
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.activity.EnrollActivity;
@@ -22,6 +24,7 @@ import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.listener.NewActivityListener;
+import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -151,10 +154,21 @@ public class MettingDetailsFragment extends BaseFragment {
 		Button enroll = (Button) gv(R.id.detail_enroll);
 		if (metting.getIsEnroll() == MTMetting.UNENROLL && metting.getIsStarted() == MTMetting.UNSTART) {
 			enroll.setOnClickListener(new NewActivityListener(getMainActivity(), EnrollActivity.class, "metting", metting));
+		}else if (metting.getIsEnroll() == MTMetting.ENROLL) {
+			enroll.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(activity, CaptureActivity.class);
+					MettingDetailsFragment.this.startActivityForResult(intent, MyMettingFragment.SIGNAL);
+				}
+			});
+			enroll.setText("现在签到");
 		}else{
 			enroll.setTextColor(getResources().getColor(R.color.mt_text_3));
 			enroll.setBackgroundResource(R.drawable.button_gray);
+			enroll.setEnabled(false);
 		}
+
 		gv(R.id.detail_comment).setOnClickListener(new NewActivityListener(getMainActivity(), MettingCommentActivity.class, "id", metting.getMmId().toString()));
 		gv(R.id.detail_share).setOnClickListener(new OnClickListener() {
 			
@@ -246,6 +260,63 @@ public class MettingDetailsFragment extends BaseFragment {
 		return (MainActivity) activity;
 	}
 	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK && requestCode == MyMettingFragment.SIGNAL) {
+			String result = data.getStringExtra("result");
+			String idStr = null; 
+			long id;
+			try {
+				idStr = Encryption.decodeBase64(result);
+				int position = idStr.indexOf("sign:");
+				if (position == -1) {
+					MTCommon.ShowToast("请扫描正确的二维码");
+					return;
+				}
+				id = Long.valueOf(idStr.substring(position + 5).trim());
+			} catch (Exception e) {
+				e.printStackTrace();
+				MTCommon.ShowToast("请扫描正确的二维码");
+				return;
+			}
+
+			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+				@Override
+				public void onPreExecute() {
+
+				}
+
+				@Override
+				public void onPostExecute(Object result) {
+					if (result != null && result instanceof Integer) {
+						MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+						return;
+					}	
+
+					if (result == null) {
+						MTCommon.ShowToast("签到失败");
+						return;
+					}
+					MTSimpleResult sr = (MTSimpleResult) result;
+					switch (sr.getResult()) {
+					case 1:
+						MTCommon.ShowToast("签到成功");
+						break;
+					case 4:
+						MTCommon.ShowToast("末报名,不能签到");
+						break;
+					default:
+						MTCommon.ShowToast("签到失败");
+						break;
+					}
+
+				}
+			}).singIn(id, MTUserManager.getUser().getMuAccount());
+		};
+	}
+
 	
 //	@Override
 //	public void onClick(View v) {
