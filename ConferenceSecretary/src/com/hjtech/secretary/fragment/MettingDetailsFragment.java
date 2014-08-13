@@ -1,5 +1,8 @@
 package com.hjtech.secretary.fragment;
 
+import java.util.List;
+import java.util.zip.Inflater;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.hugo.android.scanner.CaptureActivity;
 
@@ -21,6 +26,8 @@ import com.hjtech.secretary.activity.MettingCommentActivity;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTComment;
+import com.hjtech.secretary.data.MTCommentResult;
 import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.listener.NewActivityListener;
@@ -35,6 +42,8 @@ public class MettingDetailsFragment extends BaseFragment {
 	public static final int UNCOLLECT = 0;
 	public static final int COLLECT = 1;
 	private MTMetting metting;
+	private List<MTComment> comments;
+	
 //	private LinearLayout relatedMettingLayout;
 	
 //	SwipeView mSwipeView;
@@ -44,7 +53,6 @@ public class MettingDetailsFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		System.out.println("MettingDetailsFragment.onCreateView()");
 		initData();
 		initActionBar(R.string.title_activity_metting_list, R.string.title_activity_metting_details, 0);
 		return initUI(inflater);
@@ -169,7 +177,7 @@ public class MettingDetailsFragment extends BaseFragment {
 			enroll.setEnabled(false);
 		}
 
-		gv(R.id.detail_comment).setOnClickListener(new NewActivityListener(getMainActivity(), MettingCommentActivity.class, "id", metting.getMmId().toString()));
+		gv(R.id.detail_comment).setOnClickListener(new NewActivityListener(getMainActivity(), MettingCommentActivity.class, "id", metting.getMmId()));
 		gv(R.id.detail_share).setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -211,6 +219,45 @@ public class MettingDetailsFragment extends BaseFragment {
 				
 			}
 		});
+		
+		final LinearLayout commentsLayout = (LinearLayout) gv(R.id.metting_detail_comment_layout);
+		
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+
+			@Override
+			public void onPreExecute() {
+
+			}
+
+			@Override
+			public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
+				MTCommentResult cr = (MTCommentResult) result;
+				if (cr == null || cr.getResult() != 1) {
+					MTCommon.ShowToast("评论获取失败");
+					return;
+				}
+				comments = cr.getDetails();
+				for (int i = 0; i < 5 && i < comments.size(); ++i) {
+					MTComment comment = comments.get(i);
+					RelativeLayout commentLayout = (RelativeLayout) getBaseActivity().getLayoutInflater().inflate(R.layout.comment_text_view, commentsLayout, false);
+					((TextView)commentLayout.findViewById(R.id.content)).setText(comment.getMcContent());
+					((TextView)commentLayout.findViewById(R.id.time)).setText(comment.getMcAddtime());
+					if (i % 2 == 1) {
+						commentLayout.setBackgroundColor(getBaseActivity().getResources().getColor(R.color.mt_login_bg));
+					}
+					commentLayout.setOnClickListener(new NewActivityListener(getBaseActivity(), MettingCommentActivity.class, "id", metting.getMmId()));
+					commentsLayout.addView(commentLayout);
+				}
+			}
+		}).getMettingComment(metting.getMmId(),1);
+		
+		
 		//init swipe view
 //		PageControl mPageControl = (PageControl) gv(R.id.page_control);
 //		mSwipeView = (SwipeView) gv(R.id.swipe_view);
@@ -254,6 +301,7 @@ public class MettingDetailsFragment extends BaseFragment {
 		if (getIntent() != null) {
 			metting = (MTMetting) getIntent().getSerializableExtra("metting");
 		}
+		
 	}
 	
 	public MainActivity getMainActivity(){

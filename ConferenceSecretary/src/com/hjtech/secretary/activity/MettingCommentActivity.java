@@ -143,8 +143,7 @@ public class MettingCommentActivity extends BaseActivity {
 	}
 
 	private void initData() {
-		String idStr = (String) getIntent().getSerializableExtra("id");
-		this.mettingId = Long.parseLong(idStr);
+		this.mettingId = (Long) getIntent().getSerializableExtra("id");
 		refreshList();
 	}
 	
