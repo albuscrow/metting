@@ -121,10 +121,17 @@ public class BaseActivity extends FragmentActivity {
 	}
 	
 	protected void showWaitBar(){
+		if (waitBar == null) {
+			waitBar = findViewById(R.id.common_wait);
+		}
 		waitBar.setVisibility(View.VISIBLE);
 	}
 	
 	protected void hideWaitBar(){
+		if (waitBar == null) {
+			waitBar = findViewById(R.id.common_wait);
+		}
+		waitBar.setVisibility(View.VISIBLE);
 		waitBar.setVisibility(View.GONE);
 	}
 	

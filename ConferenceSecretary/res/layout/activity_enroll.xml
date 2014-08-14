@@ -76,7 +76,7 @@
 			    android:text="邮箱" />
 			
 	        <EditText
-	            android:id="@+id/enroll_position_editext"
+	            android:id="@+id/enroll_email_editext"
 	            style="@style/enroll_edit"
 	            android:layout_toRightOf="@id/enroll_email"
 	            android:inputType="textEmailAddress" />

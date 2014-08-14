@@ -301,7 +301,6 @@ public class MTMetting implements java.io.Serializable {
 	}
 	
 	private static final String[] WEEK = new String[]{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
-	private Date startDate;
 	private Calendar calendar = Calendar.getInstance();
 	private String day;
 	private String month;
@@ -343,19 +342,17 @@ public class MTMetting implements java.io.Serializable {
 		}
 
 	}
+	
 	public Date getDate(String date) {
-		if (startDate == null) {
+		if (date != null) {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 			try {
-				startDate = format.parse(date);
+				return format.parse(date);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-		return startDate;
-	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+		return  null;
 	}
 	
 	public void getStartDay(){

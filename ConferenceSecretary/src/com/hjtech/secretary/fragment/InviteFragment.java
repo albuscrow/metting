@@ -202,7 +202,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 			webpage.webpageUrl = metting.getMmEnpage();
 			System.out.println(metting.getMmEnpage());
 			WXMediaMessage msg = new WXMediaMessage(webpage);  
-			msg.title = "会小蜜";  
+			msg.title = "会小秘";  
 			msg.description = text;
 
 			try{  

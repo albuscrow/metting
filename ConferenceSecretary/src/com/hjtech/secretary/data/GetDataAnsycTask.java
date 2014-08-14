@@ -181,8 +181,8 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.COLLECT, id, Account, opt);
 	}
 
-	public void enroll(long id, String account, String name, String mobile, String company, String postion, String weixin) {
-		this.execute(JsonTarget.ENROLL, id, account, name, mobile, company, postion, weixin);
+	public void enroll(long id, String account, String name, String mobile, String company, String email, String weixin) {
+		this.execute(JsonTarget.ENROLL, id, account, name, mobile, company, email, weixin);
 	}
 
 	public void getMettingComment(long mettingId, int page) {

@@ -41,7 +41,7 @@ public class EnrollActivity extends BaseActivity {
 		setbackButton();
 		name =(EditText) gv(R.id.enroll_name_editext);
 		company =(EditText) gv(R.id.enroll_unit_editext);
-		email =(EditText) gv(R.id.enroll_email);
+		email =(EditText) gv(R.id.enroll_email_editext);
 		mobile = (EditText) gv(R.id.enroll_phone_editext);
 		
 		name.setText(user.getMuName());
@@ -66,8 +66,8 @@ public class EnrollActivity extends BaseActivity {
 					return;
 				}
 				
-				String postStr = MTCommon.getContent(email);
-				if (postStr == null) {
+				String emailStr = MTCommon.getContent(email);
+				if (emailStr == null) {
 					MTCommon.ShowToast("请输入职务");
 					return;
 				}
@@ -95,7 +95,11 @@ public class EnrollActivity extends BaseActivity {
 						if (result != null && result instanceof Integer) {
 							MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 							return;
-						}	
+						}
+						if (result == null) {
+							MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+							return;
+						}
 						MTSimpleResult sr = (MTSimpleResult) result;
 						int resultCode = sr.getResult();
 						switch (resultCode) {
@@ -119,7 +123,7 @@ public class EnrollActivity extends BaseActivity {
 							break;
 						}
 					}
-				}).enroll(metting.getMmId(), user.getMuAccount(), nameStr, mobileStr, companyStr, postStr, user.getMuWeixin());
+				}).enroll(metting.getMmId(), user.getMuAccount(), nameStr, mobileStr, companyStr, emailStr, user.getMuWeixin());
 				System.out.println(metting.getMmId());
 			}
 		});

@@ -274,7 +274,7 @@ public class DataProvider {
 	
 	public static Object enrollMetting(Type type, Long id, String account,
 			String name, String mobile, String company,
-			String position, String weixin) {
+			String email, String weixin) {
 		
 		Map<String, Object> params = genParems();
 		
@@ -288,9 +288,7 @@ public class DataProvider {
 		
 		params.put(MU_COMPANY, company);
 		
-		params.put(MU_POSITION, position);
-		
-		params.put(MU_WEIXIN, MU_WEIXIN);
+		params.put(MU_EMAIL, email);
 		
 		String json = NetUtils.getPostResult(params,ENROLL_URL);
 		if (json == null) {

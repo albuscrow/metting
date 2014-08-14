@@ -300,6 +300,8 @@ public class MettingDetailsFragment extends BaseFragment {
 	private void initData() {
 		if (getIntent() != null) {
 			metting = (MTMetting) getIntent().getSerializableExtra("metting");
+		}else{
+			metting = new MTMetting();
 		}
 		
 	}
