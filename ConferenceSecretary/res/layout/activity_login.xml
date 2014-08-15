@@ -11,10 +11,10 @@
 
         <ImageView
             android:id="@+id/login_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:contentDescription="@null"
             android:src="@drawable/common_logo" />
 

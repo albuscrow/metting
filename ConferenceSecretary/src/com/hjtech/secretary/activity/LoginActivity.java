@@ -28,6 +28,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
 public class LoginActivity extends BaseActivity {
@@ -55,6 +56,7 @@ public class LoginActivity extends BaseActivity {
 	private void initData(){
 		from = getIntent().getStringExtra("from");
 		needGuide = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("needGuide", true);
+//		needGuide = true;
 	}
 	
 	@Override
@@ -91,7 +93,8 @@ public class LoginActivity extends BaseActivity {
 				public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 						float velocityY) {
 					if(e1.getX() - e2.getX() > 120) {//向右滑动  
-						if (account ++ < 3) {
+						if (account < 3) {
+							++account;
 							viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_left_in));  
 							viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_left_out));  
 							viewFlipper.showNext();
@@ -100,9 +103,12 @@ public class LoginActivity extends BaseActivity {
 							}
 						}
 					}else if(e2.getX() - e1.getX() > 120){//向左滑动  
-//						viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_right_in));  
-//						viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_right_out));  
-//						viewFlipper.showPrevious();  
+						if (account >= 0) {
+							--account;
+							viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_right_in));  
+							viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_right_out));  
+							viewFlipper.showPrevious();  
+						}
 					}
 					return false; 				
 
@@ -118,12 +124,10 @@ public class LoginActivity extends BaseActivity {
 			View view1 = getLayoutInflater().inflate(R.layout.guidepage_animation, viewFlipper, false);
 			viewFlipper.addView(view1);
 			startAnimation(view1);
-			ImageView view2 = (ImageView) getLayoutInflater().inflate(R.layout.guidepage_image, viewFlipper, false);
-			view2.setImageResource(R.drawable.guide2);
+			RelativeLayout view2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.guidepage2, viewFlipper, false);
 			viewFlipper.addView(view2);
 			
-			ImageView view3 = (ImageView) getLayoutInflater().inflate(R.layout.guidepage_image, viewFlipper, false);
-			view3.setImageResource(R.drawable.guide3);
+			RelativeLayout view3 = (RelativeLayout) getLayoutInflater().inflate(R.layout.guidepage3, viewFlipper, false);
 			viewFlipper.addView(view3);
 			
 			View view4 = getLayoutInflater().inflate(R.layout.activity_login, viewFlipper, false);
