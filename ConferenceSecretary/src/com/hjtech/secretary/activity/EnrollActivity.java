@@ -44,10 +44,26 @@ public class EnrollActivity extends BaseActivity {
 		email =(EditText) gv(R.id.enroll_email_editext);
 		mobile = (EditText) gv(R.id.enroll_phone_editext);
 		
-		name.setText(user.getMuName());
-		company.setText(user.getMuUnitName());
-		email.setText(user.getMuEmail());
-		mobile.setText(user.getMuAccount());
+		String muName = user.getMuName();
+		name.setText(muName);
+		if (muName.length() != 0) {
+			MTCommon.moveSelectionToLast(name);
+		}
+		String muUnitName = user.getMuUnitName();
+		company.setText(muUnitName);
+		if (muUnitName.length() != 0) {
+			MTCommon.moveSelectionToLast(company);
+		}
+		String muEmail = user.getMuEmail();
+		email.setText(muEmail);
+		if (muEmail.length() != 0) {
+			MTCommon.moveSelectionToLast(email);
+		}
+		String muAccount = user.getMuAccount();
+		mobile.setText(muAccount);
+		if (muAccount.length() != 0) {
+			MTCommon.moveSelectionToLast(mobile);
+		}
 		
 		gv(R.id.enroll_button).setOnClickListener(new OnClickListener() {
 			

@@ -63,7 +63,7 @@ public class DataProvider {
 	public static final String PAGE = "page";
 	
 	public static final String SORT_ORDER = "sortOrder";
-	public static final String SORT_ORDER_ASC = "asc";
+	public static final String SORT_ORDER_ASC = "desc";
 	public static final String SORT_ORDER_DeSC = "desc";
 	
 	public static final String QUERY_TYPE = "type";

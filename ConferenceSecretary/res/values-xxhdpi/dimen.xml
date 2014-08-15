@@ -2,4 +2,13 @@
 <resources>
     <dimen name="metting_inf_ts">12sp</dimen>
     <dimen name="metting_title_ts">14sp</dimen>
-</resources>
+    <dimen name="ga1">40dp</dimen>
+    <dimen name="ga2">90dp</dimen>
+    <dimen name="ga3">130dp</dimen>
+    <dimen name="ga4">-39dp</dimen>
+    <dimen name="ga5">100dp</dimen>
+    <dimen name="ga6">37dp</dimen>
+    <dimen name="ga7">175dp</dimen>
+    <dimen name="ga8">-75dp</dimen>
+    <dimen name="ga9">120dp</dimen>
+    <dimen name="ga10">-40dp</dimen></resources>

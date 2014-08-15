@@ -7,9 +7,9 @@
     <TextView
         android:id="@+id/t1"
         style="@style/guide_textView"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="@dimen/ga2"
+        android:layout_height="@dimen/ga2"
+        android:layout_marginTop="@dimen/ga1"
         android:background="@drawable/guide_t1"
         android:text="邀请" />
 
@@ -17,9 +17,9 @@
         android:id="@+id/t2"
         android:layout_below="@id/t1"
         style="@style/guide_textView"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="-39dp"
+        android:layout_width="@dimen/ga3"
+        android:layout_height="@dimen/ga3"
+        android:layout_marginTop="@dimen/ga4"
         android:background="@drawable/guide_t2"
         android:text="报名" />
     
@@ -27,9 +27,9 @@
         android:id="@+id/t4"
         android:layout_below="@id/t2"
         style="@style/guide_textView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="37dp"
+        android:layout_width="@dimen/ga5"
+        android:layout_height="@dimen/ga5"
+        android:layout_marginTop="@dimen/ga6"
         android:background="@drawable/guide_t4"
         android:text="抽奖" />
     
@@ -37,20 +37,19 @@
         android:id="@+id/t3"
         android:layout_below="@id/t2"
         style="@style/guide_textView"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
-        android:layout_marginTop="-75dp"
+        android:layout_width="@dimen/ga7"
+        android:layout_height="@dimen/ga7"
+        android:layout_marginTop="@dimen/ga8"
         android:background="@drawable/guide_t3"
         android:text="签到" />
-    
     
     <TextView
         android:id="@+id/t5"
         android:layout_below="@id/t4"
         style="@style/guide_textView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="-40dp"
+        android:layout_width="@dimen/ga9"
+        android:layout_height="@dimen/ga9"
+        android:layout_marginTop="@dimen/ga10"
         android:background="@drawable/guide_t5"
         android:text="会务互动" />
     

@@ -103,7 +103,7 @@ public class LoginActivity extends BaseActivity {
 							}
 						}
 					}else if(e2.getX() - e1.getX() > 120){//向左滑动  
-						if (account >= 0) {
+						if (account > 0) {
 							--account;
 							viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_right_in));  
 							viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_right_out));  
