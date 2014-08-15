@@ -61,9 +61,6 @@ public class EnrollActivity extends BaseActivity {
 		}
 		String muAccount = user.getMuAccount();
 		mobile.setText(muAccount);
-		if (muAccount.length() != 0) {
-			MTCommon.moveSelectionToLast(mobile);
-		}
 		
 		gv(R.id.enroll_button).setOnClickListener(new OnClickListener() {
 			

@@ -60,7 +60,7 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			
 			@Override
 			public void onClick(View v) {
-				Uri uri = Uri.parse("tel:400-000-000");    
+				Uri uri = Uri.parse("tel:400000000");    
 				Intent intent = new Intent(Intent.ACTION_DIAL, uri);       
 				startActivity(intent);
 			}

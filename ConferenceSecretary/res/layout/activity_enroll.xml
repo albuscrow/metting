@@ -99,6 +99,10 @@
 	            android:id="@+id/enroll_phone_editext"
 	            style="@style/enroll_edit"
 	            android:layout_toRightOf="@id/enroll_phone"
+	            android:clickable="false"
+	            android:cursorVisible="false"
+	            android:focusable="false"
+	            android:focusableInTouchMode="false"
 	            android:inputType="number" />
             
         </RelativeLayout>

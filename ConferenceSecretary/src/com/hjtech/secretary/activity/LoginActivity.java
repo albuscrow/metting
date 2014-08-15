@@ -149,7 +149,7 @@ public class LoginActivity extends BaseActivity {
 		t1.startAnimation(a1);
 		
 		Animation a2 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
-		a2.setStartOffset(700);
+		a2.setStartOffset(200);
 		t2.startAnimation(a2);
 		
 		Animation a3 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
@@ -157,11 +157,11 @@ public class LoginActivity extends BaseActivity {
 		t3.startAnimation(a3);
 		
 		Animation a4 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
-		a4.setStartOffset(900);
+		a4.setStartOffset(200);
 		t4.startAnimation(a4);
 		
 		Animation a5 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
-		a5.setStartOffset(950);
+		a5.setStartOffset(400);
 		t5.startAnimation(a5);
 	}
 

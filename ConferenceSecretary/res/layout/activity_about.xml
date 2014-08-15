@@ -2,33 +2,97 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mt_login_bg" >
+    android:background="@color/mt_white" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mt_login_bg"
         android:padding="20dp" >
 
         <ImageView
-            android:id="@+id/login_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/about_logo"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:contentDescription="@null"
             android:src="@drawable/common_logo" />
+        
+		<TextView
+		    android:id="@+id/about_version"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@id/about_logo"
+		    android:layout_centerHorizontal="true"
+		    android:layout_marginTop="10dp"
+		    android:text="会小秘 V1.1"
+		    android:textColor="#393939"
+		    android:textSize="16sp" />
+		
+        <TextView
+            android:id="@+id/about_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_version"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:text="技术支持：杭州华舰信息技术有限公司"
+            android:textColor="#303030"
+            android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/forget_password"
+            android:id="@+id/about_intraduce"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_imageview"
+            android:layout_below="@id/about_unit"
+            android:lineSpacingExtra="6dp"
             android:layout_marginTop="20dp"
-            android:background="@color/mt_login_bg"
             android:text="@string/about_us"
             android:textColor="@color/mt_text_6"
             android:textSize="13sp" />
+        
+        
+        <LinearLayout 
+            android:id="@+id/about_phone"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:layout_marginTop="60dp"
+            android:layout_below="@id/about_intraduce"
+            android:layout_height="wrap_content">
+            
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/about_phone" />
+            
+            <TextView
+                android:id="@+id/about_phone_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/about_phone_bg"
+                android:paddingBottom="10dp"
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp"
+                android:paddingTop="10dp"
+                android:text="400-677-5005"
+                android:textColor="#676767"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+         <TextView
+             android:id="@+id/about_phone_zhuan"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/about_phone"
+             android:layout_centerHorizontal="true"
+             android:layout_marginTop="5dp"
+             android:text="来电咨询请转2"
+             android:textColor="@color/mt_text_6"
+             android:textSize="15sp" />
 
         </RelativeLayout>
 
