@@ -160,7 +160,7 @@ public class MettingDetailsFragment extends BaseFragment {
 //		relatedMettingLayout= (LinearLayout) gv(R.id.detail_relate_metting);
 		
 		Button enroll = (Button) gv(R.id.detail_enroll);
-		if (metting.getIsEnroll() == MTMetting.UNENROLL && metting.getIsStarted() == MTMetting.UNSTART) {
+		if (metting.getIsEnroll() == MTMetting.UNENROLL && metting.getIsStarted() != MTMetting.END) {
 			enroll.setOnClickListener(new NewActivityListener(getMainActivity(), EnrollActivity.class, "metting", metting));
 		}else if (metting.getIsEnroll() == MTMetting.ENROLL) {
 			enroll.setOnClickListener(new OnClickListener() {

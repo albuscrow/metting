@@ -12,4 +12,6 @@
     <dimen name="ga8">-60dp</dimen>
     <dimen name="ga9">90dp</dimen>
     <dimen name="ga10">-30dp</dimen>
-</resources>
+    
+    <dimen name="about1">95dp</dimen>    <dimen name="about2">25dp</dimen>    <dimen name="about3">40dp</dimen>
+    <dimen name="about4">4dp</dimen></resources>

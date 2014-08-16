@@ -144,23 +144,23 @@ public class LoginActivity extends BaseActivity {
 		View t4 = gv(R.id.t4);
 		View t5 = gv(R.id.t5);
 		
-		Animation a1 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
+		Animation a1 = AnimationUtils.loadAnimation(this, R.anim.guide1);
 		a1.setStartOffset(400);
 		t1.startAnimation(a1);
 		
-		Animation a2 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
+		Animation a2 = AnimationUtils.loadAnimation(this, R.anim.guide2);
 		a2.setStartOffset(200);
 		t2.startAnimation(a2);
 		
-		Animation a3 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
+		Animation a3 = AnimationUtils.loadAnimation(this, R.anim.guide3);
 		a3.setStartOffset(0);
 		t3.startAnimation(a3);
 		
-		Animation a4 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
+		Animation a4 = AnimationUtils.loadAnimation(this, R.anim.guide4);
 		a4.setStartOffset(200);
 		t4.startAnimation(a4);
 		
-		Animation a5 = AnimationUtils.loadAnimation(this, R.anim.guide_show);
+		Animation a5 = AnimationUtils.loadAnimation(this, R.anim.guide5);
 		a5.setStartOffset(400);
 		t5.startAnimation(a5);
 	}

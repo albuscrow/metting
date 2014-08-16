@@ -7,14 +7,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp" >
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp" >
 
         <ImageView
             android:id="@+id/about_logo"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:layout_width="@dimen/about1"
+            android:layout_height="@dimen/about1"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/about2"
             android:contentDescription="@null"
             android:src="@drawable/common_logo" />
         
@@ -45,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/about_unit"
-            android:lineSpacingExtra="6dp"
+            android:lineSpacingExtra="@dimen/about4"
             android:layout_marginTop="20dp"
             android:text="@string/about_us"
             android:textColor="@color/mt_text_6"
@@ -57,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="@dimen/about3"
             android:layout_below="@id/about_intraduce"
             android:layout_height="wrap_content">
             
@@ -71,6 +73,7 @@
                 android:id="@+id/about_phone_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/about_phone_bg"
                 android:paddingBottom="10dp"
                 android:paddingLeft="17dp"
