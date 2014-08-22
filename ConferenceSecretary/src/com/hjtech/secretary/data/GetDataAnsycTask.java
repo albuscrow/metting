@@ -89,7 +89,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				type = new TypeToken<MTSimpleResult>(){}.getType();
 				result = DataProvider.enrollMetting(type,(Long)params[1],(String)params[2],
 						(String)params[3],(String)params[4],(String)params[5],
-						(String)params[6],(String)params[7]);
+						(String)params[6],(String)params[7],(Integer)params[8]);
 				break;
 				
 			case COMMENT:
@@ -97,7 +97,7 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				result = DataProvider.getComment(type, (Long) params[1], (Integer) params[2]);
 				break;
 				
-			case ADD_COMMENT:
+			case ADD_COMMENT: 
 				type = new TypeToken<MTSimpleResult>(){}.getType();
 				result = DataProvider.addComment(type, (Long) params[1],(String) params[2], (String) params[3]);
 				break;
@@ -181,8 +181,8 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 		this.execute(JsonTarget.COLLECT, id, Account, opt);
 	}
 
-	public void enroll(long id, String account, String name, String mobile, String company, String email, String weixin) {
-		this.execute(JsonTarget.ENROLL, id, account, name, mobile, company, email, weixin);
+	public void enroll(long id, String account, String name, String mobile, String company, String email, String weixin, Integer type) {
+		this.execute(JsonTarget.ENROLL, id, account, name, mobile, company, email, weixin, type);
 	}
 
 	public void getMettingComment(long mettingId, int page) {

@@ -1,7 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    
-    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+    <!-- <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/login_checkbox_bg</item>
     </style>
     
@@ -86,6 +84,6 @@
         <item name="android:paddingBottom">11dp</item>
         <item name="android:paddingTop">11dp</item>
     </style>
-    
+     -->
     
 </resources>

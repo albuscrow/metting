@@ -12,7 +12,11 @@ import com.hjtech.secretary.utils.MTCommon;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class EnrollActivity extends BaseActivity {
@@ -22,7 +26,7 @@ public class EnrollActivity extends BaseActivity {
 	private EditText mobile;
 	private MTMetting metting;
 	private MTUser user;
-
+	private int typeFlag = 3;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -136,11 +140,40 @@ public class EnrollActivity extends BaseActivity {
 							break;
 						}
 					}
-				}).enroll(metting.getMmId(), user.getMuAccount(), nameStr, mobileStr, companyStr, emailStr, user.getMuWeixin());
-				System.out.println(metting.getMmId());
+				}).enroll(metting.getMmId(), user.getMuAccount(), nameStr, 
+						mobileStr, companyStr, emailStr, user.getMuWeixin(), typeFlag);
 			}
 		});
 		
 		((TextView)gv(R.id.metting_name)).setText("你报名的会议是" + metting.getMmTitle());
+		
+		
+		Spinner sharePlatform = (Spinner) gv(R.id.enroll_type_editext);
+		sharePlatform.setAdapter(ArrayAdapter.createFromResource(this, R.array.enroll_type, R.layout.enroll_type_spinner));
+		sharePlatform.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				switch (position) {
+				case 0:
+					typeFlag = 3;
+					break;
+				case 1:
+					typeFlag = 1;
+					break;
+				case 2:
+					typeFlag = 2;
+					break;
+				default:
+					break;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+		
 	}
 }

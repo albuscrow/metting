@@ -24,6 +24,7 @@ import android.os.Debug;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
+import com.hjtech.secretary.common.AppVersion;
 import com.hjtech.secretary.fragment.MettingDetailsFragment;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.JsonUtils;
@@ -33,7 +34,10 @@ import com.hjtech.secretary.utils.NetUtils;
 public class DataProvider {
 
 	public static final String TAG = "DataProvider";
+//	public static final String BASE_URL = "http://42.62.41.98:8080/meetingapi/";
+//	public static final String BASE_URL_IMAGE = "http://42.62.41.98:8081/";
 	public static final String BASE_URL = "http://211.155.229.136:8080/mettingapi/";
+	public static final String BASE_URL_IMAGE = "http://211.155.229.136:8050/";
 	public static final String METTING_LIST_URL = BASE_URL + "metting/list";
 	public static final String MY_METTING_URL = BASE_URL + "metting/userMettings";
 	public static final String GET_COLLECT = BASE_URL + "collect/list";
@@ -55,6 +59,7 @@ public class DataProvider {
 	public static final String FORGET_PASSWORD = BASE_URL + "users/forget";
 	public static final String MODIFY_PASSWORD = BASE_URL + "users/password";
 	private static final String SHARE = BASE_URL + "invite/share";
+	private static final String CHECK_APP_VERSION = BASE_URL + "app/check_version";
 	
 	public static final String KEY = "key";
 	public static final String CODE = "code";
@@ -110,8 +115,7 @@ public class DataProvider {
 	public static final int WEIXIN_SHARE = 0;
 	public static final int WEIBO_SHARE = 1;
 	public static final int MESSAGE_SHARE = 2;
-	
-	
+
 	static Object getMettingList(Type type,String account,int page,int timeType){
 		Map<String, Object> params = genParems();
 		if (account == null) {
@@ -274,7 +278,7 @@ public class DataProvider {
 	
 	public static Object enrollMetting(Type type, Long id, String account,
 			String name, String mobile, String company,
-			String email, String weixin) {
+			String email, String weixin, Integer muType) {
 		
 		Map<String, Object> params = genParems();
 		
@@ -289,6 +293,8 @@ public class DataProvider {
 		params.put(MU_COMPANY, company);
 		
 		params.put(MU_EMAIL, email);
+		
+		params.put("muType", muType);
 		
 		String json = NetUtils.getPostResult(params,ENROLL_URL);
 		if (json == null) {
@@ -489,6 +495,22 @@ public class DataProvider {
 		return JsonUtils.parseJsonResult(type, json);
 	}
 	
+	public static Object getAppVersion(String string) {
+		HashMap<String, Object> params = genParems();
+		params.put("platform", string);
+		
+		String json = NetUtils.getPostResult(params, CHECK_APP_VERSION);
+		if (json == null) {
+			return null;
+		}
+		int resultCode = JsonUtils.getResult(json);
+		if (resultCode != 1) {
+			return null;
+		}
+		return JsonUtils.parseJsonResult(new TypeToken<MTVersionResult>(){}.getType(), json);
+	}
+	
+	
 	private static HashMap<String, Object> genParems() {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		String key = Encryption.getKey();
@@ -497,6 +519,6 @@ public class DataProvider {
 		result.put(CODE, code);
 		return result;
 	}
-	
+
 
 }

@@ -3,6 +3,7 @@ package com.hjtech.secretary.activity;
 import com.hjtech.secretary.R;
 import com.hjtech.secretary.common.Constants;
 import com.hjtech.secretary.common.MTUserManager;
+import com.hjtech.secretary.common.UpdateManager;
 import com.hjtech.secretary.data.MTUser;
 import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.listener.NewActivityListener;
@@ -123,6 +124,14 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 				intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
 				intent.putExtra("currentPager", 2);
 				startActivity(intent);
+			}
+		});
+		
+		gv(R.id.check_update).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				UpdateManager.getUpdateManager().checkAppUpdate(PersonalActivity.this, true);
 			}
 		});
 	}

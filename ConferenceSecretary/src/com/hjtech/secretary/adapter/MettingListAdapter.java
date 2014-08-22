@@ -160,11 +160,12 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 
 						@Override
 						public void onPreExecute() {
-							//				showWaitBar();
+							activity.showWaitBar();
 						}
 
 						@Override
 						public void onPostExecute(Object result) {
+							activity.hideWaitBar();
 							if (result != null && result instanceof Integer) {
 								MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 								return;
@@ -196,11 +197,12 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 			@Override
 			public void onPreExecute() {
-				//				showWaitBar();
+				activity.showWaitBar();
 			}
 
 			@Override
 			public void onPostExecute(Object result) {
+				activity.hideWaitBar();
 				if (result != null && result instanceof Integer) {
 					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 					return;

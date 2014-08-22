@@ -111,6 +111,33 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
 		    android:background="@color/comment_dark" />
+		
+		<RelativeLayout
+            style="@style/enroll_layout" >
+            
+			<TextView
+			    android:id="@+id/enroll_type"
+			    style="@style/enroll_textview"
+			    android:layout_alignParentLeft="true"
+			    android:text="参会类型" />
+			
+	        <Spinner
+	            android:id="@+id/enroll_type_editext"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_alignParentRight="true"
+	            android:layout_toRightOf="@id/enroll_type"
+	            android:background="@null"
+	            android:gravity="right"
+	            android:inputType="number" />
+            
+        </RelativeLayout>
+
+		<View
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:background="@color/comment_dark" />
+		
         
         <Button
             android:id="@+id/enroll_button"

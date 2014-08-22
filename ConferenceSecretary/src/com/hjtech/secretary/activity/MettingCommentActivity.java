@@ -1,5 +1,9 @@
 package com.hjtech.secretary.activity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
@@ -11,6 +15,7 @@ import com.hjtech.secretary.adapter.MettingCommentAdapter;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.GetDataAnsycTask;
 import com.hjtech.secretary.data.GetDataAnsycTask.OnDataAnsyTaskListener;
+import com.hjtech.secretary.data.MTComment;
 import com.hjtech.secretary.data.MTCommentResult;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.MTCommon;
@@ -52,7 +57,7 @@ public class MettingCommentActivity extends BaseActivity {
 			@Override
 			public void onPullEvent(PullToRefreshBase<ListView> refreshView,
 					State state, Mode direction) {
-				refreshList();
+				refreshList(true);
 			}
 		});
 		
@@ -72,7 +77,7 @@ public class MettingCommentActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				String commentContent = MTCommon.getContent(comment);
+				final String commentContent = MTCommon.getContent(comment);
 				if (commentContent == null || commentContent.trim().length() == 0) {
 					MTCommon.ShowToast("请输入评论内容");
 					return;
@@ -105,30 +110,51 @@ public class MettingCommentActivity extends BaseActivity {
 						}else{
 							MTCommon.ShowToast("评论成功");
 							comment.setText("");
-							refreshList();
+							addComment(commentContent);
+							refreshList(false);
 						}
 					}
+
+			
 
 				}).addComment(mettingId, MTUserManager.getUser().getMuAccount(), commentContent);
 			}
 		});
+		refreshList(true);
 	}
 	
-	private void refreshList() {
+	private void addComment(String commentContent) {
+		MTComment comment = new MTComment();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINESE);
+		comment.setMcAddtime(sdf.format(new Date()));
+		comment.setMcContent(commentContent);
+		comment.setMcId(0);
+		comment.setMcUserId(MTUserManager.getUser().getMuId());
+		comment.setMuName(MTUserManager.getUser().getMuName());
+		comment.setMuPhoto(MTUserManager.getUser().getMuPhoto());
+		adapter.addData(comment);
+	}
+	
+	private void refreshList(final boolean needWaitBar) {
 		pageNum = 1;
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
 			@Override
 			public void onPreExecute() {
-
+				if (needWaitBar) {
+					showWaitBar();
+				}
 			}
 
 			@Override
 			public void onPostExecute(Object result) {
-						if (result != null && result instanceof Integer) {
+				if (needWaitBar) {
+					hideWaitBar();
+				}
+				if (result != null && result instanceof Integer) {
 					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 					return;
-				}	
+				}
 
 				MTCommentResult cr = (MTCommentResult) result;
 				totalNumber = cr.getTotal();
@@ -144,7 +170,6 @@ public class MettingCommentActivity extends BaseActivity {
 
 	private void initData() {
 		this.mettingId = (Long) getIntent().getSerializableExtra("id");
-		refreshList();
 	}
 	
 	private void getMore() {

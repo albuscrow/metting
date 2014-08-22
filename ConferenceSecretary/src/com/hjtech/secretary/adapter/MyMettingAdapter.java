@@ -139,6 +139,7 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		
 		if (metting.getIsEnroll() == MTMetting.ENROLL && metting.getIsEnroll() != MTMetting.SIGNIN) {
 			viewHold.mettingSignin.setVisibility(View.VISIBLE);
+//			viewHold.mettingSignin.setVisibility(View.GONE);
 		}else{
 			viewHold.mettingSignin.setVisibility(View.GONE);
 		}
@@ -172,11 +173,12 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 
 						@Override
 						public void onPreExecute() {
-							//				showWaitBar();
+							activity.showWaitBar();
 						}
 
 						@Override
 						public void onPostExecute(Object result) {
+							activity.hideWaitBar();
 							if (result != null && result instanceof Integer) {
 								MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 								return;
@@ -212,10 +214,12 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 			@Override
 			public void onPreExecute() {
 //				MTCommon.ShowToast("正在加载更多数据");
+				activity.showWaitBar();
 			}
 
 			@Override
 			public void onPostExecute(Object result) {
+				activity.hideWaitBar();
 				if (result != null && result instanceof Integer) {
 					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 					return;

@@ -69,6 +69,19 @@
             android:textColor="@color/mt_text_6"
             android:textSize="14sp" />
     </LinearLayout>
+    
+    <ImageButton
+        android:id="@+id/metting_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/metting_status"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:background="@null"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/metting_stamp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -77,7 +90,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:orientation="vertical"
-        android:layout_toLeftOf="@id/metting_status"
+        android:layout_toLeftOf="@id/metting_signin"
         android:layout_toRightOf="@id/metting_time" >
 
         <TextView
@@ -109,21 +122,13 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="3dp"
+	        android:ellipsize="end"
+	        android:lines="1"
 	        android:textColor="@color/mt_text_6"
 	        android:textSize="@dimen/metting_inf_ts" />
+
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/metting_signin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/metting_status"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"
-        android:background="@null"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/metting_stamp" />
+
  
 </RelativeLayout>

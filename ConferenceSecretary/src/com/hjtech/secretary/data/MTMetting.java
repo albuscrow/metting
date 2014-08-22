@@ -103,10 +103,11 @@ public class MTMetting implements java.io.Serializable {
 		if (mmLogo == null) {
 			return null;
 		}
-		if (mmLogo.charAt(0) != '/') {
-			mmLogo = "/" + mmLogo;
+		String temp = mmLogo.replace("\\", "/");
+		if (temp.charAt(0) == '/') {
+			temp = temp.substring(1);
 		}
-		return "http://211.155.229.136:8050"+mmLogo.replace("\\", "/");
+		return DataProvider.BASE_URL_IMAGE + temp + "?time=" + String.valueOf(System.currentTimeMillis());
 	}
 	public void setMmLogo(String mmLogo) {
 		this.mmLogo = mmLogo;
@@ -242,15 +243,18 @@ public class MTMetting implements java.io.Serializable {
 	}
 	public String getMmEnpage() {
 		if (mmEnpage == null || mmEnpage.length() == 0) {
-			return "http://www.xxxx.com/wap/showShare/";
+			return "http://www.hjtechcn.cn/";
 		}
-		if (mmEnpage.indexOf("http://") != -1) {
-			return mmEnpage;
+		
+		String temp = mmEnpage.replace("\\", "/");
+		if (temp.indexOf("http://") != -1) {
+			return temp;
 		}
-		if (mmEnpage.charAt(0) == '/') {
-			mmEnpage = mmEnpage.substring(1);
+		
+		if (temp.charAt(0) == '/') {
+			temp = temp.substring(1);
 		}
-		return "http://211.155.229.136:8050/"+mmEnpage.replace("\\", "/");
+		return DataProvider.BASE_URL_IMAGE + temp;
 	}
 	public void setMmEnpage(String mmEnpage) {
 		this.mmEnpage = mmEnpage;
@@ -259,7 +263,11 @@ public class MTMetting implements java.io.Serializable {
 		if (mmEnqr == null || mmEnqr.length() == 0) {
 			return null;
 		}
-		return "http://211.155.229.136:8050/"+mmEnqr.replace("\\", "/");
+		String temp = mmEnqr.replace("\\", "/");
+		if (temp.charAt(0) == '/') {
+			temp = temp.substring(1);
+		}
+		return DataProvider.BASE_URL_IMAGE + temp + "?time=" + String.valueOf(System.currentTimeMillis());
 	}
 	public void setMmEnqr(String enqr) {
 		mmEnqr = enqr;

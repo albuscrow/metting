@@ -12,6 +12,7 @@ import com.hjtech.secretary.data.MTMessage;
 import com.hjtech.secretary.data.MTMessageListResult;
 import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.MTCommon;
+import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,11 +49,12 @@ public class MessageFragment extends BaseFragment {
 
 			@Override
 			public void onPreExecute() {
-
+				getBaseActivity().showWaitBar();
 			}
 
 			@Override
 			public void onPostExecute(Object result) {
+				getBaseActivity().hideWaitBar();
 				if (result != null && result instanceof Integer) {
 					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
 					return;
