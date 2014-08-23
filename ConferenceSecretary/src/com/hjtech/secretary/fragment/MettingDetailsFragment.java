@@ -255,6 +255,7 @@ private LinearLayout commentsLayout;
 					gv(R.id.metting_detail_comment).setVisibility(View.VISIBLE);
 					gv(R.id.detail_metting_line).setVisibility(View.VISIBLE);
 				}
+				commentsLayout.removeAllViews();
 				for (int i = 0; i < 5 && i < comments.size(); ++i) {
 					MTComment comment = comments.get(i);
 					RelativeLayout commentLayout = (RelativeLayout) getBaseActivity().getLayoutInflater().inflate(R.layout.comment_text_view, commentsLayout, false);
@@ -331,6 +332,7 @@ private LinearLayout commentsLayout;
 					gv(R.id.metting_detail_comment).setVisibility(View.VISIBLE);
 					gv(R.id.detail_metting_line).setVisibility(View.VISIBLE);
 				}
+				commentsLayout.removeAllViews();
 				for (int i = 0; i < 5 && i < comments.size(); ++i) {
 					MTComment comment = comments.get(i);
 					RelativeLayout commentLayout = (RelativeLayout) getBaseActivity().getLayoutInflater().inflate(R.layout.comment_text_view, commentsLayout, false);
