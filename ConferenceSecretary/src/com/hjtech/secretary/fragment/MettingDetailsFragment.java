@@ -1,7 +1,6 @@
 package com.hjtech.secretary.fragment;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,7 +61,8 @@ public class MettingDetailsFragment extends BaseFragment {
 //	SwipeView mSwipeView;
 //	int[] images = new int[]{R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1};
 	/** The collect. */
-private TextView collect;
+	private TextView collect;
+	private LinearLayout commentsLayout;
 	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -214,7 +215,8 @@ private TextView collect;
 		((TextView)gv(R.id.detail_time)).setText(metting.getTimeForDetail());
 		((TextView)gv(R.id.detail_address)).setText(String.format(activity.getResources().getString(R.string.metting_place),metting.getMmAddress()));
 		((TextView)gv(R.id.detail_fee_res)).setText(String.format(activity.getResources().getString(R.string.metting_fee_and_res),metting.getMmFreeTypeStr(),metting.getMemberRttForDetail()));
-		((TextView)gv(R.id.detail_detail)).setText(metting.getMmDesp());
+		WebView wv = (WebView)gv(R.id.detail_detail);
+		wv.loadDataWithBaseURL(null, metting.getMmDesp(), "text/html", "utf-8", null);
 		((TextView)gv(R.id.detail_name)).setText(metting.getMmTitle());
 		
 		final ImageView imageView = (ImageView) gv(R.id.swipe_view);
@@ -243,7 +245,7 @@ private TextView collect;
 			}
 		});
 		
-		final LinearLayout commentsLayout = (LinearLayout) gv(R.id.metting_detail_comment_layout);
+		commentsLayout = (LinearLayout) gv(R.id.metting_detail_comment_layout);
 		
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 
@@ -266,6 +268,17 @@ private TextView collect;
 					return;
 				}
 				comments = cr.getDetails();
+				if (comments == null || comments.size() == 0) {
+					commentsLayout.setVisibility(View.GONE);
+					gv(R.id.metting_detail_comment).setVisibility(View.GONE);
+					gv(R.id.detail_metting_line).setVisibility(View.GONE);
+					return;
+				}else{
+					commentsLayout.setVisibility(View.VISIBLE);
+					gv(R.id.metting_detail_comment).setVisibility(View.VISIBLE);
+					gv(R.id.detail_metting_line).setVisibility(View.VISIBLE);
+				}
+				commentsLayout.removeAllViews();
 				for (int i = 0; i < 5 && i < comments.size(); ++i) {
 					MTComment comment = comments.get(i);
 					RelativeLayout commentLayout = (RelativeLayout) getBaseActivity().getLayoutInflater().inflate(R.layout.comment_text_view, commentsLayout, false);
@@ -306,6 +319,57 @@ private TextView collect;
 //        
 //        mSwipeView.setPageControl(mPageControl);
 		return rootView;
+	}
+	
+	@Override
+	public void onResume() {
+		
+		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+
+			@Override
+			public void onPreExecute() {
+
+			}
+
+			@Override
+			public void onPostExecute(Object result) {
+				if (result != null && result instanceof Integer) {
+					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+					return;
+				}	
+
+				MTCommentResult cr = (MTCommentResult) result;
+				if (cr == null || cr.getResult() != 1) {
+					MTCommon.ShowToast("评论获取失败");
+					return;
+				}
+				comments = cr.getDetails();
+				if (comments == null || comments.size() == 0) {
+					commentsLayout.setVisibility(View.GONE);
+					gv(R.id.metting_detail_comment).setVisibility(View.GONE);
+					gv(R.id.detail_metting_line).setVisibility(View.GONE);
+					return;
+				}else{
+					commentsLayout.setVisibility(View.VISIBLE);
+					gv(R.id.metting_detail_comment).setVisibility(View.VISIBLE);
+					gv(R.id.detail_metting_line).setVisibility(View.VISIBLE);
+				}
+				commentsLayout.removeAllViews();
+				for (int i = 0; i < 5 && i < comments.size(); ++i) {
+					MTComment comment = comments.get(i);
+					RelativeLayout commentLayout = (RelativeLayout) getBaseActivity().getLayoutInflater().inflate(R.layout.comment_text_view, commentsLayout, false);
+					((TextView)commentLayout.findViewById(R.id.content)).setText(comment.getMcContent());
+					((TextView)commentLayout.findViewById(R.id.time)).setText(comment.getMcAddtime());
+					if (i % 2 == 1) {
+						commentLayout.setBackgroundColor(getBaseActivity().getResources().getColor(R.color.mt_login_bg));
+					}
+					commentLayout.setOnClickListener(new NewActivityListener(getBaseActivity(), MettingCommentActivity.class, "id", metting.getMmId()));
+					commentsLayout.addView(commentLayout);
+				}
+			}
+		}).getMettingComment(metting.getMmId(),1);
+		super.onResume();
 	}
 
 	/**

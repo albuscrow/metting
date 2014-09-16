@@ -14,13 +14,6 @@
         android:paddingTop="20dp" >
 
         <TextView
-            android:id="@+id/detail_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/mt_black"
-            android:textSize="17sp" />
-
-        <TextView
             android:id="@+id/detail_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,6 +23,14 @@
             android:gravity="center_horizontal"
             android:textColor="@color/mt_blue"
             android:textSize="12sp" />
+        
+        <TextView
+            android:id="@+id/detail_name"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@id/detail_collect"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mt_black"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/detail_time"
@@ -55,6 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_address"
             android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:lines="1"
             android:textColor="@color/mt_text_6"
             android:textSize="13sp" />
 
@@ -62,6 +65,7 @@
             android:id="@+id/detail_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/detail_fee_res"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
@@ -69,21 +73,27 @@
 
             <ImageView
                 android:id="@+id/swipe_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@null"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:id="@+id/detail_detail"
+                android:scaleType="centerCrop" />
+            
+            <LinearLayout 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/mt_text_6"
-                android:textSize="13sp" />
+                android:layout_height="match_parent">
+                
+				<WebView
+				    android:id="@+id/detail_detail"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:paddingBottom="10dp"
+				    android:paddingTop="15dp"
+				    android:textColor="@color/mt_text_6"
+				    android:textSize="13sp" />
 
+            </LinearLayout>
+            
             <!--
      		<uk.co.jasonfry.android.tools.ui.SwipeView
 		    android:id="@+id/swipe_view"
@@ -152,7 +162,8 @@
             android:layout_below="@id/metting_menu"
             android:text="会议评论"
             android:textColor="@color/mt_text_6"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/detail_metting_line"
@@ -161,7 +172,8 @@
             android:layout_below="@id/metting_detail_comment"
             android:layout_marginTop="3dp"
             android:contentDescription="@null"
-            android:src="@color/mt_text_3" />
+            android:src="@color/mt_text_3"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/metting_detail_comment_layout"

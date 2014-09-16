@@ -232,11 +232,10 @@ public class BaseActivity extends FragmentActivity {
 		return findViewById(id);
 	}
 	
-
 	/**
 	 * Show wait bar.
 	 */
-	protected void showWaitBar(){
+	public void showWaitBar(){
 		if (waitBar == null) {
 			waitBar = findViewById(R.id.common_wait);
 		}
@@ -247,7 +246,7 @@ public class BaseActivity extends FragmentActivity {
 	/**
 	 * Hide wait bar.
 	 */
-	protected void hideWaitBar(){
+	public void hideWaitBar(){
 		if (waitBar == null) {
 			waitBar = findViewById(R.id.common_wait);
 		}

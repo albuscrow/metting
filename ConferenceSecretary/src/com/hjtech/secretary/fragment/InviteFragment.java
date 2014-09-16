@@ -1,10 +1,7 @@
 package com.hjtech.secretary.fragment;
 
-import java.util.HashSet;
-import java.util.Set;
 
 import com.hjtech.secretary.R;
-import com.hjtech.secretary.R.string;
 import com.hjtech.secretary.activity.MainActivity;
 import com.hjtech.secretary.common.MTUserManager;
 import com.hjtech.secretary.data.DataProvider;
@@ -27,28 +24,15 @@ import com.sina.weibo.sdk.openapi.StatusesAPI;
 import com.sina.weibo.sdk.openapi.models.ErrorInfo;
 import com.sina.weibo.sdk.openapi.models.StatusList;
 import com.sina.weibo.sdk.utils.LogUtil;
-import com.tencent.mid.util.Util;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +44,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * The Class InviteFragment.
@@ -123,6 +106,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 					// 调用 Status#parse 解析字符串成微博对象
 					addShareLog(DataProvider.WEIBO_SHARE, null, null);
 					confirm.setEnabled(true);
+					
 					MTCommon.ShowToast("分享成功");
 				} else {
 					MTCommon.ShowToast(response);
@@ -237,6 +221,8 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	/* (non-Javadoc)
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
+	private static final String shareText = "分享最新活动，邀请业内朋友参加，我刚用“会小秘”报名啦！";
+	
 	@Override
 	public void onClick(View v) {
 		String text = shareContent.getText().toString();
@@ -244,13 +230,12 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		case WEIXIN_CIRLE:
 			WXWebpageObject webpage = new WXWebpageObject();  
 			webpage.webpageUrl = metting.getMmEnpage();
-			System.out.println(metting.getMmEnpage());
 			WXMediaMessage msg = new WXMediaMessage(webpage);  
-			msg.title = "会小秘";  
-			msg.description = text;
+			msg.title = shareText;  
+			msg.description = "";
 
 			try{  
-				Bitmap bmp = MTCommon.getImageFromView(tdCode);
+				Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.common_logo);
 				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);  
 				bmp.recycle();  
 				msg.setThumbImage(thumbBmp);  
@@ -259,7 +244,7 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 			}
 			SendMessageToWX.Req req = new SendMessageToWX.Req();  
 			req.transaction = String.valueOf(System.currentTimeMillis());  
-			req.message = msg;  
+			req.message = msg;
 			req.scene = SendMessageToWX.Req.WXSceneTimeline;  
 			getMainActivity().api.sendReq(req);
 			break;

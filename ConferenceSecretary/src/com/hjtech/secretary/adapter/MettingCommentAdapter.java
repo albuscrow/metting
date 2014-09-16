@@ -48,6 +48,11 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 	 * @param data
 	 *            the data
 	 */
+	public void addData(MTComment comment){
+		this.data.add(comment);
+		this.notifyDataSetChanged();
+	}
+	
 	public void appendData(List<MTComment> data) {
 		this.data.addAll(data);
 		this.notifyDataSetChanged();

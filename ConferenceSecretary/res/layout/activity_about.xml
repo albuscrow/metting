@@ -38,7 +38,7 @@
             android:layout_below="@id/about_version"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="6dp"
-            android:text="技术支持：杭州华舰信息技术有限公司"
+            android:text="版权所有：北京金山办公软件有限公司"
             android:textColor="#303030"
             android:textSize="13sp" />
 

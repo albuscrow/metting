@@ -13,4 +13,6 @@
     <dimen name="ga9">95dp</dimen>
     <dimen name="ga10">-25dp</dimen>
     
-    <dimen name="about1">95dp</dimen>    <dimen name="about2">25dp</dimen>    <dimen name="about3">40dp</dimen>    <dimen name="about4">4dp</dimen></resources>
+    <dimen name="about1">95dp</dimen>    <dimen name="about2">25dp</dimen>    <dimen name="about3">40dp</dimen>    <dimen name="about4">4dp</dimen>
+    
+    <dimen name="splash_margin">80dp</dimen></resources>

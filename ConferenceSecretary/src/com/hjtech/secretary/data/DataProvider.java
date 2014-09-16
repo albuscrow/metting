@@ -24,6 +24,7 @@ import android.os.Debug;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
+import com.hjtech.secretary.common.AppVersion;
 import com.hjtech.secretary.fragment.MettingDetailsFragment;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.JsonUtils;
@@ -41,9 +42,11 @@ public class DataProvider {
 	public static final String TAG = "DataProvider";
 	
 	/** The Constant BASE_URL. */
-	public static final String BASE_URL = "http://211.155.229.136:8080/mettingapi/";
 	
-	/** The Constant METTING_LIST_URL. */
+//	public static final String BASE_URL = "http://42.62.41.98:8080/meetingapi/";
+//	public static final String BASE_URL_IMAGE = "http://42.62.41.98:8081/";
+	public static final String BASE_URL = "http://211.155.229.136:8080/mettingapi/";
+	public static final String BASE_URL_IMAGE = "http://211.155.229.136:8050/";
 	public static final String METTING_LIST_URL = BASE_URL + "metting/list";
 	
 	/** The Constant MY_METTING_URL. */
@@ -105,6 +108,7 @@ public class DataProvider {
 	
 	/** The Constant SHARE. */
 	private static final String SHARE = BASE_URL + "invite/share";
+	private static final String CHECK_APP_VERSION = BASE_URL + "app/check_version";
 	
 	/** The Constant KEY. */
 	public static final String KEY = "key";
@@ -252,7 +256,6 @@ public class DataProvider {
 	
 	/** The Constant MESSAGE_SHARE. */
 	public static final int MESSAGE_SHARE = 2;
-	
 	
 	/**
 	 * Gets the metting list.
@@ -526,7 +529,7 @@ public static Object collectMetting(Type type, Long mettingId, String account, I
 	 */
 	public static Object enrollMetting(Type type, Long id, String account,
 			String name, String mobile, String company,
-			String email, String weixin) {
+			String email, String weixin, Integer muType) {
 		
 		Map<String, Object> params = genParems();
 		
@@ -541,6 +544,8 @@ public static Object collectMetting(Type type, Long mettingId, String account, I
 		params.put(MU_COMPANY, company);
 		
 		params.put(MU_EMAIL, email);
+		
+		params.put("muType", muType);
 		
 		String json = NetUtils.getPostResult(params,ENROLL_URL);
 		if (json == null) {
@@ -848,6 +853,22 @@ public static Object collectMetting(Type type, Long mettingId, String account, I
 		return JsonUtils.parseJsonResult(type, json);
 	}
 	
+
+	public static Object getAppVersion(String string) {
+		HashMap<String, Object> params = genParems();
+		params.put("platform", string);
+		
+		String json = NetUtils.getPostResult(params, CHECK_APP_VERSION);
+		if (json == null) {
+			return null;
+		}
+		int resultCode = JsonUtils.getResult(json);
+		if (resultCode != 1) {
+			return null;
+		}
+		return JsonUtils.parseJsonResult(new TypeToken<MTVersionResult>(){}.getType(), json);
+	}
+	
 	/**
 	 * Gen parems.
 	 * 
@@ -861,6 +882,6 @@ public static Object collectMetting(Type type, Long mettingId, String account, I
 		result.put(CODE, code);
 		return result;
 	}
-	
+
 
 }

@@ -50,5 +50,12 @@
         ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderSubTextColor="@android:color/black"
         ptr:ptrHeaderTextColor="@android:color/black" />
-
+    
+    <ViewStub
+        android:id="@+id/common_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout="@layout/wait"
+        android:visibility="gone" />
 </RelativeLayout>

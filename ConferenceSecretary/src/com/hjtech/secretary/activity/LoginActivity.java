@@ -23,6 +23,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -169,6 +170,24 @@ public class LoginActivity extends BaseActivity {
 			
 			RelativeLayout view3 = (RelativeLayout) getLayoutInflater().inflate(R.layout.guidepage3, viewFlipper, false);
 			viewFlipper.addView(view3);
+			
+			RelativeLayout view5 = (RelativeLayout) getLayoutInflater().inflate(R.layout.guidepage4, viewFlipper, false);
+			view5.findViewById(R.id.guide4_image).setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+					System.out
+							.println("LoginActivity.initUIWithoutActionBar(...).new OnTouchListener() {...}.onTouch()");
+					float height = arg0.getHeight();
+					if (arg1.getY() / height > 0.7f) {
+						viewFlipper.setInAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_left_in));  
+						viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.push_left_out));  
+						viewFlipper.showNext();
+					}
+					return false;
+				}
+			});
+			viewFlipper.addView(view5);
 			
 			View view4 = getLayoutInflater().inflate(R.layout.activity_login, viewFlipper, false);
 			viewFlipper.addView(view4);
