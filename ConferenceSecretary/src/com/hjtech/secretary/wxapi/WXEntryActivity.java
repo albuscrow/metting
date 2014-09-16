@@ -16,10 +16,22 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 
+/**
+ * The Class WXEntryActivity.
+ * 
+ * @author albuscrow
+ */
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+	
+	/** The share fragment. */
 	public static InviteFragment shareFragment;
+	
+	/** The api. */
 	private IWXAPI api;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,10 +43,16 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		this.finish();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tencent.mm.sdk.openapi.IWXAPIEventHandler#onReq(com.tencent.mm.sdk.modelbase.BaseReq)
+	 */
 	@Override
 	public void onReq(BaseReq arg0) {
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onNewIntent(android.content.Intent)
+	 */
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
@@ -43,6 +61,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		this.finish();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tencent.mm.sdk.openapi.IWXAPIEventHandler#onResp(com.tencent.mm.sdk.modelbase.BaseResp)
+	 */
 	@Override
 	public void onResp(BaseResp resp) {
 		switch (resp.errCode) {

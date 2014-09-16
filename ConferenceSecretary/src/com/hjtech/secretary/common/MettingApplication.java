@@ -10,8 +10,19 @@ import com.tencent.android.tpush.XGPushManager;
 import android.app.Application;
 import android.content.Context;
 
+/**
+ * The Class MettingApplication.
+ * 初始化一些全局的东西
+ * @author albuscrow
+ */
 public class MettingApplication extends Application {
+	
+	/** The context. */
 	public static Context context;
+	
+	/* (non-Javadoc)
+	 * @see android.app.Application#onCreate()
+	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -25,6 +36,9 @@ public class MettingApplication extends Application {
     	XGPushManager.registerPush(context);	
 	}
 	
+	/**
+	 * Inits the image loader.
+	 */
 	private void initImageLoader() {
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 //		.cacheInMemory()

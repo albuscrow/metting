@@ -28,22 +28,34 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * The Class PersonalActivity.
+ * 个人中心
+ * @author albuscrow
+ */
 public class PersonalActivity extends BaseActivity implements WeiboAuthListener {
+	
+	/** The user. */
 	private MTUser user;
 
-	/** 微博 Web 授权类，提供登陆等功能  */
+	/** 微博 Web 授权类，提供登陆等功能. */
 	private WeiboAuth mWeiboAuth;
 
-	/** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
+	/** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能. */
 	private Oauth2AccessToken mAccessToken;
 
-	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效. */
 	private SsoHandler mSsoHandler;
 	
+	/** The weibo. */
 	private RelativeLayout weibo;
 
+	/** The weibo text. */
 	private TextView weiboText;
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,11 +65,18 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 	}
 
 	
+	/**
+	 * Inits the auth.
+	 * 初始化绑定新浪微博相关内容
+	 */
 	private void initAuth() {
 		mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
 		mSsoHandler = new SsoHandler(this, mWeiboAuth);
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data); 
@@ -66,11 +85,17 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		} 
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		this.user = MTUserManager.getUser();
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int, int, int, int)
+	 */
 	@Override
 	protected void initUI(int layoutId, int iconId, int titleId, int rightId) {
 		super.initUI(layoutId, iconId, titleId, rightId);
@@ -82,7 +107,7 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 				PersonalActivity.this.startActivity(intent);
 			}
 		});
-		setbackButton();
+		setBackButton();
 		
 		weiboText = (TextView) gv(R.id.personal_weibo_textview);
 		weibo = (RelativeLayout) gv(R.id.personal_banding_weibo_button);
@@ -128,6 +153,10 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 	}
 
 
+	/**
+	 * Fill data.
+	 * 向界面中填充数据
+	 */
 	private void fillData() {
 		final ImageView imageView = (ImageView) gv(R.id.personal_imageview);
 		Bitmap photo = user.getMuPhotoImage();
@@ -182,6 +211,9 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onResume()
+	 */
 	@Override
 	protected void onResume() {
 		user = MTUserManager.getUser();
@@ -189,11 +221,17 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		super.onResume();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.sina.weibo.sdk.auth.WeiboAuthListener#onWeiboException(com.sina.weibo.sdk.exception.WeiboException)
+	 */
 	@Override
 	public void onWeiboException(WeiboException e) {
 		MTCommon.ShowToast("Auth exception : " + e.getMessage());
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.sina.weibo.sdk.auth.WeiboAuthListener#onComplete(android.os.Bundle)
+	 */
 	@Override
 	public void onComplete(Bundle bundle) {
 		// 从 Bundle 中解析 Token
@@ -218,6 +256,9 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sina.weibo.sdk.auth.WeiboAuthListener#onCancel()
+	 */
 	@Override
 	public void onCancel() {
 		MTCommon.ShowToast(getResources().getString(R.string.auth_canceled));

@@ -30,22 +30,45 @@ import org.apache.http.util.EntityUtils;
 import android.util.Log;
 
 
+/**
+ * The Class NetUtils.
+ * 
+ * @author albuscrow
+ */
 public class NetUtils {
+	
+	/** The Constant TAG. */
 	private static final String TAG = "NetUtils";
+	
+	/** The Constant HTTPPOST_HEADER_NAME. */
 	private static final String HTTPPOST_HEADER_NAME = "User-Agent";
+	
+	/** The Constant HTTPPOST_HEADER_CONTENT. */
 	private static final String HTTPPOST_HEADER_CONTENT = "Mozilla/5.0 (X11; U; Linux i686; en-GB; rv:1.8.1.6) Gecko/20070914 Firefox/2.0.0.7";
+	
+	/** The Constant WAIT_TIME. */
 	private static final int WAIT_TIME = 20*1000;
+	
+	/** The Constant GET_RESPONSE_SUCCESSCODE. */
 	private static final int GET_RESPONSE_SUCCESSCODE = 200;
+	
+	/** The Constant GET_DATA_SUCCESS. */
 	private static final String GET_DATA_SUCCESS = "get data success";
+	
+	/** The Constant GET_DATA_FAILED. */
 	private static final String GET_DATA_FAILED = "get data failed";
 	
+	/** The Constant DEBUG_FLAG. */
 	private static final boolean DEBUG_FLAG = true;
 	
 	/**
-	 * 失败返回null
+	 * 失败返回null.
+	 * 
 	 * @param params
+	 *            the params
 	 * @param targetURL
-	 * @return
+	 *            the target url
+	 * @return the post result
 	 */
 	public static String getPostResult(Map<String, Object> params,String targetURL){
 		String result = null;
@@ -83,6 +106,21 @@ public class NetUtils {
 		return result;
 	}
 	
+	/**
+	 * Post.
+	 * 
+	 * @param hashMap
+	 *            the hash map
+	 * @param account
+	 *            the account
+	 * @param file
+	 *            the file
+	 * @param urlServer
+	 *            the url server
+	 * @return the int
+	 * @throws Exception
+	 *             the exception
+	 */
 	public static int post(HashMap<String, Object> hashMap, String account, File file, String urlServer)  
 			throws Exception {  
 		MultipartEntity mpEntity = new MultipartEntity(); // 文件传输  
@@ -135,7 +173,14 @@ public class NetUtils {
 //		return result;
 //	}
 
-	private static List<NameValuePair> generateHttpParams(
+	/**
+ * Generate http params.
+ * 
+ * @param params
+ *            the params
+ * @return the list
+ */
+private static List<NameValuePair> generateHttpParams(
 			Map<String, Object> params) {
 		List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 		for (String key : params.keySet()) {

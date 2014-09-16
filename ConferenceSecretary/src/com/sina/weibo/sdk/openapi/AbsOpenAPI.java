@@ -25,43 +25,53 @@ import com.sina.weibo.sdk.net.WeiboParameters;
 import com.sina.weibo.sdk.utils.LogUtil;
 
 /**
- * 微博 OpenAPI 的基类，每个接口类都继承了此抽象类。
+ * 微博 OpenAPI 的基类，每个接口类都继承了此抽象类。.
  * 
  * @author SINA
  * @since 2013-11-05
  */
 public abstract class AbsOpenAPI {
+    
+    /** The Constant TAG. */
     private static final String TAG = AbsOpenAPI.class.getName();
     
-    /** 访问微博服务接口的地址 */
+    /** 访问微博服务接口的地址. */
     protected static final String API_SERVER       = "https://api.weibo.com/2";
-    /** POST 请求方式 */
+    
+    /** POST 请求方式. */
     protected static final String HTTPMETHOD_POST  = "POST";
-    /** GET 请求方式 */
+    
+    /** GET 请求方式. */
     protected static final String HTTPMETHOD_GET   = "GET";
-    /** HTTP 参数 */
+    
+    /** HTTP 参数. */
     protected static final String KEY_ACCESS_TOKEN = "access_token";
     
-    /** 当前的 Token */
+    /** 当前的 Token. */
     protected Oauth2AccessToken mAccessToken;
 
     /**
-     * 构造函数，使用各个 API 接口提供的服务前必须先获取 Token。
-     * 
-     * @param accesssToken 访问令牌
-     */
+	 * 构造函数，使用各个 API 接口提供的服务前必须先获取 Token。.
+	 * 
+	 * @param accessToken
+	 *            the access token
+	 */
     public AbsOpenAPI(Oauth2AccessToken accessToken) {
         mAccessToken = accessToken;
     }
 
     /**
-     * HTTP 异步请求。
-     * 
-     * @param url        请求的地址
-     * @param params     请求的参数
-     * @param httpMethod 请求方法
-     * @param listener   请求后的回调接口
-     */
+	 * HTTP 异步请求。.
+	 * 
+	 * @param url
+	 *            请求的地址
+	 * @param params
+	 *            请求的参数
+	 * @param httpMethod
+	 *            请求方法
+	 * @param listener
+	 *            请求后的回调接口
+	 */
     protected void requestAsync(String url, WeiboParameters params, String httpMethod, RequestListener listener) {
         if (null == mAccessToken
                 || TextUtils.isEmpty(url)
@@ -77,14 +87,16 @@ public abstract class AbsOpenAPI {
     }
     
     /**
-     * HTTP 同步请求。
-     * 
-     * @param url        请求的地址
-     * @param params     请求的参数
-     * @param httpMethod 请求方法
-     * 
-     * @return 同步请求后，服务器返回的字符串。
-     */
+	 * HTTP 同步请求。.
+	 * 
+	 * @param url
+	 *            请求的地址
+	 * @param params
+	 *            请求的参数
+	 * @param httpMethod
+	 *            请求方法
+	 * @return 同步请求后，服务器返回的字符串。
+	 */
     protected String requestSync(String url, WeiboParameters params, String httpMethod) {
         if (null == mAccessToken
                 || TextUtils.isEmpty(url)

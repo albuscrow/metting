@@ -22,13 +22,16 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 该类用于解析Object类型数据。
+ * 该类用于解析Object类型数据。.
  * 
  * @author SINA
  * @date 2014-03-03
  */
 public class AbsDataObject implements IParseable {
 
+    /* (non-Javadoc)
+     * @see com.sina.weibo.sdk.openapi.models.IParseable#parse(java.lang.String)
+     */
     @Override
     public Object parse(String parseString) {
         if (TextUtils.isEmpty(parseString)) {
@@ -45,6 +48,9 @@ public class AbsDataObject implements IParseable {
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see com.sina.weibo.sdk.openapi.models.IParseable#parse(org.json.JSONObject)
+     */
     @Override
     public Object parse(JSONObject jsonObject) {
         if (null == jsonObject) {

@@ -16,18 +16,41 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * The Class FindPasswordVerifyFragment.
+ * 
+ * @author albuscrow
+ */
 public class FindPasswordVerifyFragment extends BaseFragment {
 	
+	/** The phone view. */
 	private EditText phoneView;
+	
+	/** The verify button. */
 	private Button verifyButton;
+	
+	/** The vcode view. */
 	private EditText vcodeView;
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return initUI(inflater);
 	}
 	
+	/** The phone. */
 	private String phone;
+	
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @return the view group
+	 */
 	private ViewGroup initUI(LayoutInflater inflater){
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_findpassword_verify, null);
 		
@@ -159,10 +182,18 @@ public class FindPasswordVerifyFragment extends BaseFragment {
 		return rootView;
 	}
 	
+	/**
+	 * Gets the find password activity.
+	 * 
+	 * @return the find password activity
+	 */
 	private FindPasswordActivity getFindPasswordActivity() {
 		return (FindPasswordActivity) getBaseActivity();
 	}
 	
+		/**
+		 * Change button.
+		 */
 		private void changeButton() {
 		verifyButton.setEnabled(false);
 		new Thread(){

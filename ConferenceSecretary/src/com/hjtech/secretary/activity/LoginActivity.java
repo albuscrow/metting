@@ -31,17 +31,51 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
+/**
+ * The Class LoginActivity.
+ * 登录界面
+ * @author albuscrow
+ */
 public class LoginActivity extends BaseActivity {
+	
+	/** The Constant FORGET_PASSWORD. */
 	protected static final int FORGET_PASSWORD = 0;
+	
+	/** The phone number. */
 	private EditText phoneNum;
+	
+	/** The password. */
 	private EditText passWord;
+	
+	/** The rem pwd. *
+	*   是否记住密码
+	*/
 	private CheckBox remPwd;
+	
+	/** The login button. */
 	private View loginButton;
+	
+	/** The user. */
 	private MTUser user;
+	
+	/** The from. 
+	 * 	标注是从哪个activity跳转过来的，以执行不同操作
+	 */
 	private String from;
+	
+	/** The need guide.
+	 * 是否需要启动页面 
+	 */
 	private boolean needGuide;
+	
+	/** The gesture.
+	 * 用于手势操作 
+	 */
 	private GestureDetector gesture;
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -53,12 +87,18 @@ public class LoginActivity extends BaseActivity {
 		}
 	}
 	
+	/**
+	 * Inits the data.
+	 */
 	private void initData(){
 		from = getIntent().getStringExtra("from");
 		needGuide = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("needGuide", true);
 //		needGuide = true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUIWithoutActionBar(int)
+	 */
 	@Override
 	protected void initUIWithoutActionBar(int layoutId) {
 		super.initUIWithoutActionBar(layoutId);
@@ -137,6 +177,12 @@ public class LoginActivity extends BaseActivity {
 		}
 	}
 
+	/**
+	 * Start animation.
+	 * 第一张启动页面动画
+	 * @param view1
+	 *            the view1
+	 */
 	private void startAnimation(View view1) {
 		View t1 = gv(R.id.t1);
 		View t2 = gv(R.id.t2);
@@ -165,6 +211,9 @@ public class LoginActivity extends BaseActivity {
 		t5.startAnimation(a5);
 	}
 
+	/**
+	 * Inits the login view.
+	 */
 	private void initLoginView() {
 		gv(R.id.login_register_text).setOnClickListener(new NewActivityListener(this, RegisterActivity.class));
 		phoneNum = ((EditText)gv(R.id.login_phonenum));
@@ -278,6 +327,9 @@ public class LoginActivity extends BaseActivity {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
 		super.onActivityResult(arg0, arg1, arg2);
@@ -293,6 +345,9 @@ public class LoginActivity extends BaseActivity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onTouchEvent(android.view.MotionEvent)
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return gesture.onTouchEvent(event);

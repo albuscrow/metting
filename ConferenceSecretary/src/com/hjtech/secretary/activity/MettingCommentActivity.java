@@ -22,16 +22,37 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * The Class MettingCommentActivity.
+ * 会议评论
+ * @author albuscrow
+ */
 public class MettingCommentActivity extends BaseActivity {
+	
+	/** The metting id. */
 	private long mettingId;
+	
+	/** The list view. */
 	private PullToRefreshListView listView;
+	
+	/** The adapter. */
 	private MettingCommentAdapter adapter;
+	
+	/** The comment. */
 	private EditText comment;
+	
+	/** The submit. */
 	private TextView submit;
 	
+	/** The page num. */
 	private int pageNum = 1;
+	
+	/** The total number. */
 	private int totalNumber = 0;
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -39,10 +60,13 @@ public class MettingCommentActivity extends BaseActivity {
 		initUI(R.layout.activity_metting_comment, R.string.title_activity_metting_details, R.string.title_activity_comment);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int, int, int)
+	 */
 	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
 		super.initUI(layoutId, iconId, titleId);
-		setbackButton();
+		setBackButton();
 		listView = (PullToRefreshListView) gv(R.id.metting_comment_list);
 		adapter = new MettingCommentAdapter(this);
 		listView.setAdapter(adapter);
@@ -114,6 +138,9 @@ public class MettingCommentActivity extends BaseActivity {
 		});
 	}
 	
+	/**
+	 * Refresh list.
+	 */
 	private void refreshList() {
 		pageNum = 1;
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
@@ -142,11 +169,19 @@ public class MettingCommentActivity extends BaseActivity {
 		}).getMettingComment(mettingId,0);
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		this.mettingId = (Long) getIntent().getSerializableExtra("id");
 		refreshList();
 	}
 	
+	/**
+	 * Gets the more.
+	 * 
+	 * @return the more
+	 */
 	private void getMore() {
 		if (pageNum * 15 < totalNumber) {
 			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {

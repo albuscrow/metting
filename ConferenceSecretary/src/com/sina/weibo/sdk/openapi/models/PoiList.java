@@ -25,15 +25,26 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 地理列表结构体。
+ * 地理列表结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class PoiList {
+    
+    /** The pois. */
     public ArrayList<Poi> pois;
+    
+    /** The total number. */
     public String totalNumber;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the poi list
+	 */
     public static PoiList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;

@@ -25,19 +25,32 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 评论列表结构体。
+ * 评论列表结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class CommentList {
 
-    /** 微博列表 */
+    /** 微博列表. */
     public ArrayList<Comment> commentList;
+    
+    /** The previous_cursor. */
     public String previous_cursor;
+    
+    /** The next_cursor. */
     public String next_cursor;
+    
+    /** The total_number. */
     public int total_number;
     
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the comment list
+	 */
     public static CommentList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;

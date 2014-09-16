@@ -22,58 +22,86 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 位置信息结构体。
+ * 位置信息结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class Poi {
 
-    /** Poi id */
+    /** Poi id. */
     public String poiid;
-    /** 名称 */
+    
+    /** 名称. */
     public String title;
-    /** 地址 **/
+    
+    /** 地址 *. */
     public String address;
-    /** 经度 **/
+    
+    /** 经度 *. */
     public String lon;
-    /** 纬度 **/
+    
+    /** 纬度 *. */
     public String lat;
-    /** 分类 **/
+    
+    /** 分类 *. */
     public String category;
-    /** 城市 **/
+    
+    /** 城市 *. */
     public String city;
-    /** 省 **/
+    
+    /** 省 *. */
     public String province;
-    /** 国家 **/
+    
+    /** 国家 *. */
     public String country;
-    /** 链接 **/
+    
+    /** 链接 *. */
     public String url;
-    /** 电话**/
+    
+    /** 电话*. */
     public String phone;
-    /** 邮政编码 **/
+    
+    /** 邮政编码 *. */
     public String postcode;
-    /** 微博ID **/
+    
+    /** 微博ID *. */
     public String weibo_id;
-    /** 分类码 **/
+    
+    /** 分类码 *. */
     public String categorys;
-    /** 分类名称 **/
+    
+    /** 分类名称 *. */
     public String category_name;
-    /** 图标 **/
+    
+    /** 图标 *. */
     public String icon;
-    /** 签到数 **/
+    
+    /** 签到数 *. */
     public String checkin_num;
-    /** 签到用户数 **/
+    
+    /** 签到用户数 *. */
     public String checkin_user_num;
-    /** tip数 **/
+    
+    /** tip数 *. */
     public String tip_num;
-    /** 照片数 **/
+    
+    /** 照片数 *. */
     public String photo_num;
-    /** todo数量 **/
+    
+    /** todo数量 *. */
     public String todo_num;
-    /** 距离 **/
+    
+    /** 距离 *. */
     public String distance;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the poi
+	 */
     public static Poi parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
@@ -90,6 +118,13 @@ public class Poi {
         return poi;
     }
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 * @return the poi
+	 */
     public static Poi parse(JSONObject jsonObject) {
         if (null == jsonObject) {
             return null;

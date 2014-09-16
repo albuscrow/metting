@@ -21,25 +21,55 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+/**
+ * The Class MettingCommentAdapter.
+ * 用于展示会议评论
+ * @author albuscrow
+ */
 public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
+	
+	/** The activity. */
 	private MettingCommentActivity activity;
+	
+	/**
+	 * Sets the data.
+	 * 
+	 * @param data
+	 *            the new data
+	 */
 	public void setData(List<MTComment> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
 	
+	/**
+	 * Append data.
+	 * 
+	 * @param data
+	 *            the data
+	 */
 	public void appendData(List<MTComment> data) {
 		this.data.addAll(data);
 		this.notifyDataSetChanged();
 	}
 
+	/** The data. */
 	private List<MTComment> data;
 
+	/**
+	 * Instantiates a new metting comment adapter.
+	 * 
+	 * @param myMeetActivity
+	 *            the my meet activity
+	 */
 	public MettingCommentAdapter(MettingCommentActivity myMeetActivity) {
 		this.activity = myMeetActivity;
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getCount()
+	 */
 	@Override
 	public int getCount() {
 		if (data == null) {
@@ -49,6 +79,9 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getItem(int)
+	 */
 	@Override
 	public Object getItem(int position) {
 		if (data != null) {
@@ -58,6 +91,9 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getItemId(int)
+	 */
 	@Override
 	public long getItemId(int position) {
 		MTComment comment = (MTComment)getItem(position);
@@ -68,15 +104,32 @@ public class MettingCommentAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 	
+	/**
+	 * The Class ViewHold.
+	 * 
+	 * @author albuscrow
+	 */
 	class ViewHold{
+		
+		/** The comment name. */
 		public TextView commentName;
+		
+		/** The comment time. */
 		public TextView commentTime;
+		
+		/** The comment content. */
 		public TextView commentContent;
+		
+		/** The comment more. */
 		public TextView commentMore;
 		
+		/** The comment photo. */
 		public ImageView commentPhoto;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHold viewHold = null;

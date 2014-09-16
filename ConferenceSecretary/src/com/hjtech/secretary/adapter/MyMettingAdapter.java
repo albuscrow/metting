@@ -27,23 +27,59 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+/**
+ * The Class MyMettingAdapter.
+ * 用于展示我的会议
+ * @author albuscrow
+ */
 public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
+	
+	/** The activity. */
 	private BaseActivity activity;
+	
+	/** The current page num. */
 	private int currentPageNum = 1;
+	
+	/** The total data num. */
 	private int totalDataNum;
+	
+	/** The fragment. */
 	private BaseFragment fragment;
+	
+	/**
+	 * Sets the data.
+	 * 
+	 * @param data
+	 *            the new data
+	 */
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
 	
+	/**
+	 * Gets the data.
+	 * 
+	 * @return the data
+	 */
 	public List<MTMetting> getData(){
 		return data;
 	}
 
+	/** The data. */
 	private List<MTMetting> data;
+	
+	/** The status. */
 	private int status;
 
+	/**
+	 * Instantiates a new my metting adapter.
+	 * 
+	 * @param fragment
+	 *            the fragment
+	 * @param status
+	 *            the status
+	 */
 	public MyMettingAdapter(BaseFragment fragment,int status) {
 		this.activity = fragment.getBaseActivity();
 		this.fragment = fragment;
@@ -51,6 +87,9 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getCount()
+	 */
 	@Override
 	public int getCount() {
 		if (data == null) {
@@ -59,6 +98,9 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		return data.size();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getItem(int)
+	 */
 	@Override
 	public Object getItem(int position) {
 		if (data != null) {
@@ -68,6 +110,9 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getItemId(int)
+	 */
 	@Override
 	public long getItemId(int position) {
 		MTMetting metting = (MTMetting)getItem(position);
@@ -78,21 +123,47 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 	
+	/**
+	 * The Class ViewHold.
+	 * 
+	 * @author albuscrow
+	 */
 	class ViewHold{
+		
+		/** The metting time year. */
 		public TextView mettingTimeYear;
+		
+		/** The metting time month. */
 		public TextView mettingTimeMonth;
+		
+		/** The metting time day. */
 		public TextView mettingTimeDay;
+		
+		/** The metting time week. */
 		public TextView mettingTimeWeek;
 		
+		/** The metting name. */
 		public TextView mettingName;
+		
+		/** The metting during time. */
 		public TextView mettingDuringTime;
+		
+		/** The metting address. */
 		public TextView mettingAddress;
+		
+		/** The metting fee and res. */
 		public TextView mettingFeeAndRes;
 		
+		/** The metting signin. */
 		public ImageButton mettingSignin; 
+		
+		/** The metting status. */
 		public ImageView mettingStatus;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHold viewHold = null;
@@ -155,12 +226,23 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	}
 
 
+	/**
+	 * Append data.
+	 * 
+	 * @param result
+	 *            the result
+	 */
 	public void appendData(List<MTMetting> result) {
 		this.data.addAll(result);
 		this.notifyDataSetChanged();
 	}
 	
+	/** The can init. */
 	Boolean canInit = true;
+	
+	/**
+	 * Inits the data.
+	 */
 	public void initData() {
 		if (canInit) {
 			synchronized (canInit) {
@@ -203,6 +285,11 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 
 	}
 
+	/**
+	 * Gets the more data.
+	 * 
+	 * @return the more data
+	 */
 	public void getMoreData() {
 		if (currentPageNum * 15 > totalDataNum) {
 			return;
@@ -236,6 +323,12 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 		}).getMyMetting(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
+	/**
+	 * Sets the activity.
+	 * 
+	 * @param activity
+	 *            the new activity
+	 */
 	public void setActivity(BaseActivity activity) {
 		this.activity = activity;
 	}

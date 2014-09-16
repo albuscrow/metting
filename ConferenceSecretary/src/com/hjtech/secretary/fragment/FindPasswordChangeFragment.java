@@ -18,28 +18,66 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * The Class FindPasswordChangeFragment.
+ * 
+ * @author albuscrow
+ */
 public class FindPasswordChangeFragment extends BaseFragment {
 
+	/** The phone. */
 	private String phone;
+	
+	/** The vcode. */
 	private String vcode;
+	
+	/** The password. */
 	private EditText password;
+	
+	/** The password con. */
 	private EditText passwordCon;
+	
+	/** The submit. */
 	private Button submit;
+	
+	/**
+	 * Gets the phone.
+	 * 
+	 * @return the phone
+	 */
 	public String getPhone() {
 		return phone;
 	}
 
+	/**
+	 * Sets the data.
+	 * 
+	 * @param phone
+	 *            the phone
+	 * @param code
+	 *            the code
+	 */
 	public void setData(String phone, String code) {
 		this.phone = phone;
 		this.vcode = code;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return init(inflater);
 	}
 	
+	/**
+	 * Inits the.
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @return the view group
+	 */
 	public ViewGroup init(LayoutInflater inflater){
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_findpassword_change, null);
 		password = (EditText)gv(R.id.change_password_editext);

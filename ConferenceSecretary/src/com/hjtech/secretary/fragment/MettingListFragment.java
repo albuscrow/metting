@@ -32,14 +32,31 @@ import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+/**
+ * The Class MettingListFragment.
+ * 
+ * @author albuscrow
+ */
 public class MettingListFragment extends BaseFragment {
 	
+	/** The metting lists. */
 	private List<LinearLayout> mettingLists = new ArrayList<LinearLayout>();
+	
+	/** The adapters. */
 	private List<MettingListAdapter> adapters = new ArrayList<MettingListAdapter>();
+	
+	/** The my pager adapter. */
 	private MTPagerAdatper myPagerAdapter;
+	
+	/** The stripe. */
 	private View stripe;
+	
+	/** The current page. */
 	private int currentPage = 0;
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,16 +64,31 @@ public class MettingListFragment extends BaseFragment {
 		return initUI(inflater);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onHiddenChanged(boolean)
+	 */
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 	}
 
+	/**
+	 * Gets the main activity.
+	 * 
+	 * @return the main activity
+	 */
 	public MainActivity getMainActivity(){
 		return (MainActivity) activity;
 	}
 	
 	
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @return the view group
+	 */
 	protected ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
 		currentPage = 0;
@@ -129,8 +161,15 @@ public class MettingListFragment extends BaseFragment {
 		return rootView;
 	}
 	
+	/** The stripe text. */
 	int[] stripeText = new int[]{R.id.stripe1,R.id.stripe2,R.id.stripe3,R.id.stripe4};
 	
+	/**
+	 * Change strip text.
+	 * 
+	 * @param arg0
+	 *            the arg0
+	 */
 	protected void changeStripText(int arg0) {
 		for (int id : stripeText) {
 			((TextView)gv(id)).setTextColor(getResources().getColor(R.color.mt_text_6));
@@ -138,9 +177,17 @@ public class MettingListFragment extends BaseFragment {
 		((TextView)gv(stripeText[arg0])).setTextColor(getResources().getColor(R.color.mt_black));
 	}
 
+	/** The Constant TOTAL_PAGER. */
 	public static final int TOTAL_PAGER = 4;
+	
+	/** The Constant STATUS_LIST. */
 	private static final int[] STATUS_LIST = new int[]{DataProvider.TIME_TODAY, DataProvider.TIME_THIS_WEEK, DataProvider.TIME_MONTH, DataProvider.TIME_ALL};
 
+	/**
+	 * Gets the pager view data.
+	 * 
+	 * @return the pager view data
+	 */
 	private List<LinearLayout> getPagerViewData() {
 		mettingLists.clear();
 		adapters.clear();

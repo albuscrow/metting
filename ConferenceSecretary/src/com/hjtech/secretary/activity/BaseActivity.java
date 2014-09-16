@@ -10,25 +10,81 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
 
+/**
+ * The Class BaseActivity.
+ * 所有Activity 的基类，抽出一些所有Activity都会用到的方法
+ * @author albuscrow
+ */
 public class BaseActivity extends FragmentActivity {
 	
+	/** The wait bar. */
 	private View waitBar;
+	
+	/** The left text.
+	 *  Action bar 左边的元素
+	 */
 	private TextView leftText;
+	
+	/** The title text view. 
+	 *  Action bar 中间的元素
+	 */
 	private TextView titleTextView;
+	
+	/** The right text view.
+	 *  Action bar 右边的元素
+	 */
 	private TextView rightTextView;
 	
+
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param layoutId
+	 *            the layout id
+	 */
 	protected void initUI(int layoutId){
 		initUI(layoutId, 0, 0, 0);
 	}
 	
-
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param layoutId
+	 *            the layout id
+	 * @param leftContentId
+	 *            the left content id
+	 * @param titleId
+	 *            the title id
+	 */
 	protected void initUI(int layoutId, int leftContentId, int titleId) {
 		initUI(layoutId, leftContentId, titleId, 0);
 	}
 	
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param layoutId
+	 *            the layout id
+	 * @param titleId
+	 *            the title id
+	 */
 	protected void initUI(int layoutId, int titleId) {
 		initUI(layoutId, 0, titleId, 0);
 	}
+	
+
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param layoutId
+	 *            the layout id
+	 * @param backContentId
+	 *            the back content id
+	 * @param titleContentId
+	 *            the title content id
+	 * @param rightTextViewContentId
+	 *            the right text view content id
+	 */
 	@SuppressLint("NewApi")
 	protected void initUI(int layoutId, int backContentId, int titleContentId, int rightTextViewContentId) {
 		// init title bar
@@ -63,6 +119,14 @@ public class BaseActivity extends FragmentActivity {
 		
 		waitBar = findViewById(R.id.common_wait);
 	}
+	
+
+	/**
+	 * Inits the ui without action bar.
+	 * 
+	 * @param layoutId
+	 *            the layout id
+	 */
 	protected void initUIWithoutActionBar(int layoutId) {
 		// init title bar
 		setContentView(layoutId);
@@ -70,39 +134,72 @@ public class BaseActivity extends FragmentActivity {
 	}
 	
 	
+
+	/**
+	 * Change title.
+	 * 
+	 * @param StringId
+	 *            the string id
+	 */
 	public void changeTitle(int StringId){
 		MTCommon.setContent(titleTextView, StringId);
 	}
-	
+
+	/**
+	 * Change action left.
+	 * 
+	 * @param StringId
+	 *            the string id
+	 */
 	public void changeActionLeft(int StringId){
 		showActionLeft();
 		MTCommon.setContent(leftText, StringId);
 	}
 	
-	
 
+	/**
+	 * Change action right.
+	 * 
+	 * @param StringId
+	 *            the string id
+	 */
 	public void changeActionRight(int StringId){
 		showActionRight();
 		MTCommon.setContent(leftText, StringId);
 	}
-	
+
+	/**
+	 * Hide action right.
+	 */
 	protected void hideActionRight() {
 		rightTextView.setVisibility(View.GONE);
 	}
 	
+	/**
+	 * Show action right.
+	 */
 	protected void showActionRight() {
 		rightTextView.setVisibility(View.VISIBLE);
 	}
 
+	/**
+	 * Hide action left.
+	 */
 	protected void hideActionLeft() {
 		leftText.setVisibility(View.GONE);
 	}
-
+	
+	/**
+	 * Show action left.
+	 */
 	protected void showActionLeft() {
 		leftText.setVisibility(View.VISIBLE);
 	}
 	
-	protected void setbackButton(){
+	/**
+	 * Sets the back button.
+	 */
+	protected void setBackButton(){
 		leftText.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -112,14 +209,33 @@ public class BaseActivity extends FragmentActivity {
 		});
 	}
 
+
+	/**
+	 * Sets the right click.
+	 * 
+	 * @param listener
+	 *            the new right click
+	 */
 	protected void setRightClick(OnClickListener listener){
 		rightTextView.setOnClickListener(listener);
 	}
 	
+
+	/**
+	 *	封闭findviewbyid() 
+	 * 
+	 * @param id
+	 *            the id
+	 * @return the view
+	 */
 	protected View gv(int id){
 		return findViewById(id);
 	}
 	
+
+	/**
+	 * Show wait bar.
+	 */
 	protected void showWaitBar(){
 		if (waitBar == null) {
 			waitBar = findViewById(R.id.common_wait);
@@ -127,6 +243,10 @@ public class BaseActivity extends FragmentActivity {
 		waitBar.setVisibility(View.VISIBLE);
 	}
 	
+	
+	/**
+	 * Hide wait bar.
+	 */
 	protected void hideWaitBar(){
 		if (waitBar == null) {
 			waitBar = findViewById(R.id.common_wait);
@@ -135,6 +255,10 @@ public class BaseActivity extends FragmentActivity {
 		waitBar.setVisibility(View.GONE);
 	}
 	
+
+	/**
+	 * Setback button for fragment.
+	 */
 	public void setbackButtonForFragment() {
 
 		if (this instanceof MainActivity) {
@@ -150,7 +274,6 @@ public class BaseActivity extends FragmentActivity {
 				}
 			});
 		}
-		
 	}
 
 }

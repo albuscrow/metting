@@ -16,6 +16,11 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+/**
+ * The Class Privacy.
+ * 
+ * @author albuscrow
+ */
 public class Privacy {
 
 }

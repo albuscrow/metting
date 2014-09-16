@@ -73,8 +73,6 @@
         </activity>
         <activity android:screenOrientation="portrait" android:name="com.hjtech.secretary.activity.MettingListActivity" >
         </activity>
-        <activity android:name="com.hjtech.secretary.activity.TicketActivity" android:screenOrientation="portrait" >
-        </activity>
         <activity android:name="com.hjtech.secretary.activity.PersonalActivity" android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.hjtech.secretary.activity.MessageActivity" android:screenOrientation="portrait" >

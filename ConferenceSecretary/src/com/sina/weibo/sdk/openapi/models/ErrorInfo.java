@@ -22,16 +22,29 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 错误信息结构体。
+ * 错误信息结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class ErrorInfo {
+    
+    /** The error. */
     public String error;
+    
+    /** The error_code. */
     public String error_code;
+    
+    /** The request. */
     public String request;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the error info
+	 */
     public static ErrorInfo parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;

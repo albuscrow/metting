@@ -18,25 +18,52 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * The Class RegisterActivity.
+ * 注册
+ * @author albuscrow
+ */
 public class RegisterActivity extends BaseActivity{
 	
+	/** The phone view. */
 	private EditText phoneView;
+	
+	/** The verify button. */
 	private Button verifyButton;
+	
+	/** The vcode view. */
 	private EditText vcodeView;
 	
+	/** The name text view. */
 	private EditText nameTextView;
+	
+	/** The password view. */
 	private EditText passwordView;
+	
+	/** The password con view. */
 	private EditText passwordConView;
+	
+	/** The email view. */
 	private EditText emailView;
 	
+	/** The phone. */
 	private String phone;
+	
+	/** The unit view. */
 	private EditText unitView;
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initUI(R.layout.activity_register, R.string.title_activity_register);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int, int)
+	 */
 	@Override
 	protected void initUI(int layoutId, int titleId) {
 		super.initUI(layoutId, titleId);
@@ -185,6 +212,10 @@ public class RegisterActivity extends BaseActivity{
 
 	}
 	
+	/**
+	 * Change button.
+	 * 改变获取验证码显示内容
+	 */
 	private void changeButton() {
 		verifyButton.setEnabled(false);
 		new Thread(){
@@ -228,6 +259,9 @@ public class RegisterActivity extends BaseActivity{
 		}.start();
 	}
 	
+	/**
+	 * Register.
+	 */
 	private void register(){
 		
 		final String name = MTCommon.getContent(nameTextView);

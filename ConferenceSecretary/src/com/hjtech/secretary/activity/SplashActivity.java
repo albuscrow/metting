@@ -9,10 +9,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 
+/**
+ * The Class SplashActivity.
+ * 
+ * @author albuscrow
+ */
 public class SplashActivity extends Activity
 {
+	
+	/** The splash display lenght. */
 	private final int SPLASH_DISPLAY_LENGHT = 2000;
 	
+    /* (non-Javadoc)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,6 +40,9 @@ public class SplashActivity extends Activity
     	}, SPLASH_DISPLAY_LENGHT);
     }
 
+    /* (non-Javadoc)
+     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

@@ -16,6 +16,11 @@
 
 package com.sina.weibo.sdk.openapi.models;
 
+/**
+ * The Class Remind.
+ * 
+ * @author albuscrow
+ */
 public class Remind {
 
 }

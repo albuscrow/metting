@@ -23,20 +23,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * 我喜欢的微博信息结构体。
+ * 我喜欢的微博信息结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class Favorite {
 
-    /** 我喜欢的微博信息 */
+    /** 我喜欢的微博信息. */
     public Status status;
-    /** 我喜欢的微博的 Tag 信息 */
+    
+    /** 我喜欢的微博的 Tag 信息. */
     public ArrayList<Tag> tags;
-    /** 创建我喜欢的微博信息的时间 */
+    
+    /** 创建我喜欢的微博信息的时间. */
     public String favorited_time;
     
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the favorite
+	 */
     public static Favorite parse(String jsonString) {
         try {
             JSONObject object = new JSONObject(jsonString);
@@ -48,6 +57,13 @@ public class Favorite {
         return null;
     }
     
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 * @return the favorite
+	 */
     public static Favorite parse(JSONObject jsonObject) {
         if (null == jsonObject) {
             return null;

@@ -15,14 +15,38 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * The Class EnrollActivity.
+ * 报名页面
+ * @author albuscrow
+ */
 public class EnrollActivity extends BaseActivity {
+	
+	/** The name. */
 	private EditText name;
+	
+	/** The company. */
 	private EditText company;
+	
+	/** The email. */
 	private EditText email;
+	
+	/** The mobile. */
 	private EditText mobile;
+	
+	/** The metting. 
+	 * 	要报名的会议
+	 */
 	private MTMetting metting;
+	
+	/** The user. 
+	 * 	当前的用户
+	 */
 	private MTUser user;
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -30,15 +54,21 @@ public class EnrollActivity extends BaseActivity {
 		initUI(R.layout.activity_enroll, R.string.title_activity_metting_list, R.string.title_activity_enroll);
 	}
 	
+	/**
+	 * Inti data.
+	 */
 	private void intiData() {
 		this.metting = (MTMetting) getIntent().getSerializableExtra("metting");
 		this.user = MTUserManager.getUser();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int, int, int)
+	 */
 	@Override
 	protected void initUI(int layoutId, int iconId, int titleId) {
 		super.initUI(layoutId, iconId, titleId);
-		setbackButton();
+		setBackButton();
 		name =(EditText) gv(R.id.enroll_name_editext);
 		company =(EditText) gv(R.id.enroll_unit_editext);
 		email =(EditText) gv(R.id.enroll_email_editext);
@@ -137,7 +167,6 @@ public class EnrollActivity extends BaseActivity {
 						}
 					}
 				}).enroll(metting.getMmId(), user.getMuAccount(), nameStr, mobileStr, companyStr, emailStr, user.getMuWeixin());
-				System.out.println(metting.getMmId());
 			}
 		});
 		

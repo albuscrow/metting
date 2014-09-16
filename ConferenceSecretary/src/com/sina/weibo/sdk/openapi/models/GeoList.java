@@ -25,14 +25,23 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 地理信息结构体。
+ * 地理信息结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class GeoList {
+    
+    /** The Geos. */
     public ArrayList<Geo> Geos;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the geo list
+	 */
     public static GeoList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;

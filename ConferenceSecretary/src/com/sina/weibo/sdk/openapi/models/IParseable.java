@@ -18,7 +18,28 @@ package com.sina.weibo.sdk.openapi.models;
 
 import org.json.JSONObject;
 
+/**
+ * The Interface IParseable.
+ * 
+ * @author albuscrow
+ */
 public interface IParseable {
+    
+    /**
+	 * Parses the.
+	 * 
+	 * @param parseString
+	 *            the parse string
+	 * @return the object
+	 */
     public Object parse(String parseString);
+    
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 * @return the object
+	 */
     public Object parse(JSONObject jsonObject);
 }

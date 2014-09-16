@@ -29,12 +29,31 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+/**
+ * The Class HomeActivity.
+ * 主页面
+ * @author albuscrow
+ */
 public class HomeActivity extends BaseActivity implements OnItemClickListener {
+	
+	/** The l exit time. 
+	 * 	用于 再按一次退出
+	 */
 	private long lExitTime = 0;
 
+	/** The Constant SIGNIN.
+	 * used for {@link HomeActivity#startActivityForResult(Intent, int)} 
+	 */
 	private static final int SIGNIN = 10;
+	
+	/** The news flipper. 
+	 * 	用于显示最新消息
+	 */
 	private ViewFlipper newsFlipper;
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +61,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		initData();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int, int)
+	 */
 	@Override
 	protected void initUI(int layoutId, int textId) {
 		super.initUI(layoutId, textId);
@@ -69,6 +91,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -85,6 +110,10 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	}
 
 
+	/** (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	 * 点击主菜单，跳转到不同页面 
+	 */
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Intent intent = null;
@@ -121,6 +150,9 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 	
 	
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+	 */
 	protected void onActivityResult(int request, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK && request == SIGNIN) {
 			String result = data.getStringExtra("result");
@@ -175,6 +207,10 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 			}).singIn(id, MTUserManager.getUser().getMuAccount());
 		}
 	}
+	
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 

@@ -12,13 +12,34 @@ import com.hjtech.secretary.data.MTUser;
 
 import android.content.Context;
 
+/**
+ * The Class MTUserManager.
+ * 账户管理
+ * @author albuscrow
+ */
 public class MTUserManager {
+	
+	/** The context. */
 	private static Context context;
+	
+	/** The user. */
 	private static MTUser user = null;
+	
+	/**
+	 * Inits the.
+	 * 
+	 * @param context
+	 *            the context
+	 */
 	public static void init(Context context){
 		MTUserManager.context = context;
 	}
 	
+	/**
+	 * Gets the user.
+	 * 
+	 * @return the user
+	 */
 	public static MTUser getUser(){
 		if(user != null){
 			return user;
@@ -49,6 +70,13 @@ public class MTUserManager {
 		return user;
 	}
 
+	/**
+	 * Save.
+	 * 
+	 * @param user
+	 *            the user
+	 * @return true, if successful
+	 */
 	public static boolean save(MTUser user){
 		MTUserManager.user = user;
 		FileOutputStream ofs = null;
@@ -77,6 +105,13 @@ public class MTUserManager {
 		return true;
 	}
 
+	/**
+	 * Update user.
+	 * 
+	 * @param user
+	 *            the user
+	 * @return the MT user
+	 */
 	public static MTUser updateUser(MTUser user) {
 		if (user.getCoCount() != -1) {
 			MTUserManager.user.setCoCount(user.getCoCount());

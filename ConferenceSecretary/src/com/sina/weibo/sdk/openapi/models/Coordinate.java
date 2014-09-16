@@ -19,15 +19,26 @@ package com.sina.weibo.sdk.openapi.models;
 import org.json.JSONObject;
 
 /**
- * 该类用于解析JSONObject类型数据。
+ * 该类用于解析JSONObject类型数据。.
  * 
  * @author SINA
  * @date 2014-03-03
  */
 public class Coordinate {
+    
+    /** The Longtitude. */
     public Double Longtitude;
+    
+    /** The Latitude. */
     public Double Latitude;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 * @return the coordinate
+	 */
     public static Coordinate parse(JSONObject jsonObject) {
         if (jsonObject == null) {
             return null;

@@ -37,19 +37,35 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
+/**
+ * The Class MettingDetailsFragment.
+ * 
+ * @author albuscrow
+ */
 public class MettingDetailsFragment extends BaseFragment {
 	
+	/** The Constant UNCOLLECT. */
 	public static final int UNCOLLECT = 0;
+	
+	/** The Constant COLLECT. */
 	public static final int COLLECT = 1;
+	
+	/** The metting. */
 	private MTMetting metting;
+	
+	/** The comments. */
 	private List<MTComment> comments;
 	
 //	private LinearLayout relatedMettingLayout;
 	
 //	SwipeView mSwipeView;
 //	int[] images = new int[]{R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1,R.drawable.home_picture_1};
-	private TextView collect;
+	/** The collect. */
+private TextView collect;
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -58,6 +74,13 @@ public class MettingDetailsFragment extends BaseFragment {
 		return initUI(inflater);
 	}
 	
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @return the view
+	 */
 	private View initUI(LayoutInflater inflater) {
 		setbackButton();
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_metting_detail, null);
@@ -285,6 +308,9 @@ public class MettingDetailsFragment extends BaseFragment {
 		return rootView;
 	}
 
+	/**
+	 * Change collect view.
+	 */
 	private void changeCollectView() {
 		if (metting.getIsCollect() == MTMetting.UNCOLLECT) {
 			collect.setText("点击收藏");
@@ -297,6 +323,9 @@ public class MettingDetailsFragment extends BaseFragment {
 		}
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		if (getIntent() != null) {
 			metting = (MTMetting) getIntent().getSerializableExtra("metting");
@@ -306,10 +335,18 @@ public class MettingDetailsFragment extends BaseFragment {
 		
 	}
 	
+	/**
+	 * Gets the main activity.
+	 * 
+	 * @return the main activity
+	 */
 	public MainActivity getMainActivity(){
 		return (MainActivity) activity;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityResult(int, int, android.content.Intent)
+	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

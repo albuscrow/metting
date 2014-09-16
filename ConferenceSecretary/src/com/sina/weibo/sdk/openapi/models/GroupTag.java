@@ -19,15 +19,23 @@ package com.sina.weibo.sdk.openapi.models;
 import org.json.JSONObject;
 
 /**
- * 分组标签结构体。
+ * 分组标签结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class GroupTag {
-    /** 分组的组号 */
+    
+    /** 分组的组号. */
     public String tag;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 * @return the group tag
+	 */
     public static GroupTag parse(JSONObject jsonObject) {
         if (jsonObject == null) {
             return null;

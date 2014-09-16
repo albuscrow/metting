@@ -32,8 +32,16 @@ import android.text.TextUtils;
  */
 public class OffsetGeo {
 
+    /** The Geos. */
     public ArrayList<Coordinate> Geos;
 
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the offset geo
+	 */
     public static OffsetGeo parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;

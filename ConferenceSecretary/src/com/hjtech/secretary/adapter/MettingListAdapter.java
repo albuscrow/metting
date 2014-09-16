@@ -21,27 +21,62 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+/**
+ * The Class MettingListAdapter.
+ * 展示会议列表
+ * @author albuscrow
+ */
 public class MettingListAdapter extends BaseAdapter implements ListAdapter {
+	
+	/** The activity. */
 	private BaseActivity activity;
+	
+	/** The current page num. */
 	private int currentPageNum = 1;
+	
+	/**
+	 * Sets the data.
+	 * 
+	 * @param data
+	 *            the new data
+	 */
 	public void setData(List<MTMetting> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
 	
+	/**
+	 * Gets the data.
+	 * 
+	 * @return the data
+	 */
 	public List<MTMetting> getData(){
 		return data;
 	}
 
+	/** The data. */
 	private List<MTMetting> data;
+	
+	/** The status. */
 	private int status;
 
+	/**
+	 * Instantiates a new metting list adapter.
+	 * 
+	 * @param fragment
+	 *            the fragment
+	 * @param status
+	 *            the status
+	 */
 	public MettingListAdapter(BaseFragment fragment,int status) {
 		this.activity = fragment.getBaseActivity();
 		this.status = status;
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getCount()
+	 */
 	@Override
 	public int getCount() {
 		if (data == null) {
@@ -50,6 +85,9 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		return data.size();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getItem(int)
+	 */
 	@Override
 	public Object getItem(int position) {
 		if (data != null) {
@@ -59,6 +97,9 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getItemId(int)
+	 */
 	@Override
 	public long getItemId(int position) {
 		MTMetting metting = (MTMetting)getItem(position);
@@ -69,23 +110,50 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 	
+	/**
+	 * The Class ViewHold.
+	 * 
+	 * @author albuscrow
+	 */
 	class ViewHold{
+		
+		/** The metting time year. */
 		public TextView mettingTimeYear;
+		
+		/** The metting time month. */
 		public TextView mettingTimeMonth;
+		
+		/** The metting time day. */
 		public TextView mettingTimeDay;
+		
+		/** The metting time week. */
 		public TextView mettingTimeWeek;
 		
+		/** The metting name. */
 		public TextView mettingName;
+		
+		/** The metting during time. */
 		public TextView mettingDuringTime;
+		
+		/** The metting address. */
 		public TextView mettingAddress;
+		
+		/** The metting fee and res. */
 		public TextView mettingFeeAndRes;
 		
+		/** The is enroll. */
 		public ImageButton isEnroll; 
+		
+		/** The metting status. */
 		public ImageView mettingStatus;
 		
+		/** The star. */
 		public ImageView star;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.widget.Adapter#getView(int, android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHold viewHold = null;
@@ -143,13 +211,26 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 	}
 
 
+	/**
+	 * Append data.
+	 * 
+	 * @param result
+	 *            the result
+	 */
 	public void appendData(List<MTMetting> result) {
 		this.data.addAll(result);
 		this.notifyDataSetChanged();
 	}
 	
+	/** The can init. */
 	Boolean canInit = true;
+	
+	/** The total data num. */
 	private int totalDataNum;
+	
+	/**
+	 * Inits the data.
+	 */
 	public void initData() {
 		if (canInit) {
 			synchronized (canInit) {
@@ -189,6 +270,11 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		}
 	}
 
+	/**
+	 * Gets the more data.
+	 * 
+	 * @return the more data
+	 */
 	public void getMoreData() {
 		if (currentPageNum * 15 > totalDataNum) {
 			return;
@@ -220,6 +306,12 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 		}).getMettingList(MTUserManager.getUser().getMuAccount(), ++ currentPageNum, status);
 	}
 
+	/**
+	 * Sets the activity.
+	 * 
+	 * @param activity
+	 *            the new activity
+	 */
 	public void setActivity(BaseActivity activity) {
 		this.activity = activity;
 	}

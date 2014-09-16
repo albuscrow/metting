@@ -19,7 +19,7 @@ package com.sina.weibo.sdk.openapi.models;
 import org.json.JSONObject;
 
 /**
- * 音乐结构体。
+ * 音乐结构体。.
  * 
  * @author SINA
  * @since 2013-11-22
@@ -27,15 +27,36 @@ import org.json.JSONObject;
 public class MusicInfo {
     
     //public boolean result; 
+    /** The author. */
     public String author;
+    
+    /** The title. */
     public String title;
+    
+    /** The album. */
     public String album;
+    
+    /** The play url. */
     public String playUrl;
     
+    /**
+	 * Parser.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the music info
+	 */
     public static MusicInfo parser(String jsonString) {
         return null;
     }
     
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 * @return the music info
+	 */
     public static MusicInfo parse(JSONObject jsonObject) {
         if (null == jsonObject) {
             return null;

@@ -6,14 +6,35 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
+/**
+ * The Class AppConfig.
+ * 储存手机的一些信息
+ * @author albuscrow
+ */
 public class AppConfig {
+	
+	/** The screenwidth. */
 	public static Integer SCREENWIDTH;
+	
+	/** The screenheight. */
 	public static Integer SCREENHEIGHT;
+	
+	/** The screen density. */
 	public static float SCREEN_DENSITY;
+	
+	/** The init finished. */
 	public static boolean INIT_FINISHED;
+	
+	/** The context. */
 	private static Context context;
 
 
+	/**
+	 * Inits the config.
+	 * 
+	 * @param context
+	 *            the context
+	 */
 	public static void initConfig(Context context) {
 		AppConfig.context = context;
 		DisplayMetrics metric = context.getResources().getDisplayMetrics();
@@ -23,6 +44,11 @@ public class AppConfig {
 		INIT_FINISHED = true;
 	}
 
+	/**
+	 * Checks if is net connect.
+	 * 
+	 * @return true, if is net connect
+	 */
 	public static boolean isNetConnect() {  
 		ConnectivityManager cManager=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = cManager.getActiveNetworkInfo(); 

@@ -62,26 +62,51 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The Class InviteFragment.
+ * 
+ * @author albuscrow
+ */
 public class InviteFragment extends BaseFragment implements OnClickListener, IWeiboHandler.Response, WeiboAuthListener {
 
+	/** The Constant TAG. */
 	private static final String TAG = "inviteActivity";
 
+	/** The share platform. */
 	Spinner sharePlatform;
+	
+	/** The share content. */
 	private TextView shareContent;
+	
+	/** The metting. */
 	private MTMetting metting;
+	
+	/** The td code. */
 	private ImageView tdCode;
+	
+	/** The confirm. */
 	private TextView confirm;
+	
+	/** The share platform flag. */
 	private int sharePlatformFlag;
+	
+	/** The Constant NONE. */
 	public static final int NONE = -1;
+	
+	/** The Constant WEIXIN_CIRLE. */
 	public static final int WEIXIN_CIRLE = 0;
+	
+	/** The Constant WEIXIN_FRIEND. */
 	public static final int WEIXIN_FRIEND = 1;
+	
+	/** The Constant WEIBO. */
 	public static final int WEIBO = 2;
+	
+	/** The Constant MESSAGE. */
 	public static final int MESSAGE = 3;
 
 
-	/**
-	 * 微博 OpenAPI 回调接口。
-	 */
+	/** 微博 OpenAPI 回调接口。. */
 	private RequestListener mListener = new RequestListener() {
 
 		@Override
@@ -115,6 +140,9 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	};
 	
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -126,14 +154,27 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		return initUI(inflater);
 	}
 
+	/**
+	 * Inits the share.
+	 */
 	private void initShare() {
 
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		metting = (MTMetting) getIntent().getSerializableExtra("metting");
 	}
 
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @return the view group
+	 */
 	private ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_invite, null);
@@ -193,6 +234,9 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	}
 
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
 	@Override
 	public void onClick(View v) {
 		String text = shareContent.getText().toString();
@@ -266,17 +310,36 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		}
 	}
 	
+	/** The message code. */
 	static public int MESSAGE_CODE = 1002;
 
+	/**
+	 * Gets the main activity.
+	 * 
+	 * @return the main activity
+	 */
 	private MainActivity getMainActivity() {
 		return ((MainActivity) getBaseActivity());
 	}
 
+	/**
+	 * Adds the share log.
+	 * 
+	 * @param type
+	 *            the type
+	 * @param phone
+	 *            the phone
+	 * @param content
+	 *            the content
+	 */
 	public void addShareLog(int type, String phone, String content) {
 		new GetDataAnsycTask().addShareLog(MTUserManager.getUser().getMuAccount(), metting.getMmId(), type, phone, content);
 	}
 	
 
+	/**
+	 * Share with sina.
+	 */
 	private void shareWithSina() {
 		confirm.setEnabled(false);
 		MTCommon.ShowToast("正在分享到微博，请稍后...");
@@ -286,10 +349,10 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 	}
 
 	/**
-	 * 接收微客户端博请求的数据。
-	 * 当微博客户端唤起当前应用并进行分享时，该方法被调用。
+	 * 接收微客户端博请求的数据。 当微博客户端唤起当前应用并进行分享时，该方法被调用。.
 	 * 
-	 * @param baseRequest 微博请求数据对象
+	 * @param baseResp
+	 *            the base resp
 	 * @see {@link IWeiboShareAPI#handleWeiboRequest}
 	 */
 	@Override
@@ -309,11 +372,17 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sina.weibo.sdk.auth.WeiboAuthListener#onCancel()
+	 */
 	@Override
 	public void onCancel() {
 		MTCommon.ShowToast(getResources().getString(R.string.auth_canceled));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sina.weibo.sdk.auth.WeiboAuthListener#onComplete(android.os.Bundle)
+	 */
 	@Override
 	public void onComplete(Bundle bundle) {
 		// 从 Bundle 中解析 Token
@@ -338,6 +407,9 @@ public class InviteFragment extends BaseFragment implements OnClickListener, IWe
 		}	
 	}
 
+	/* (non-Javadoc)
+	 * @see com.sina.weibo.sdk.auth.WeiboAuthListener#onWeiboException(com.sina.weibo.sdk.exception.WeiboException)
+	 */
 	@Override
 	public void onWeiboException(WeiboException e) {
 		MTCommon.ShowToast("Auth exception : " + e.getMessage());

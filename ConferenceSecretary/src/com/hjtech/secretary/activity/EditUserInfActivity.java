@@ -30,28 +30,74 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+/**
+ * The Class EditUserInfActivity.
+ * 编辑用户信息
+ * @author albuscrow
+ */
 public class EditUserInfActivity extends BaseActivity {
+	
+	/** The user. */
 	private MTUser user;
+	
+	/** The image view. 
+	 *  用户头像
+	 */
 	private ImageView imageView;
+	
+	/** The name edit. */
 	private EditText nameEdit;
+	
+	/** The nick name edit. */
 	private EditText nickEdit;
+	
+	/** The sex edit. */
 	private EditText sexEdit;
+	
+	/** The unit edit. 
+	 *  公司
+	 */
 	private EditText unitEdit;
+	
+	/** The department edit. 
+	 *	部门 
+	 */
 	private EditText departmentEdit;
+	
+	/** The position edit. 
+	 * 	职务
+	 */
 	private EditText positionEdit;
+	
+	/** The qq edit. */
 	private EditText qqEdit;
+	
+	/** The weixin edit. */
 	private EditText weixinEdit;
+	
+	/** The email edit. */
 	private EditText emailEdit;
-	// private EditText mobile;
 
+	/** The items. */
 	private String[] items = new String[] { "选择本地图片", "拍照" };
+	
+	/** The photo. */
 	private Bitmap photo;
 
 	/* 请求码 */
+	
+	/** The Constant IMAGE_REQUEST_CODE. */
 	private static final int IMAGE_REQUEST_CODE = 0;
+	
+	/** The Constant CAMERA_REQUEST_CODE. */
 	private static final int CAMERA_REQUEST_CODE = 1;
+	
+	/** The Constant RESULT_REQUEST_CODE. */
 	private static final int RESULT_REQUEST_CODE = 2;
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -60,14 +106,20 @@ public class EditUserInfActivity extends BaseActivity {
 				R.string.title_activity_user_edit, R.string.complete);
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		user = MTUserManager.getUser();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int, int, int, int)
+	 */
 	@Override
 	protected void initUI(int layoutId, int backId, int titleId, int rightId) {
 		super.initUI(layoutId, backId, titleId, rightId);
-		setbackButton();
+		setBackButton();
 
 		// get view
 		imageView = (ImageView) gv(R.id.personal_imageview);
@@ -249,7 +301,7 @@ public class EditUserInfActivity extends BaseActivity {
 	}
 
 	/**
-	 * 显示选择对话框
+	 * 显示选择对话框.
 	 */
 	private void showDialog() {
 
@@ -296,6 +348,9 @@ public class EditUserInfActivity extends BaseActivity {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -325,9 +380,10 @@ public class EditUserInfActivity extends BaseActivity {
 	}
 
 	/**
-	 * 裁剪图片方法实现
+	 * 裁剪图片方法实现.
 	 * 
 	 * @param uri
+	 *            the uri
 	 */
 	public void startPhotoZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
@@ -349,9 +405,11 @@ public class EditUserInfActivity extends BaseActivity {
 	}
 
 	/**
-	 * 保存裁剪之后的图片数据
+	 * 保存裁剪之后的图片数据.
 	 * 
-	 * @param picdata
+	 * @param data
+	 *            the data
+	 * @return the image to view
 	 */
 	private void getImageToView(Intent data) {
 		Bundle extras = data.getExtras();
@@ -361,12 +419,23 @@ public class EditUserInfActivity extends BaseActivity {
 		}
 	}
 
+	/**
+	 * Gets the temp uri.
+	 * 用于暂存从图库或者从拍照得到的照片，供下一步裁剪
+	 * @return the temp uri
+	 */
 	private Uri getTempUri() {
 		return Uri.fromFile(getTempFile());
 	}
 
+	/** The Constant TEMP_PHOTO_FILE. */
 	private static final String TEMP_PHOTO_FILE = "temporary_holder.jpg";
 
+	/**
+	 * Gets the temp file.
+	 * 
+	 * @return the temp file
+	 */
 	private File getTempFile() {
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
@@ -383,8 +452,16 @@ public class EditUserInfActivity extends BaseActivity {
 		}
 	}
 
+	/** The image uri. */
 	Uri imageUri = getTempUri(); // The Uri to store the big bitmap
 
+	/**
+	 * Decode uri as bitmap.
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @return the bitmap
+	 */
 	private Bitmap decodeUriAsBitmap(Uri uri) {
 		Bitmap bitmap = null;
 		try {

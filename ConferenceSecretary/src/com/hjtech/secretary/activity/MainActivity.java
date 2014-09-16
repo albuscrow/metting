@@ -27,30 +27,49 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 
+/**
+ * The Class MainActivity.
+ * 这个activity 是一个容器，用来显示所有带底部导航栏的页面，主体内容由fragment填充。
+ * @author albuscrow
+ */
 public class MainActivity extends BaseActivity {
-	/** 当前 Token 信息 */
+	
+	/** 当前 Token 信息. */
 	public Oauth2AccessToken mAccessToken;
-	/** 用于获取微博信息流等操作的API */
+	
+	/** 用于获取微博信息流等操作的API. */
 	public StatusesAPI mStatusesAPI;
-	/** 微博 Web 授权类，提供登陆等功能  */
+	
+	/** 微博 Web 授权类，提供登陆等功能. */
 	public WeiboAuth mWeiboAuth;
-	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+	
+	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效. */
 	public SsoHandler mSsoHandler;
 	
+	/** The api. */
 	public IWXAPI api;
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (mSsoHandler != null) { 
 			mSsoHandler.authorizeCallBack(requestCode, resultCode, data); 
 		}
-//		if (currentFragment instanceof MyMettingFragment) {
-//			((MyMettingFragment)currentFragment).onActivityResult(requestCode, resultCode, data);
-//		}
 	}
 	
+	/** The UI type. 
+	 * 说明是用哪个fragment填充
+	 */
 	private int UIType;
+	
+	/** The fragment manager. */
 	private FragmentManager fragmentManager;
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -65,6 +84,10 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	
+	/**
+	 * Inits the share.
+	 * 初始化分享相关的内容
+	 */
 	private void initShare() {
 		// 获取当前已保存过的 Token
 		mAccessToken = AccessTokenKeeper.readAccessToken(this);
@@ -83,12 +106,31 @@ public class MainActivity extends BaseActivity {
 
 	}
 
+	/** The current fragment. */
 	private BaseFragment currentFragment;
+	
+	//以下是底部的四个按钮
+	/** The tab my metting. */
 	private RadioButton tabMyMetting;
+	
+	/** The tab homepage. */
 	private RadioButton tabHomepage;
+	
+	/** The tab metting list. */
 	private RadioButton tabMettingList;
+	
+	/** The tab message. */
 	private RadioButton tabMessage;
+	
+	
+	/** The current checked button. 
+	 * 当前选中的tab
+	 */
 	private RadioButton currentCheckedButton;
+	
+	/* (non-Javadoc)
+	 * @see com.hjtech.secretary.activity.BaseActivity#initUI(int)
+	 */
 	@Override
 	protected void initUI(int layoutId) {
 		super.initUI(layoutId);
@@ -143,17 +185,12 @@ public class MainActivity extends BaseActivity {
 		initTab();
 	}
 	
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		super.onActivityResult(requestCode, resultCode, data); 
-//		if (currentFragment instanceof InviteFragment) {
-//			((InviteFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
-//		}
-//		super.onActivityResult(requestCode, resultCode, data);
-//	}
-	
+
+	/**
+	 * Inits the tab.
+	 */
 	private void initTab() {
-		
+
 		switch (UIType) {
 		case MTFragmentFactory.MESSAGE:
 			chooseTab(TAB_MESSAGE_INDEX);
@@ -173,6 +210,16 @@ public class MainActivity extends BaseActivity {
 
 	}
 
+	/**
+	 * Switch fragment.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param intent
+	 *            the intent
+	 * @param needToPush
+	 *            the need to push
+	 */
 	public void switchFragment(int id, Intent intent, boolean needToPush) {
 		BaseFragment tempFragment = MTFragmentFactory.getFragment(id);
 		tempFragment.setIntent(intent);
@@ -187,21 +234,28 @@ public class MainActivity extends BaseActivity {
 		currentFragment = tempFragment;
 	}
 	
-//	@Override
-//	protected void onStop() {
-//		super.onStop();
-//		if (currentFragment != null) {
-//			fragmentManager.beginTransaction().remove(currentFragment).commit();
-//		}
-//	}
-//	
 	
+	/** The Constant TAB_MY_METTIN_INDEX. */
 	public static final int TAB_MY_METTIN_INDEX = 3;
+	
+	/** The Constant TAB_METTIN_LIST_INDEX. */
 	public static final int TAB_METTIN_LIST_INDEX = 2;
+	
+	/** The Constant TAB_HOME_PAGE_INDEX. */
 	public static final int TAB_HOME_PAGE_INDEX = 1;
+	
+	/** The Constant TAB_MESSAGE_INDEX. */
 	public static final int TAB_MESSAGE_INDEX = 4;
+	
+	/** The Constant TAB_CLEAR. */
 	public static final int TAB_CLEAR = -1;
 	
+	/**
+	 * Choose tab.
+	 * 
+	 * @param index
+	 *            the index
+	 */
 	private void chooseTab(int index){
 		if (currentCheckedButton != null) {
 			currentCheckedButton.setChecked(false);
@@ -232,8 +286,14 @@ public class MainActivity extends BaseActivity {
 		}
 	}
 	
+	/** The back stack. 
+	 * 用于fragment 回退
+	 */
 	Stack<BaseFragment> backStack = new Stack<BaseFragment>();
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onKeyDown(int, android.view.KeyEvent)
+	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && backStack.size() > 0) {
@@ -245,6 +305,9 @@ public class MainActivity extends BaseActivity {
 	}
 
 
+	/**
+	 * Back.
+	 */
 	public void back() {
 		BaseFragment tempFragment = backStack.pop();
 		if (currentFragment != null) {
@@ -255,12 +318,20 @@ public class MainActivity extends BaseActivity {
 		currentFragment = tempFragment;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onNewIntent(android.content.Intent)
+	 */
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
 		super.onNewIntent(intent);
 	}
 	
+	/**
+	 * Gets the back stack.
+	 * 
+	 * @return the back stack
+	 */
 	public Stack<BaseFragment> getBackStack() {
 		return backStack;
 	}

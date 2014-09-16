@@ -7,17 +7,41 @@ import java.util.Random;
 import android.util.Base64;
 import Decoder.BASE64Encoder;
 
+/**
+ * The Class Encryption.
+ * 
+ * @author albuscrow
+ */
 public class Encryption {
 
+	/**
+	 * Gets the key.
+	 * 
+	 * @return the key
+	 */
 	public static String getKey(){
 		return getRandomString(5);
 	}
 
+	/**
+	 * Gets the code.
+	 * 
+	 * @param key
+	 *            the key
+	 * @return the code
+	 */
 	public static String getCode(String key){
 		String temp = key +  "METTING-HJTECH";
 		return encode(temp);
 	}
 
+	/**
+	 * Gets the random string.
+	 * 
+	 * @param length
+	 *            the length
+	 * @return the random string
+	 */
 	private static String getRandomString(int length) { //length表示生成字符串的长度
 		String base = "abcdefghijklmnopqrstuvwxyz0123456789";   
 		Random random = new Random();
@@ -29,12 +53,26 @@ public class Encryption {
 		return sb.toString();   
 	}  	
 
+	/**
+	 * Encode.
+	 * 
+	 * @param s
+	 *            the s
+	 * @return the string
+	 */
 	private static String encode(String s)  {
 		s = md5(s).toUpperCase();
 		BASE64Encoder encoder = new BASE64Encoder();
 		return encoder.encode(s.getBytes());
 	}
 
+	/**
+	 * Md5.
+	 * 
+	 * @param str
+	 *            the str
+	 * @return the string
+	 */
 	public static String md5(String str) {
 		String md5Str = "";  
 		try {  
@@ -50,6 +88,13 @@ public class Encryption {
 		return md5Str;
 	}
 
+	/**
+	 * Hex.
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the string
+	 */
 	private static String hex(byte[] array)  {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < array.length; ++i) {
@@ -58,6 +103,13 @@ public class Encryption {
 		return sb.toString();
 	}
 
+	/**
+	 * Decode base64.
+	 * 
+	 * @param input
+	 *            the input
+	 * @return the string
+	 */
 	public static String decodeBase64(String input) {
 		return new String(Base64.decode(input, Base64.DEFAULT));
 	}

@@ -23,9 +23,28 @@ import org.apache.http.protocol.HTTP;
 
 
 
+/**
+ * A factory for creating MySSLSocket objects.
+ */
 public class MySSLSocketFactory extends SSLSocketFactory {
+	
+	/** The ssl context. */
 	SSLContext sslContext = SSLContext.getInstance("TLS");
 
+	/**
+	 * Instantiates a new my ssl socket factory.
+	 * 
+	 * @param truststore
+	 *            the truststore
+	 * @throws NoSuchAlgorithmException
+	 *             the no such algorithm exception
+	 * @throws KeyManagementException
+	 *             the key management exception
+	 * @throws KeyStoreException
+	 *             the key store exception
+	 * @throws UnrecoverableKeyException
+	 *             the unrecoverable key exception
+	 */
 	public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
 		super(truststore);
 
@@ -44,16 +63,27 @@ public class MySSLSocketFactory extends SSLSocketFactory {
 		sslContext.init(null, new TrustManager[] { tm }, null);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.http.conn.ssl.SSLSocketFactory#createSocket(java.net.Socket, java.lang.String, int, boolean)
+	 */
 	@Override
 	public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
 		return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.apache.http.conn.ssl.SSLSocketFactory#createSocket()
+	 */
 	@Override
 	public Socket createSocket() throws IOException {
 		return sslContext.getSocketFactory().createSocket();
 	}
 
+	/**
+	 * Gets the default http client.
+	 * 
+	 * @return the default http client
+	 */
 	public static DefaultHttpClient getDefaultHttpClient() {
 		try {
 			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());

@@ -14,19 +14,52 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+/**
+ * The Class NoDefaultSpinner.
+ * 
+ * @author albuscrow
+ */
 public class NoDefaultSpinner extends Spinner {
+
+/**
+ * Instantiates a new no default spinner.
+ * 
+ * @param context
+ *            the context
+ */
 public NoDefaultSpinner(Context context) {
         super(context);
     }
 
+    /**
+	 * Instantiates a new no default spinner.
+	 * 
+	 * @param context
+	 *            the context
+	 * @param attrs
+	 *            the attrs
+	 */
     public NoDefaultSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+    /**
+	 * Instantiates a new no default spinner.
+	 * 
+	 * @param context
+	 *            the context
+	 * @param attrs
+	 *            the attrs
+	 * @param defStyle
+	 *            the def style
+	 */
     public NoDefaultSpinner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
+    /* (non-Javadoc)
+     * @see android.widget.Spinner#setAdapter(android.widget.SpinnerAdapter)
+     */
     @Override
     public void setAdapter(SpinnerAdapter orig) {
         final SpinnerAdapter adapter = newProxy(orig);
@@ -49,6 +82,13 @@ public NoDefaultSpinner(Context context) {
         }
     }
 
+    /**
+	 * New proxy.
+	 * 
+	 * @param obj
+	 *            the obj
+	 * @return the spinner adapter
+	 */
     protected SpinnerAdapter newProxy(SpinnerAdapter obj) {
         return (SpinnerAdapter) java.lang.reflect.Proxy.newProxyInstance(
                 obj.getClass().getClassLoader(),
@@ -59,14 +99,25 @@ public NoDefaultSpinner(Context context) {
 
 
     /**
-     * Intercepts getView() to display the prompt if position < 0
-     */
+	 * Intercepts getView() to display the prompt if position < 0.
+	 * 
+	 * @author albuscrow
+	 */
     protected class SpinnerAdapterProxy implements InvocationHandler {
 
+        /** The obj. */
         protected SpinnerAdapter obj;
+        
+        /** The get view. */
         protected Method getView;
 
 
+        /**
+		 * Instantiates a new spinner adapter proxy.
+		 * 
+		 * @param obj
+		 *            the obj
+		 */
         protected SpinnerAdapterProxy(SpinnerAdapter obj) {
             this.obj = obj;
             try {
@@ -78,6 +129,9 @@ public NoDefaultSpinner(Context context) {
             }
         }
 
+        /* (non-Javadoc)
+         * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+         */
         public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
             try {
                 return m.equals(getView) && 
@@ -93,6 +147,19 @@ public NoDefaultSpinner(Context context) {
             }
         }
 
+        /**
+		 * Gets the view.
+		 * 
+		 * @param position
+		 *            the position
+		 * @param convertView
+		 *            the convert view
+		 * @param parent
+		 *            the parent
+		 * @return the view
+		 * @throws IllegalAccessException
+		 *             the illegal access exception
+		 */
         protected View getView(int position, View convertView, ViewGroup parent) 
           throws IllegalAccessException {
             if( position<0 ) {

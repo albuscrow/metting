@@ -25,23 +25,42 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 微博列表结构。
- * @see <a href="http://t.cn/zjM1a2W">常见返回对象数据结构</a>
+ * 微博列表结构。.
  * 
  * @author SINA
+ * @see <a href="http://t.cn/zjM1a2W">常见返回对象数据结构</a>
  * @since 2013-11-22
  */
 public class StatusList {
     
-    /** 微博列表 */
+    /** 微博列表. */
     public ArrayList<Status> statusList;
+    
+    /** The statuses. */
     public Status statuses;
+    
+    /** The hasvisible. */
     public boolean hasvisible;
+    
+    /** The previous_cursor. */
     public String previous_cursor;
+    
+    /** The next_cursor. */
     public String next_cursor;
+    
+    /** The total_number. */
     public int total_number;
+    
+    /** The advertises. */
     public Object[] advertises;
     
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the status list
+	 */
     public static StatusList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;

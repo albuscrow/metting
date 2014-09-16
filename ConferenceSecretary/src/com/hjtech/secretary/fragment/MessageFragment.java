@@ -18,12 +18,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * The Class MessageFragment.
+ * 
+ * @author albuscrow
+ */
 public class MessageFragment extends BaseFragment {
 
+	/** The list view. */
 	private PullToRefreshListView listView;
+	
+	/** The adapter. */
 	private MessageAdapter adapter;
+	
+	/** The data. */
 	private List<MTMessage> data;
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -33,6 +46,13 @@ public class MessageFragment extends BaseFragment {
 		return rootView;
 	}
 
+	/**
+	 * Inits the ui.
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @return the view
+	 */
 	private View initUI(LayoutInflater inflater) {
 		setbackButton();
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_message, null);
@@ -43,6 +63,9 @@ public class MessageFragment extends BaseFragment {
 		return rootView;
 	}
 
+	/**
+	 * Inits the data.
+	 */
 	private void initData() {
 		new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
 

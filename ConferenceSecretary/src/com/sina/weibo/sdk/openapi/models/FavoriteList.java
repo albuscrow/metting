@@ -25,17 +25,26 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 /**
- * 我喜欢的微博信息列表结构体。
+ * 我喜欢的微博信息列表结构体。.
  * 
  * @author SINA
  * @since 2013-11-24
  */
 public class FavoriteList {
 
-    /** 微博列表 */
+    /** 微博列表. */
     public ArrayList<Favorite> favoriteList;
+    
+    /** The total_number. */
     public int total_number;
     
+    /**
+	 * Parses the.
+	 * 
+	 * @param jsonString
+	 *            the json string
+	 * @return the favorite list
+	 */
     public static FavoriteList parse(String jsonString) {
         if (TextUtils.isEmpty(jsonString)) {
             return null;
