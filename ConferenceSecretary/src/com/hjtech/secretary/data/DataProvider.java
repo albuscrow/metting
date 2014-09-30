@@ -33,7 +33,7 @@ import com.hjtech.secretary.utils.NetUtils;
 public class DataProvider {
 
 	public static final String TAG = "DataProvider";
-	public static final String BASE_URL = "http://211.155.229.136:8080/mettingapi/";
+	public static final String BASE_URL = "http://42.62.41.98:8080/metingapi/";
 	public static final String METTING_LIST_URL = BASE_URL + "metting/list";
 	public static final String MY_METTING_URL = BASE_URL + "metting/userMettings";
 	public static final String GET_COLLECT = BASE_URL + "collect/list";

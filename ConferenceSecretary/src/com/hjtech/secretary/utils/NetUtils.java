@@ -87,7 +87,7 @@ public class NetUtils {
 			throws Exception {  
 		MultipartEntity mpEntity = new MultipartEntity(); // 文件传输  
 		ContentBody cbFile = new FileBody(file);  
-		mpEntity.addPart("file", cbFile); 
+		mpEntity.addPart("file", cbFile);
 		ContentBody accountBody = new StringBody(account);
 		mpEntity.addPart("phone", accountBody);
 		for (String key : hashMap.keySet()) {
@@ -110,7 +110,7 @@ public class NetUtils {
 			resEntity.consumeContent();  
 		}  
 		return response.getStatusLine().getStatusCode();
-	}  
+	}
 
 //	public static String getGetResult(Map<String, Object> params,String targetURL){
 //		String result = null;
