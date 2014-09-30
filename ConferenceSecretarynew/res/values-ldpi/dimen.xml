@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="metting_inf_ts">8sp</dimen>
+    <dimen name="metting_title_ts">10sp</dimen>
+    <dimen name="ga1">30dp</dimen>
+    <dimen name="ga2">67.5dp</dimen>
+    <dimen name="ga3">97.5dp</dimen>
+    <dimen name="ga4">-29.25dp</dimen>
+    <dimen name="ga5">75dp</dimen>
+    <dimen name="ga6">27.75dp</dimen>
+    <dimen name="ga7">137dp</dimen>
+    <dimen name="ga8">-60dp</dimen>
+    <dimen name="ga9">90dp</dimen>
+    <dimen name="ga10">-30dp</dimen>
+    
+    <dimen name="about1">95dp</dimen>    <dimen name="about2">25dp</dimen>    <dimen name="about3">40dp</dimen>
+    <dimen name="about4">4dp</dimen>    
+        <dimen name="splash_margin">70dp</dimen></resources>

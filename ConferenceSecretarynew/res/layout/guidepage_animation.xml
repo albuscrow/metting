@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#007aff" >
+    
+    <TextView
+        android:id="@+id/t1"
+        style="@style/guide_textView"
+        android:layout_width="@dimen/ga2"
+        android:layout_height="@dimen/ga2"
+        android:layout_marginTop="@dimen/ga1"
+        android:background="@drawable/guide_t1"
+        android:text="邀请" />
+
+    <TextView
+        android:id="@+id/t2"
+        android:layout_below="@id/t1"
+        style="@style/guide_textView"
+        android:layout_width="@dimen/ga3"
+        android:layout_height="@dimen/ga3"
+        android:layout_marginTop="@dimen/ga4"
+        android:background="@drawable/guide_t2"
+        android:text="报名" />
+    
+    <TextView
+        android:id="@+id/t4"
+        android:layout_below="@id/t2"
+        style="@style/guide_textView"
+        android:layout_width="@dimen/ga5"
+        android:layout_height="@dimen/ga5"
+        android:layout_marginTop="@dimen/ga6"
+        android:background="@drawable/guide_t4"
+        android:text="抽奖" />
+    
+    <TextView
+        android:id="@+id/t3"
+        android:layout_below="@id/t2"
+        style="@style/guide_textView"
+        android:layout_width="@dimen/ga7"
+        android:layout_height="@dimen/ga7"
+        android:layout_marginTop="@dimen/ga8"
+        android:background="@drawable/guide_t3"
+        android:text="签到" />
+    
+    <TextView
+        android:id="@+id/t5"
+        android:layout_below="@id/t4"
+        style="@style/guide_textView"
+        android:layout_width="@dimen/ga9"
+        android:layout_height="@dimen/ga9"
+        android:layout_marginTop="@dimen/ga10"
+        android:background="@drawable/guide_t5"
+        android:text="会务互动" />
+    
+    <TextView
+        android:id="@+id/t7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:background="@null"
+        android:text="移动办公会议秘书"
+        android:textColor="@color/mt_white"
+        android:textSize="20sp" />
+    
+    <TextView
+        android:id="@+id/t6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/t7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="7dp"
+        android:background="@null"
+        android:text="会小秘"
+        android:textColor="@color/mt_white"
+        android:textSize="25sp" />
+
+</RelativeLayout>

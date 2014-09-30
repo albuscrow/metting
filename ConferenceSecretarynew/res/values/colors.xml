@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="list_background">#eeeeee</color>
+    <color name="red">#f00</color>
+    
+    <color name="mt_blue">#007aff</color>
+    <color name="mt_blue_press">#0775ee</color>
+    <color name="mt_action_bar_gray">#888888</color>
+    <color name="mt_split_gray">#222222</color>
+    <color name="mt_bg">#dddddd</color>
+    <color name="mt_home_bg">#efefef</color>
+    <color name="mt_actionbar_bg">#f2f2f2</color>
+    
+    
+    <color name="mt_text_6">#666</color>
+    <color name="mt_text_0">#000</color>
+    <color name="mt_text_3">#333</color>
+    <color name="mt_text_9">#333</color>
+    <color name="mt_text_inf">#7a7a7a</color>
+    <color name="mt_text_enroll">#333</color>
+    <color name="mt_white">#fff</color>
+    <color name="mt_metting_list_strip_bg">#e5e5e5</color>
+    <color name="mt_tab_split">#f0f0f0</color>
+    <color name="metting_list_divider">#b0b0b0</color>
+    <color name="mt_text_register">#a8a8a8</color>
+    
+    <color name="mt_login_bg">#f9f9f9</color>
+    <color name="mt_black">#000</color>
+    <color name="mt_login_edit_text_bg">#f6f6f6</color>
+    <color name="login_split">#dddddd</color>
+    
+    
+    <color name="comment_light">#f9f9f9</color>
+    <color name="comment_dark">#eee</color>
+    <color name="comment_input_stroke">#c6c6c6</color>
+    <color name="register_stroke">#e5e5e5</color>
+    
+    <color name="enroll_input_text">#9e9e9e</color>
+    
+</resources>

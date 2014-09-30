@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/share_invite_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/share_td_code"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_below="@id/share_invite_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="33dp"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher" />
+
+        <Spinner
+            android:id="@+id/share_platform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/share_td_code"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="33dp"
+            android:background="@drawable/share_spinner" />
+
+        <TextView
+            android:id="@+id/share_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/share_platform"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="49dp"
+            android:background="@drawable/common_blue_button"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/share_confirm"
+            android:textColor="@color/mt_white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+</ScrollView>

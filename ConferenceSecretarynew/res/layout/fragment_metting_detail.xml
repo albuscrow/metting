@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mt_white" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp" >
+
+        <TextView
+            android:id="@+id/detail_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableTop="@drawable/metting_detail_collect"
+            android:ems="4"
+            android:gravity="center_horizontal"
+            android:textColor="@color/mt_blue"
+            android:textSize="12sp" />
+        
+        <TextView
+            android:id="@+id/detail_name"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@id/detail_collect"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mt_black"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_name"
+            android:layout_marginTop="14dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/detail_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_time"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/detail_fee_res"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_address"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/mt_text_6"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/detail_fee_res"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/swipe_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop" />
+            
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                
+				<WebView
+				    android:id="@+id/detail_detail"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:paddingBottom="10dp"
+				    android:scrollbars="horizontal"
+				    android:paddingTop="15dp"
+				    android:textColor="@color/mt_text_6"
+				    android:textSize="13sp" />
+
+            </LinearLayout>
+            
+            <!--
+     		<uk.co.jasonfry.android.tools.ui.SwipeView
+		    android:id="@+id/swipe_view"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:
+		    layout_below="@id/detail_fee_res"
+		    android:layout_marginTop="16dp" />
+
+    	<uk.co.jasonfry.android.tools.ui.PageControl
+    	    android:id="@+id/page_control"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignBottom="@id/swipe_view"
+    	    android:gravity="center_horizontal"
+            -->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/detail_enroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/common_blue_button"
+            android:text="@string/enroll"
+            android:textColor="@color/mt_white"
+            android:textSize="15.5sp" />
+
+        <LinearLayout
+            android:id="@+id/metting_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_enroll"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp" >
+
+            <TextView
+                android:id="@+id/detail_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/detail_share"
+                android:textColor="@color/mt_blue"
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/detail_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/detail_comment"
+                android:textColor="@color/mt_blue"
+                android:textSize="12.5sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/metting_detail_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/metting_menu"
+            android:text="会议评论"
+            android:textColor="@color/mt_text_6"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/detail_metting_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/metting_detail_comment"
+            android:layout_marginTop="3dp"
+            android:contentDescription="@null"
+            android:src="@color/mt_text_3"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/metting_detail_comment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_metting_line"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

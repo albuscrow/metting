@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants" >
+
+    <ImageView
+        android:id="@+id/metting_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@null"
+        android:src="@drawable/metting_status_going" />
+    
+	<ImageView
+        android:id="@+id/metting_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/metting_status"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="-4dp"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@null"
+        android:src="@drawable/star3" />
+
+    <LinearLayout
+        android:id="@+id/metting_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="6dp" >
+
+        <TextView
+            android:id="@+id/metting_list_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/mt_blue"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/metting_list_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mt_blue_press"
+                android:maxLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/mt_white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/metting_list_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@color/mt_blue_press"
+                android:maxLines="1"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textColor="@color/mt_white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/metting_list_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/mt_text_6"
+            android:textSize="14sp" />
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/metting_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/metting_star"
+        android:layout_toRightOf="@id/metting_time"
+        android:focusable="false"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/metting_title_ts" />
+    
+    
+    <ImageButton
+        android:id="@+id/metting_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/metting_status"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@null"
+        android:contentDescription="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/metting_ok" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/metting_name"
+        android:layout_toRightOf="@id/metting_time"
+        android:layout_toLeftOf="@id/metting_signin"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp" >
+
+<!--         <TextView
+            android:id="@+id/metting_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/metting_title_ts"
+            android:focusable="false"
+            android:textColor="@android:color/black" /> -->
+        
+        <TextView
+            android:id="@+id/metting_during_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mt_text_6"
+            android:textSize="@dimen/metting_inf_ts" />
+	    
+	    <TextView
+	        android:id="@+id/metting_address"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="3dp"
+	        android:textColor="@color/mt_text_6"
+	        android:textSize="@dimen/metting_inf_ts" />
+	    
+	    <TextView
+	        android:id="@+id/metting_free_restriction"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:ellipsize="end"
+	        android:lines="1"
+	        android:layout_marginTop="3dp"
+	        android:textColor="@color/mt_text_6"
+	        android:textSize="@dimen/metting_inf_ts" />
+	
+    </LinearLayout>
+
+
+ 
+</RelativeLayout>

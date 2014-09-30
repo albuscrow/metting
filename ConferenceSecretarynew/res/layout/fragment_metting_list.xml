@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/stripe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mt_metting_list_strip_bg"
+        android:orientation="horizontal" >
+
+        <TextView 
+            android:id="@+id/stripe1"
+            style="@style/stripe"
+            android:text="今日"/>
+        <TextView 
+            android:id="@+id/stripe2"
+            style="@style/stripe"
+            android:text="本周"/>
+        <TextView 
+            android:id="@+id/stripe3"
+            style="@style/stripe"
+            android:text="本月"/>
+        <TextView 
+            android:id="@+id/stripe4"
+            style="@style/stripe"
+            android:text="全部"/>
+    </LinearLayout> 
+    
+    <ImageView
+        android:id="@+id/stripe"
+        android:layout_width="70dp"
+        android:layout_height="7dp"
+		android:scaleType="centerCrop"
+        android:layout_below="@id/stripe_layout"
+        android:layout_marginTop="-7dp"
+        android:contentDescription="@null"
+        android:src="@drawable/common_strip" />
+
+    <com.hjtech.secretary.view.ViewPagerCompat
+        android:layout_below="@id/stripe"
+        android:id="@+id/my_metting_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.hjtech.secretary.view.ViewPagerCompat>
+
+</RelativeLayout>

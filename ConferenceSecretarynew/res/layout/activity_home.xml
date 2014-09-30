@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mt_bg"
+    tools:context=".ui.HomeActivity" >
+   <View
+       android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aaaaaa" />
+
+ <ImageView
+     android:id="@+id/home_picture"
+     android:layout_below="@id/line"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:contentDescription="@null"
+     android:scaleType="fitXY"
+     android:src="@drawable/home_picture" />
+
+    <ViewFlipper
+        android:id="@+id/home_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_picture"
+        android:autoStart="true"
+        android:background="@color/transparent"
+        android:flipInterval="10000"
+        android:inAnimation="@anim/home_news_in"
+        android:outAnimation="@anim/home_news_out" >
+
+    </ViewFlipper>
+
+    <TextView
+        android:id="@+id/home_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:text="@string/home_phone"
+        android:textColor="@color/mt_text_3"
+        android:textSize="14sp" />
+    
+    <GridView
+        android:id="@+id/shape_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/home_phone"
+        android:layout_below="@id/home_news"
+        android:layout_marginTop="1dp"
+        android:horizontalSpacing="1px"
+        android:listSelector="@null"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:verticalSpacing="1px" >
+
+    </GridView>
+
+    <View 
+        android:layout_width="match_parent"
+        android:layout_alignBottom="@id/shape_menu"
+        android:layout_height="1dp"
+        android:background="#aaaaaa"/>
+
+</RelativeLayout>

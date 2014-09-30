@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mt_login_bg" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp" >
+
+        <EditText
+            android:id="@+id/register_tel_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/register_edit_text_bg"
+            android:hint="@string/register_phone_hint"
+            android:inputType="number"
+            android:padding="15dp"
+            android:textSize="15sp" >
+
+            <requestFocus />
+        </EditText>
+
+        <LinearLayout
+            android:id="@+id/v_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_tel_edittext"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/register_verify_edittext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/register_edit_text_bg"
+                android:imeActionId="@+id/next_step_ime"
+                android:imeActionLabel="下一步"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+                android:padding="15dp"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/register_verifycode_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_gray_bg"
+                android:text="@string/register_v_button"
+                android:textColor="@color/mt_text_6" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/register_password_editext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/v_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/register_edit_text_up"
+            android:hint="@string/register_password_hint"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:singleLine="true"
+            android:textSize="15sp" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/register_password_confirm_editext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_password_editext"
+            android:layout_centerHorizontal="true"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:layout_marginTop="-1dp"
+            android:background="@drawable/register_edit_text_middle"
+            android:hint="@string/register_password2_hint"
+            android:inputType="textPassword"
+            android:singleLine="true" >
+        </EditText>
+        
+		<EditText
+            android:id="@+id/register_name_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:layout_below="@id/register_password_confirm_editext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-1dp"
+            android:background="@drawable/register_edit_text_middle"
+            android:hint="@string/register_name_hint"
+            android:inputType="text" />
+		
+		<EditText
+            android:id="@+id/register_unit_edittext"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:layout_below="@id/register_name_edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-1dp"
+            android:background="@drawable/register_edit_text_middle"
+            android:hint="@string/register_unit_hint"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/register_email_edittext"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:layout_below="@id/register_unit_edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-1dp"
+            android:background="@drawable/register_edit_text_down"
+            android:hint="@string/register_email_hint"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/register_complete_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/register_email_edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/common_blue_button"
+            android:text="@string/complete"
+            android:textColor="@color/mt_white"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+</ScrollView>

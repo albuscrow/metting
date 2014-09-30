@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#f9fafc"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/guide4_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/guide4" >
+    </ImageView>
+    
+<!--     <TextView
+        android:id="@+id/t7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:background="@null"
+        android:text="体验全新会议方式"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+    
+    <TextView
+        android:id="@+id/t6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/t7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="7dp"
+        android:background="@null"
+        android:text="马上开启会小秘"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/t7"
+        android:layout_alignTop="@id/t6"
+        android:layout_alignBottom="@id/t7"
+        android:src="@drawable/edit_text_more"/> -->
+
+</RelativeLayout>
