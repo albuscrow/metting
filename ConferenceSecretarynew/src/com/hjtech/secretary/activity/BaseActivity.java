@@ -131,7 +131,6 @@ public class BaseActivity extends FragmentActivity {
 		if (waitBar == null) {
 			waitBar = findViewById(R.id.common_wait);
 		}
-		waitBar.setVisibility(View.VISIBLE);
 		waitBar.setVisibility(View.GONE);
 	}
 	
