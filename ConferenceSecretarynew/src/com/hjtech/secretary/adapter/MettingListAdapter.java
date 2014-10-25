@@ -25,6 +25,9 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 	private BaseActivity activity;
 	private int currentPageNum = 1;
 	public void setData(List<MTMetting> data) {
+		if (data.size() == 0) {
+			MTCommon.ShowToast("暂无会议数据");
+		}
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
@@ -144,6 +147,9 @@ public class MettingListAdapter extends BaseAdapter implements ListAdapter {
 
 
 	public void appendData(List<MTMetting> result) {
+		if (result.size() == 0) {
+			MTCommon.ShowToast("没有更多会议了");
+		}
 		this.data.addAll(result);
 		this.notifyDataSetChanged();
 	}

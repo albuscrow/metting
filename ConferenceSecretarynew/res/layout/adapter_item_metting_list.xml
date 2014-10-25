@@ -89,6 +89,8 @@
         android:layout_toRightOf="@id/metting_time"
         android:focusable="false"
         android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="10dp"
         android:textColor="@android:color/black"
         android:textSize="@dimen/metting_title_ts" />

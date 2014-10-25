@@ -119,60 +119,63 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 
 	}	
 	
-	
-	
 	protected void onActivityResult(int request, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK && request == SIGNIN) {
-			String result = data.getStringExtra("result");
-			String idStr = null; 
-			long id;
-			try {
-				idStr = Encryption.decodeBase64(result);
-				int position = idStr.indexOf("sign:");
-				if (position == -1) {
+		super.onActivityResult(request, resultCode, data);
+		try {
+			if (resultCode == RESULT_OK && request == SIGNIN) {
+				String result = data.getStringExtra("result");
+				String idStr = null; 
+				long id;
+				try {
+					idStr = Encryption.decodeBase64(result);
+					int position = idStr.indexOf("sign:");
+					if (position == -1) {
+						MTCommon.ShowToast("请扫描正确的二维码");
+						return;
+					}
+					id = Long.valueOf(idStr.substring(position + 5).trim());
+				} catch (Exception e) {
+					e.printStackTrace();
 					MTCommon.ShowToast("请扫描正确的二维码");
 					return;
 				}
-				id = Long.valueOf(idStr.substring(position + 5).trim());
-			} catch (Exception e) {
-				e.printStackTrace();
-				MTCommon.ShowToast("请扫描正确的二维码");
-				return;
+				new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
+
+					@Override
+					public void onPreExecute() {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onPostExecute(Object result) {
+						if (result != null && result instanceof Integer) {
+							MTCommon.ShowToast("当前网络不可用,请检查网络链接");
+							return;
+						}	
+
+						if (result == null) {
+							MTCommon.ShowToast("签到失败");
+							return;
+						}
+						MTSimpleResult sr = (MTSimpleResult) result;
+						switch (sr.getResult()) {
+						case 1:
+							MTCommon.ShowToast("签到成功");
+							break;
+						case 4:
+							MTCommon.ShowToast("末报名,不能签到");
+							break;
+						default:
+							MTCommon.ShowToast("签到失败");
+							break;
+						}
+
+					}
+				}).singIn(id, MTUserManager.getUser().getMuAccount());
 			}
-			new GetDataAnsycTask().setOnDataAnsyTaskListener(new OnDataAnsyTaskListener() {
-
-				@Override
-				public void onPreExecute() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onPostExecute(Object result) {
-				if (result != null && result instanceof Integer) {
-					MTCommon.ShowToast("当前网络不可用,请检查网络链接");
-					return;
-				}	
-
-					if (result == null) {
-						MTCommon.ShowToast("签到失败");
-						return;
-					}
-					MTSimpleResult sr = (MTSimpleResult) result;
-					switch (sr.getResult()) {
-					case 1:
-						MTCommon.ShowToast("签到成功");
-						break;
-					case 4:
-						MTCommon.ShowToast("末报名,不能签到");
-						break;
-					default:
-						MTCommon.ShowToast("签到失败");
-						break;
-					}
-
-				}
-			}).singIn(id, MTUserManager.getUser().getMuAccount());
+		} catch (Exception e) {
+			MTCommon.ShowToast("签到失败");
 		}
 	}
 	private void initData() {

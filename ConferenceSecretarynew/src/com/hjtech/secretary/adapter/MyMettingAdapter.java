@@ -15,7 +15,6 @@ import com.hjtech.secretary.data.MTMetting;
 import com.hjtech.secretary.fragment.BaseFragment;
 import com.hjtech.secretary.fragment.MyMettingFragment;
 import com.hjtech.secretary.utils.MTCommon;
-import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
 
 import android.content.Intent;
 import android.view.View;
@@ -33,6 +32,9 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 	private int totalDataNum;
 	private BaseFragment fragment;
 	public void setData(List<MTMetting> data) {
+		if (data.size() == 0) {
+			MTCommon.ShowToast("暂无会议数据");
+		}
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
@@ -157,6 +159,9 @@ public class MyMettingAdapter extends BaseAdapter implements ListAdapter {
 
 
 	public void appendData(List<MTMetting> result) {
+		if (result.size() == 0) {
+			MTCommon.ShowToast("没有更多会议了");
+		} 
 		this.data.addAll(result);
 		this.notifyDataSetChanged();
 	}

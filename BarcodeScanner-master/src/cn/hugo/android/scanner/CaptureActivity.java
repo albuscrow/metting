@@ -265,21 +265,25 @@ public final class CaptureActivity extends Activity implements
 	 *            A greyscale bitmap of the camera data which was decoded.
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+		
+		try {
+			// 重新计时
+			inactivityTimer.onActivity();
 
-		// 重新计时
-		inactivityTimer.onActivity();
+			lastResult = rawResult;
 
-		lastResult = rawResult;
+			// 把图片画到扫描框
+			viewfinderView.drawResultBitmap(barcode);
 
-		// 把图片画到扫描框
-		viewfinderView.drawResultBitmap(barcode);
+			beepManager.playBeepSoundAndVibrate();
 
-		beepManager.playBeepSoundAndVibrate();
-
-		String result = ResultParser.parseResult(rawResult).toString();
-		Intent intent = new Intent();
-		intent.putExtra("result", result);
-		this.setResult(RESULT_OK, intent);
+			String result = ResultParser.parseResult(rawResult).toString();
+			Intent intent = new Intent();
+			intent.putExtra("result", result);
+			this.setResult(RESULT_OK, intent);
+		} catch (Exception e) {
+			Toast.makeText(this, "描述失败", Toast.LENGTH_SHORT).show();
+		}
 		this.finish();
 	}
 
