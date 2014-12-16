@@ -11,16 +11,15 @@ public class MTFragmentFactory {
 	public static final int INVITE = 4;
 	public static final int MESSAGE = 5;
 	
-	private static SparseArray<SoftReference<BaseFragment>> fragmentArray = new SparseArray<SoftReference<BaseFragment>>();
-	
+	private static SparseArray<BaseFragment> fragmentArray = new SparseArray<BaseFragment>();
 	
 	public static BaseFragment getFragment(int id){
-		SoftReference<BaseFragment> fragmentRef = fragmentArray.get(id);
-		BaseFragment fragment = null;
-		if (fragmentRef == null || (fragment = fragmentRef.get()) == null) {
+//		SoftReference<BaseFragment> fragmentRef = fragmentArray.get(id);
+		BaseFragment fragment = fragmentArray.get(id);
+		if (fragment == null) {
 			fragment = produceFragment(id);
-			fragmentRef = new SoftReference<BaseFragment>(fragment);
-			fragmentArray.put(id, fragmentRef);
+//			fragmentRef = new SoftReference<BaseFragment>(fragment);
+			fragmentArray.put(id, fragment);
 		}
 		
 		return fragment;

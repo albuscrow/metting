@@ -27,7 +27,7 @@
         android:layout_below="@id/home_picture"
         android:autoStart="true"
         android:background="@color/transparent"
-        android:flipInterval="5000"
+        android:flipInterval="4000"
         android:inAnimation="@anim/home_news_in"
         android:outAnimation="@anim/home_news_out" >
 

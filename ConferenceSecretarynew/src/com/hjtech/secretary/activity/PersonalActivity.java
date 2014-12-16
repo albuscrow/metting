@@ -112,6 +112,7 @@ public class PersonalActivity extends BaseActivity implements WeiboAuthListener 
 			public void onClick(View v) {
 				Intent intent = new Intent(PersonalActivity.this, MainActivity.class);
 				intent.putExtra("UIType", MTFragmentFactory.MY_METTING);
+				intent.putExtra("currentPager", 0);
 				startActivity(intent);
 			}
 		});

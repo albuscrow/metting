@@ -131,7 +131,10 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 				type = new TypeToken<MTSimpleResult>(){}.getType();
 				result = DataProvider.share(type, (String) params[1], (Long) params[2], (Integer) params[3], (String) params[4], (String) params[5]);
 				break;
-			default:
+				
+			case MESSAGE_DETAIL:
+				result = DataProvider.getMessage((String) params[1]);
+				break;			default:
 				Log.e(TAG, TYPE_NOT_SUPPORTED);
 				break;
 			}
@@ -222,5 +225,9 @@ public class GetDataAnsycTask extends AsyncTask<Object, Void, Object> {
 
 	public void addShareLog(String muAccount, Long mmId, int type, String phone, String message) {
 		this.execute(JsonTarget.SHARE, muAccount, mmId, type, phone, message);
+	}
+	
+	public void getMessage(String id) {
+		this.execute(JsonTarget.MESSAGE_DETAIL, id);
 	}
 }

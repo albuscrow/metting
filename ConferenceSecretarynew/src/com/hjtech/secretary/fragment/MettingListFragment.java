@@ -59,7 +59,7 @@ public class MettingListFragment extends BaseFragment {
 	
 	protected ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
-		currentPage = 0;
+		currentPage = TOTAL_PAGER - 1;
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_metting_list, null);
 		
         
@@ -113,8 +113,9 @@ public class MettingListFragment extends BaseFragment {
 				
 			}
 		});
-        adapters.get(0).initData();
+        adapters.get(currentPage).initData();
         changeStripText(currentPage);
+        mViewPager.setCurrentItem(currentPage);
         for (int i = 0 ; i < stripeText.length; ++i) {
         	final int index = i;
 			((TextView)gv(stripeText[i])).setOnClickListener(new OnClickListener() {

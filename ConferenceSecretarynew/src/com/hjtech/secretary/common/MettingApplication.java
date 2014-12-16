@@ -22,7 +22,6 @@ public class MettingApplication extends Application {
 		MTCommon.init(context);
     	AppConfig.initConfig(context);
     	
-    	XGPushManager.registerPush(context);	
 	}
 	
 	private void initImageLoader() {

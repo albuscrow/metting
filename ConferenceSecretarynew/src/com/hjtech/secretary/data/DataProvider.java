@@ -4,21 +4,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import android.graphics.Bitmap;
 import android.os.Debug;
 import android.util.Log;
@@ -35,8 +20,13 @@ public class DataProvider {
 
 	public static final String TAG = "DataProvider";
 	public static final String BASE_URL = "http://42.62.41.98:8080/meetingapi/";
-	public static final String BASE_URL_IMAGE = "http://huixiaomi.wpsoffice.com:8081/";
-//	public static final String BASE_URL_IMAGE = "http://42.62.41.98:8081/";
+//	public static final String BASE_URL_IMAGE = "http://huixiaomi.wpsoffice.com:8081/";
+	
+//	public static final String BASE_URL = "http://121.40.188.122:8080/meetingapi/";
+//	public static final String BASE_URL_IMAGE = "http://121.40.188.122:8050/";
+	
+	
+	public static final String BASE_URL_IMAGE = "http://42.62.41.98:8081/";
 //	public static final String BASE_URL = "http://211.155.229.136:8080/mettingapi/";
 //	public static final String BASE_URL_IMAGE = "http://211.155.229.136:8050/";
 	public static final String METTING_LIST_URL = BASE_URL + "metting/list";
@@ -61,6 +51,7 @@ public class DataProvider {
 	public static final String MODIFY_PASSWORD = BASE_URL + "users/password";
 	private static final String SHARE = BASE_URL + "invite/share";
 	private static final String CHECK_APP_VERSION = BASE_URL + "app/check_version";
+	private static final String MESSAGE_DETAIL = BASE_URL_IMAGE + "message/detail";
 	
 	public static final String KEY = "key";
 	public static final String CODE = "code";
@@ -116,6 +107,14 @@ public class DataProvider {
 	public static final int WEIXIN_SHARE = 0;
 	public static final int WEIBO_SHARE = 1;
 	public static final int MESSAGE_SHARE = 2;
+	public static final String MESSAGE_Id = "messageId";
+	
+	
+	static Object getMessage(String id){
+		Map<String, Object> params = genParems();
+		params.put(MESSAGE_Id, id);
+		return NetUtils.getPostResult(params,MESSAGE_DETAIL);
+	}
 
 	static Object getMettingList(Type type,String account,int page,int timeType){
 		Map<String, Object> params = genParems();
@@ -141,7 +140,6 @@ public class DataProvider {
 		}else{
 			return JsonUtils.parseJsonResult(type, json);
 		}
-
 	}
 	
 	static Object getMyMetting(Type type,String account,int page, int status){

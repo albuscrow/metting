@@ -16,6 +16,9 @@ import com.hjtech.secretary.fragment.MTFragmentFactory;
 import com.hjtech.secretary.listener.NewActivityListener;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +43,24 @@ public class HomeActivity extends BaseActivity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		initUI(R.layout.activity_home, R.string.title_activity_home);
 		initData();
+		XGPushManager.registerPush(getApplicationContext(),MTUserManager.getUser().getMuAccount());
 	}
+	
+//	@Override
+//	protected void onResume() {
+//		// TODO Auto-generated method stub
+//		super.onResume();
+//		new Handler().postDelayed(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				XGLocalMessage xgLocalMessage = new XGLocalMessage();
+//				xgLocalMessage.setContent("123");
+//				xgLocalMessage.setTitle("321");
+//				XGPushManager.addLocalNotification(HomeActivity.this,xgLocalMessage);
+//			}
+//		}, 3000);
+//	}
 
 	@Override
 	protected void initUI(int layoutId, int textId) {

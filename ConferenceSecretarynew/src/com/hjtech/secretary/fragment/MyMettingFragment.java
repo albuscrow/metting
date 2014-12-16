@@ -23,7 +23,6 @@ import com.hjtech.secretary.data.MTSimpleResult;
 import com.hjtech.secretary.utils.Encryption;
 import com.hjtech.secretary.utils.MTCommon;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -130,7 +129,7 @@ public class MyMettingFragment extends BaseFragment {
 	
 	protected ViewGroup initUI(LayoutInflater inflater) {
 		setbackButton();
-		currentPage = getMainActivity().getIntent().getIntExtra("currentPager", 0);
+		currentPage = getMainActivity().getIntent().getIntExtra("currentPager", TOTAL_PAGER - 1);
 		rootView = (ViewGroup) inflater.inflate(R.layout.fragment_my_metting, null);
 		
 		
@@ -202,6 +201,7 @@ public class MyMettingFragment extends BaseFragment {
         
         //set tab
 //        getMainActivity().chooseTab(MainActivity.TAB_MY_METTIN_INDEX);
+        
 		return rootView;
 	}
 	
